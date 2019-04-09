@@ -5,5 +5,8 @@
   "main": "index.js",
   "repository": "https://github.com/cxwithyxy/tjb.git",
   "author": "cx",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^4.1.4"
+  }
 }
