@@ -8,5 +8,11 @@
   "license": "MIT",
   "dependencies": {
     "electron": "^4.1.4"
+  },
+  "devDependencies": {
+    "typescript": "^3.4.2"
+  },
+  "scripts": {
+    "start": "electron ."
   }
 }
