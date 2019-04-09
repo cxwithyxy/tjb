@@ -13,6 +13,6 @@
     "typescript": "^3.4.2"
   },
   "scripts": {
-    "start": "electron ."
+    "start": "tsc && electron ."
   }
 }
