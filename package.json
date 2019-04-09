@@ -1,0 +1,9 @@
+{
+  "name": "tjb",
+  "version": "1.0.0",
+  "description": "tjb",
+  "main": "index.js",
+  "repository": "https://github.com/cxwithyxy/tjb.git",
+  "author": "cx",
+  "license": "MIT"
+}
