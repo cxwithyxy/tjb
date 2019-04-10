@@ -1,5 +1,6 @@
 const { _ } = require("lodash")
 const login = require("./func_lib/login")
+const fuli = require("./func_lib/fuli")
 
 export class Inject_js_handler
 {
@@ -9,6 +10,7 @@ export class Inject_js_handler
     {
         this.codes_lib = {};
         this.add_object(login);
+        this.add_object(fuli);
     }
 
     add_object(_obj:Object){
