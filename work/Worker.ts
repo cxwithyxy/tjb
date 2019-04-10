@@ -40,4 +40,35 @@ export class Worker
     {
         await this.wincc.executeJavaScript(js_code);
     }
+
+    mouse_move(_x: Number, _y: Number){
+        this.wincc.focus();
+        this.wincc.sendInputEvent({
+            type: "mouseMove",
+            x: _x,
+            y: _y
+        })
+    }
+
+    mouse_down(_x: Number, _y: Number){
+        this.wincc.focus();
+        this.wincc.sendInputEvent({
+            type: "mouseDown",
+            button: "left",
+            x: _x,
+            y: _y,
+            clickCount: 1
+        })
+    }
+
+    mouse_up(_x: Number, _y: Number){
+        this.wincc.focus();
+        this.wincc.sendInputEvent({
+            type: "mouseUp",
+            button: "left",
+            x: _x,
+            y: _y,
+            clickCount: 1
+        })
+    }
 }

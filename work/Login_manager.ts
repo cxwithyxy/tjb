@@ -2,6 +2,8 @@ const { Worker } = require("./Worker")
 const { Manager } = require("./Manager")
 const { Inject_js_handler } = require("./inject_js/Inject_js_handler")
 const { Config_helper } = require("./../Config_helper")
+const sleep = require("sleep-promise")
+const pLimit = require('p-limit')
 
 export class Login_manager extends Manager
 {
@@ -10,7 +12,7 @@ export class Login_manager extends Manager
         super();
     }
 
-    public start() {
+    public async start() {
         let ijh = new Inject_js_handler();
         let work_1 = new Worker({ 
             width: 480,
@@ -30,12 +32,28 @@ export class Login_manager extends Manager
         // .open_url("https://echo.opera.com")
         .open_url("https://market.m.taobao.com/apps/market/tjb/core-member2.html");
 
-        work_1.exec_js(ijh.to_code_string(
+        await work_1.exec_js(ijh.to_code_string(
             `login_input_set(
                 "${Config_helper.getInstance().get("username")}",
                 "${Config_helper.getInstance().get("password")}"
             )`
         ));
+
+        let limit = pLimit(1);
+        let queque_list: any[] = [];
+        let while_seed = Math.random() * 15  + 5;
+        while(while_seed > 0){
+            while_seed --;
+            queque_list.push(limit(async () =>
+            {
+                work_1.mouse_move(220 + Math.random() * 10, 420 + Math.random() * 20);
+                await sleep(Math.random() * 1000 * 0.04 + 0.01);
+            }));
+        }
+        await Promise.all(queque_list);
+        
+        work_1.mouse_down(242, 433);
+        work_1.mouse_up(242, 435);
 
     }
 }
