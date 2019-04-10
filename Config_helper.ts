@@ -1,5 +1,6 @@
 const Conf = require('Conf');
 const Singleton = require("./base/Singleton");
+const { app, BrowserWindow } = require('electron');
 
 export class Config_helper extends Singleton
 {
@@ -19,19 +20,13 @@ export class Config_helper extends Singleton
         };
         this.error_desc = error_desc;
 
-        
-        
-    }
-
-    public driver_init(app: any)
-    {
         this.conf_storage_path = app.getAppPath();
-
+        
         this.conf_driver = new Conf({
             configName: this.config_name,
             cwd: this.conf_storage_path
         });
-
+        
     }
 
     public static getInstance() : Config_helper

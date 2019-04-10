@@ -35,4 +35,9 @@ export class Worker
         this.wincc.openDevTools({mode: "undocked"});
         return this;
     }
+
+    async exec_js(js_code: string)
+    {
+        await this.wincc.executeJavaScript(js_code);
+    }
 }
