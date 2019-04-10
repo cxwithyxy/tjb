@@ -1,5 +1,3 @@
-import { CLIENT_RENEG_WINDOW } from "tls";
-
 const Conf = require('Conf');
 const Singleton = require("./base/Singleton");
 
