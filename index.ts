@@ -1,6 +1,9 @@
 const { app, BrowserWindow } = require('electron')
-
 const { Browser_helper } = require('./Browser_helper')
+const { Config_helper } = require('./Config_helper')
+
+
+app.on('ready', ()=>{new tjb(app)})
 
 class tjb
 {
@@ -9,10 +12,14 @@ class tjb
 
     constructor(app: any)
     {
+        Config_helper.getInstance().driver_init(app);
         this.app = app;
 
         this.path_handle();
         this.goto_tb_page();
+        
+        (Config_helper.getInstance().get("username"));
+        
     }
 
     goto_tb_page()
@@ -37,5 +44,3 @@ class tjb
         Browser_helper.set_userdata_path(app);
     }
 }
-
-app.on('ready', ()=>{new tjb(app)})

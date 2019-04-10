@@ -1,2 +1,4 @@
 node_modules/
 *.js
+yarn-error.log
+app.conf.json
