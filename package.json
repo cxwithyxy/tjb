@@ -7,7 +7,11 @@
   "author": "cx",
   "license": "MIT",
   "dependencies": {
-    "electron": "^4.1.4"
+    "conf": "^4.0.0",
+    "electron": "^4.1.4",
+    "lodash": "^4.17.11",
+    "p-limit": "^2.2.0",
+    "sleep-promise": "^8.0.1"
   },
   "devDependencies": {
     "typescript": "^3.4.2"
