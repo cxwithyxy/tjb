@@ -1,9 +1,9 @@
-const $ = (a:any) => {}
+const $ = (a:any):any => {}
 export = {
-    "login": {
-        "get_username_input": () =>{
-            console.log("works");
-            return $("#username");
-        }
+    "login_input_set": (_u: string, _p: string) =>
+    {
+        console.log($("#username"));
+        $("#username").val(_u);
+        $("#password").val(_p);
     }
 }

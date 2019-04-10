@@ -21,9 +21,7 @@ export class Inject_js_handler
         let code = "";
         _.forIn(this.codes_lib, (v: any,k: any) =>
         {
-            console.log(k);
-            console.log(v);
-            // code += "var " + k.toString() + " = " + v.toString() + "\n"
+            code += "var " + k.toString() + " = " + v.toString() + "\n"
         });
         return code + code_at_end;
     }
