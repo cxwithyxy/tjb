@@ -1,10 +1,10 @@
-const { Worker } = require("./Worker")
-const { Manager } = require("./Manager")
-const { Inject_js_handler } = require("./inject_js/Inject_js_handler")
-const { Config_helper } = require("./../Config_helper")
-const sleep = require("sleep-promise")
-const pLimit = require('p-limit')
-const { _ } = require("lodash")
+import { Worker } from "./Worker"
+import { Manager } from "./Manager"
+import { Inject_js_handler } from "./inject_js/Inject_js_handler"
+import { Config_helper } from "./../Config_helper"
+import sleep from "sleep-promise"
+import pLimit from 'p-limit'
+import * as _ from "lodash"
 
 export class Login_manager extends Manager
 {

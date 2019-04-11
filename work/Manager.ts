@@ -20,7 +20,7 @@ export class Manager
         
     }
 
-    public set_main_worker(_w: Worker):Manager
+    public set_main_worker(_w: Worker): Manager
     {
         this.main_worker = _w;
         return this;
@@ -34,7 +34,7 @@ export class Manager
         return this.main_worker;
     }
 
-    public deliver_work_to(_m: Manager)
+    public deliver_work_to(_m: Manager): Manager
     {
         return _m.set_main_worker(this.get_main_worker());
     }
