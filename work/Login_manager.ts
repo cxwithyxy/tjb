@@ -17,14 +17,15 @@ export class Login_manager extends Manager
     init_work()
     {
         if(_.isUndefined(this.main_worker)){
+            let preload_js_path = `${__dirname}/../PRELOAD/common_preload.js`
+            
             this.set_main_worker(new Worker({ 
                 width: 480,
                 height: 800,
                 resizable: false,
                 webPreferences: {
-                    nodeIntegration: false,
-                    nodeIntegrationInWorker: false,
-                    contextIsolation: true,
+                    sandbox: true,
+                    preload: preload_js_path,
                     partition: "persist:tjb"
                 },
             }))
