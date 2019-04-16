@@ -8,7 +8,7 @@ import * as _ from "lodash"
 export class Login_manager extends Manager
 {
     
-    constructor(_w: Worker | undefined)
+    constructor(_w?: Worker | Worker[])
     {
         super(_w)
     }
@@ -70,6 +70,10 @@ export class Login_manager extends Manager
                 "${Config_helper.getInstance().get("password")}"
             )`
         )
+
+        let aaa = await this.get_main_worker().exec_js(`5`)
+        console.log(aaa)
+        
 
 
         // this.login_opera()

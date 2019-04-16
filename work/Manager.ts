@@ -6,7 +6,7 @@ export class Manager
     public main_worker: Worker | undefined;
     public works: Worker[] | undefined;
 
-    constructor(_w: Worker | Worker[] | undefined){
+    constructor(_w?: Worker | Worker[]){
         if(! _.isUndefined(_w) && !_.isArray(_w)){
             this.main_worker = _w;
         }
