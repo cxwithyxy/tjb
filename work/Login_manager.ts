@@ -59,7 +59,12 @@ export class Login_manager extends Manager
 
     async start() {
         this.init_work()
-        // .open_url("https://echo.opera.com")
+        await this.get_main_worker().set_cookies();
+
+        let the_cookie = await this.get_main_worker().read_cookies()
+
+        console.log(the_cookie);
+
         this.get_main_worker().open_url("https://market.m.taobao.com/apps/market/tjb/core-member2.html")
 
         await this
@@ -71,8 +76,6 @@ export class Login_manager extends Manager
             )`
         )
 
-        let aaa = await this.get_main_worker().exec_js(`5`)
-        console.log(aaa)
         
 
 

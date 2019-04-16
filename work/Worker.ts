@@ -1,11 +1,11 @@
-import { BrowserWindow } from 'electron'
+import { BrowserWindow, WebContents,Event  } from 'electron'
 import { Inject_js_handler as IJH } from "./inject_js/Inject_js_handler"
 
 export class Worker
 {
-    win:any;
-    wincc:any;
-    win_settings:any;
+    win!: BrowserWindow;
+    wincc!: WebContents;
+    win_settings: {};
 
     constructor (win_settings: {})
     {
@@ -47,7 +47,7 @@ export class Worker
     mouse_move(_x: Number, _y: Number)
     {
         this.wincc.focus();
-        this.wincc.sendInputEvent({
+        this.wincc.sendInputEvent(<any>{
             type: "mouseMove",
             x: _x,
             y: _y
@@ -57,7 +57,7 @@ export class Worker
     mouse_down(_x: Number, _y: Number)
     {
         this.wincc.focus();
-        this.wincc.sendInputEvent({
+        this.wincc.sendInputEvent(<any>{
             type: "mouseDown",
             button: "left",
             x: _x,
@@ -69,12 +69,48 @@ export class Worker
     mouse_up(_x: Number, _y: Number)
     {
         this.wincc.focus();
-        this.wincc.sendInputEvent({
+        this.wincc.sendInputEvent(<any>{
             type: "mouseUp",
             button: "left",
             x: _x,
             y: _y,
             clickCount: 1
+        })
+    }
+
+    async read_cookies(filter = {})
+    {
+        return new Promise((succ, fail) =>
+        {
+            this.wincc.session.cookies.get(filter , (e, the_cookie) =>
+            {
+                if(e)
+                {
+                    fail(e)
+                }
+                succ(the_cookie)
+            })
+        })
+        
+    }
+
+    async set_cookies(cookies = [])
+    {
+        return new Promise((succ, fail) =>
+        {
+            this.wincc.session.cookies.set(
+                {
+                    url: "https://login.m.taobao.com",
+                    domain: ".taobao.com",
+                    name: "cxcxcxcx",
+                    value: "test",
+                    expirationDate: new Date().getTime() / 1000 + 3600
+                },
+                ()=>
+                {
+                    succ()
+                }
+            )
         })
     }
 }
