@@ -1,13 +1,12 @@
 import Conf from 'Conf'
 import { Singleton } from "./base/Singleton"
-import { app, BrowserWindow } from 'electron'
+import { app } from 'electron'
 
 export class Config_helper extends Singleton
 {
     private config_name = "app.conf";
     private conf_driver: any;
     private error_desc: any;
-
     private conf_storage_path: string = "";
 
     static instance:Config_helper;
@@ -41,7 +40,8 @@ export class Config_helper extends Singleton
             configName: this.config_name,
             cwd: this.conf_storage_path
         });
-        
+
+        this.set()
     }
 
     get(_key:String)
@@ -54,6 +54,12 @@ export class Config_helper extends Singleton
             throw new Error(this.get_path_warn_desc() + "\n" + error_desc);
         }
         return return_v;
+    }
+
+    set(confs = {})
+    {
+        this.conf_driver.set(confs)
+        return this
     }
 
     get_path_warn_desc()

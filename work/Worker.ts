@@ -1,5 +1,6 @@
 import { BrowserWindow, WebContents,Event  } from 'electron'
 import { Inject_js_handler as IJH } from "./inject_js/Inject_js_handler"
+import { Config_helper } from "./../Config_helper"
 
 export class Worker
 {
@@ -92,6 +93,12 @@ export class Worker
             })
         })
         
+    }
+
+    async save_all_cookie_in_conf()
+    {
+        let cookies = await this.read_cookies()
+        Config_helper.getInstance().set({cookies: JSON.stringify(cookies)})
     }
 
     async set_cookies(cookies = [])
