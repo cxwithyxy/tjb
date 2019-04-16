@@ -39,7 +39,7 @@ export class Worker
 
     async exec_js(js_code: string)
     {
-        await this.wincc.executeJavaScript(
+        return await this.wincc.executeJavaScript(
             IJH.getInstance().to_code_string(js_code)
         );
     }
