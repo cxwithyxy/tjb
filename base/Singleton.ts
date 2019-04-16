@@ -3,7 +3,8 @@
  * @author sodaChen
  * Date:2012-10-29
  */
-class Singleton
+
+export class Singleton
 {
     //其实实际的开发项目中，不一定会用到数组，有可能会把数组之类的进行封装
     /** 存放初始化过的构造函数,这里用数组来存放构造函数 **/
@@ -113,5 +114,3 @@ class Singleton
         return obj;
     }
 }
-
-export = Singleton;

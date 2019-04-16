@@ -1,4 +1,5 @@
-const { app, BrowserWindow } = require('electron')
+import { BrowserWindow } from 'electron'
+import { Inject_js_handler as IJH } from "./inject_js/Inject_js_handler"
 
 export class Worker
 {
@@ -11,26 +12,26 @@ export class Worker
         this.win_settings = win_settings;
     }
 
-    open_url (url: string)
+    open_url (url: string): Worker
     {
         this.wincc.loadURL(url);
         return this;
     }
 
-    page_init ()
+    page_init (): Worker
     {
         this.win = new BrowserWindow(this.win_settings);
         this.wincc = this.win.webContents;
         return this;
     }
 
-    set_ua (ua: string)
+    set_ua (ua: string): Worker
     {
         this.wincc.setUserAgent(ua);
         return this;
     }
 
-    open_dev()
+    open_dev(): Worker
     {
         this.wincc.openDevTools({mode: "undocked"});
         return this;
@@ -38,10 +39,13 @@ export class Worker
 
     async exec_js(js_code: string)
     {
-        await this.wincc.executeJavaScript(js_code);
+        return await this.wincc.executeJavaScript(
+            IJH.getInstance().to_code_string(js_code)
+        );
     }
 
-    mouse_move(_x: Number, _y: Number){
+    mouse_move(_x: Number, _y: Number)
+    {
         this.wincc.focus();
         this.wincc.sendInputEvent({
             type: "mouseMove",
@@ -50,7 +54,8 @@ export class Worker
         })
     }
 
-    mouse_down(_x: Number, _y: Number){
+    mouse_down(_x: Number, _y: Number)
+    {
         this.wincc.focus();
         this.wincc.sendInputEvent({
             type: "mouseDown",
@@ -61,7 +66,8 @@ export class Worker
         })
     }
 
-    mouse_up(_x: Number, _y: Number){
+    mouse_up(_x: Number, _y: Number)
+    {
         this.wincc.focus();
         this.wincc.sendInputEvent({
             type: "mouseUp",
