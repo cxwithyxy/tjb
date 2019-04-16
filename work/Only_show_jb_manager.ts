@@ -1,16 +1,19 @@
-const { Manager } = require("./Manager")
-const { Inject_js_handler } = require("./inject_js/Inject_js_handler")
+import { Manager } from "./Manager"
+import { Inject_js_handler as IJH } from "./inject_js/Inject_js_handler"
+import { Worker } from "./Worker";
 
 export class Only_show_jb_manager extends Manager
 {
-    constructor(_w: Worker | undefined)
+    constructor(_w: Worker | Worker[] | undefined)
     {
         super(_w);
     }
 
     public async start()
     {
-        let ijh = new Inject_js_handler();
-        await this.get_main_worker().exec_js(ijh.to_code_string(`fuli_only_show_jb()`));
+        await this.get_main_worker()
+        .exec_js(
+            IJH.getInstance().to_code_string(`fuli_only_show_jb()`)
+        )
     }
 }

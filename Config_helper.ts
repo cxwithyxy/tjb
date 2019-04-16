@@ -1,6 +1,6 @@
-const Conf = require('Conf');
-const Singleton = require("./base/Singleton");
-const { app, BrowserWindow } = require('electron');
+import Conf from 'Conf'
+import { Singleton } from "./base/Singleton"
+import { app, BrowserWindow } from 'electron'
 
 export class Config_helper extends Singleton
 {
@@ -8,7 +8,22 @@ export class Config_helper extends Singleton
     private conf_driver: any;
     private error_desc: any;
 
-    private conf_storage_path: String = "";
+    private conf_storage_path: string = "";
+
+    static instance:Config_helper;
+    /**
+     * 获取实例的静态方法实例
+     * @return
+     *
+     */
+    public static getInstance():Config_helper
+    {
+        if(!this.instance)
+        {
+            this.instance = new Config_helper();
+        }
+        return this.instance;
+    }
 
     constructor()
     {
@@ -27,15 +42,6 @@ export class Config_helper extends Singleton
             cwd: this.conf_storage_path
         });
         
-    }
-
-    public static getInstance() : Config_helper
-    {
-        if(!this.instance)
-        {
-            this.instance = new Config_helper();
-        }
-        return this.instance;
     }
 
     get(_key:String)

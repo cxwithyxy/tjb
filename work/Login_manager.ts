@@ -1,6 +1,6 @@
 import { Worker } from "./Worker"
 import { Manager } from "./Manager"
-import { Inject_js_handler } from "./inject_js/Inject_js_handler"
+import { Inject_js_handler as IJH } from "./inject_js/Inject_js_handler"
 import { Config_helper } from "./../Config_helper"
 import sleep from "sleep-promise"
 import pLimit from 'p-limit'
@@ -59,17 +59,21 @@ export class Login_manager extends Manager
     }
 
     async start() {
-        let ijh = new Inject_js_handler()
         this.init_work()
         // .open_url("https://echo.opera.com")
         this.get_main_worker().open_url("https://market.m.taobao.com/apps/market/tjb/core-member2.html")
 
-        await this.get_main_worker().exec_js(ijh.to_code_string(
+        await this
+        .get_main_worker()
+        .exec_js(
+            IJH.getInstance()
+            .to_code_string(
             `login_input_set(
                 "${Config_helper.getInstance().get("username")}",
                 "${Config_helper.getInstance().get("password")}"
-            )`
-        ));
+            )`)
+        )
+
 
         // this.login_opera()
         
