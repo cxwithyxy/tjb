@@ -1,4 +1,5 @@
-import { app, BrowserWindow } from 'electron'
+import { BrowserWindow } from 'electron'
+import { Inject_js_handler as IJH } from "./inject_js/Inject_js_handler"
 
 export class Worker
 {
@@ -38,7 +39,9 @@ export class Worker
 
     async exec_js(js_code: string)
     {
-        await this.wincc.executeJavaScript(js_code);
+        await this.wincc.executeJavaScript(
+            IJH.getInstance().to_code_string(js_code)
+        );
     }
 
     mouse_move(_x: Number, _y: Number)

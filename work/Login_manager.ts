@@ -1,6 +1,5 @@
 import { Worker } from "./Worker"
 import { Manager } from "./Manager"
-import { Inject_js_handler as IJH } from "./inject_js/Inject_js_handler"
 import { Config_helper } from "./../Config_helper"
 import sleep from "sleep-promise"
 import pLimit from 'p-limit'
@@ -66,12 +65,10 @@ export class Login_manager extends Manager
         await this
         .get_main_worker()
         .exec_js(
-            IJH.getInstance()
-            .to_code_string(
             `login_input_set(
                 "${Config_helper.getInstance().get("username")}",
                 "${Config_helper.getInstance().get("password")}"
-            )`)
+            )`
         )
 
 
