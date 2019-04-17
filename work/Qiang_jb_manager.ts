@@ -11,6 +11,9 @@ export class Qiang_jb_manager extends Manager
     public async start()
     {
         this.proliferate_worker(10)
-        await this.get_main_worker().exec_js(`fuli_only_show_jb()`)
+        await this.workers_do(async (_w) =>
+        {
+            await _w.exec_js(`fuli_only_show_jb()`)
+        })
     }
 }

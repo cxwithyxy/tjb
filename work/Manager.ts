@@ -1,5 +1,6 @@
 import { Worker } from "./Worker"
-import * as _ from "lodash";
+import * as _ from "lodash"
+import pLimit from 'p-limit'
 
 export class Manager
 {
@@ -89,6 +90,20 @@ export class Manager
         }
         
         return this
+    }
+
+    async workers_do(_func: (one_worker: Worker) => Promise<void>)
+    {
+        let limit:Function = pLimit(this.get_workers().length)
+        let queque:Array<any> = [];
+        _.forEach(this.get_workers(), (v,k) =>
+        {
+            queque.push(limit(async () =>
+            {
+                await _func(v)
+            }))
+        })
+        await Promise.all(queque)
     }
 
 }
