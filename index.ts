@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from 'electron'
 import { Login_manager } from "./work/Login_manager"
-import { Only_show_jb_manager } from "./work/Only_show_jb_manager"
+import { Qiang_jb_manager } from "./work/Qiang_jb_manager"
 
 app.setPath("userData", app.getPath("temp") + "/tjb");
 app.on('ready', async () =>
@@ -9,8 +9,8 @@ app.on('ready', async () =>
     
     await M_login.start();
     
-    let M_only_show_jb = new Only_show_jb_manager();
-    M_login.deliver_work_to(M_only_show_jb);
-    await M_only_show_jb.start();
+    let M_qiang_jb = new Qiang_jb_manager();
+    M_login.deliver_work_to(M_qiang_jb);
+    await M_qiang_jb.start();
 });
 

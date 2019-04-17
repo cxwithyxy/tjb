@@ -1,7 +1,7 @@
 import { Manager } from "./Manager"
 import { Worker } from "./Worker";
 
-export class Only_show_jb_manager extends Manager
+export class Qiang_jb_manager extends Manager
 {
     constructor(_w?: Worker | Worker[])
     {
