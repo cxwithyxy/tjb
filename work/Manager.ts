@@ -3,45 +3,45 @@ import * as _ from "lodash";
 
 export class Manager
 {
-    public works!: Worker[];
+    workers!: Worker[];
 
     constructor(_w?: Worker | Worker[]){
         if(! _.isUndefined(_w) && !_.isArray(_w))
         {
-            this.works = [_w];
+            this.workers = [_w];
         }
         if(_.isArray(_w))
         {
-            this.works = _w;
+            this.workers = _w;
         }
         if(_.isUndefined(_w))
         {
-            this.works = [];
+            this.workers = [];
         }
     }
 
-    public start()
+    start()
     {
         
     }
 
-    public set_main_worker(_w: Worker): Manager
+    set_main_worker(_w: Worker): Manager
     {
-        let main_worker = _.head(this.works)
+        let main_worker = _.head(this.workers)
         if(_.isUndefined(main_worker))
         {
-            this.works.push(_w)
+            this.workers.push(_w)
         }
         else
         {
-            this.works[0] = _w;
+            this.workers[0] = _w;
         }
         return this;
     }
 
-    public get_main_worker(): Worker
+    get_main_worker(): Worker
     {
-        let main_worker = _.head(this.works)
+        let main_worker = _.head(this.workers)
         if(_.isUndefined(main_worker))
         {
             throw new Error("main_worker_have_not_set");
@@ -49,9 +49,30 @@ export class Manager
         return main_worker;
     }
 
-    public deliver_work_to(_m: Manager): Manager
+    deliver_main_worker_to(_m: Manager): Manager
     {
         return _m.set_main_worker(this.get_main_worker());
+    }
+
+    set_workers(_works: Worker[]): Manager
+    {
+        this.workers = _works
+        return this
+    }
+
+    get_workers(): Worker[]
+    {
+        return this.workers
+    }
+
+    deliver_workers_to(_m: Manager): Manager
+    {
+        return _m.set_workers(this.get_workers())
+    }
+
+    proliferate_worker(num: number, setting?: {})
+    {
+        
     }
 
 }
