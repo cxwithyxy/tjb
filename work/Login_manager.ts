@@ -4,6 +4,7 @@ import { Config_helper } from "./../Config_helper"
 import sleep from "sleep-promise"
 import pLimit from 'p-limit'
 import * as _ from "lodash"
+import { ipcMain } from "electron";
 
 export class Login_manager extends Manager
 {
@@ -61,24 +62,40 @@ export class Login_manager extends Manager
         this.init_work()
         // await this.get_main_worker().set_cookies();
 
-        await this.get_main_worker().save_all_cookie_in_conf()
+        // await this.get_main_worker().save_all_cookie_in_conf()
 
         this.get_main_worker().open_url("https://market.m.taobao.com/apps/market/tjb/core-member2.html")
-
-        await this
-        .get_main_worker()
-        .exec_js(
-            `login_input_set(
-                "${Config_helper.getInstance().get("username")}",
-                "${Config_helper.getInstance().get("password")}"
-            )`
-        )
-
-        
-
+        await sleep(5000)
+        let login_state = await this.get_main_worker().exec_js(`is_login()`)
+        console.log(login_state)
+        // await this
+        // .get_main_worker()
+        // .exec_js(
+        //     `login_input_set(
+        //         "${Config_helper.getInstance().get("username")}",
+        //         "${Config_helper.getInstance().get("password")}"
+        //     )`
+        // )
 
         // this.login_opera()
         
+        await this.get_main_worker().wait_page_load()
+        await this.manual_login()
 
+    }
+
+    async manual_login()
+    {
+        await this.get_main_worker().exec_js(`login_click_event()`)
+        ipcMain.once("login_btn_click", async () =>
+        {
+            await this.get_main_worker().wait_page_load()
+            let login_state = await this.get_main_worker().exec_js(`is_login()`)
+            console.log("login", login_state)
+            if(!login_state)
+            {
+                await this.manual_login()
+            }
+        })
     }
 }

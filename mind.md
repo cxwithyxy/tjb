@@ -12,3 +12,6 @@ document.querySelectorAll("body > div:nth-child(14) > div > div > div:nth-child(
 
 抢不到点击确认
 document.querySelectorAll("body > div:nth-child(14) > div > div > div:nth-child(3) > div")[0].click()
+
+登陆按钮
+btn-submit

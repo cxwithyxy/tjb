@@ -1,12 +1,14 @@
 import { BrowserWindow, WebContents,Event  } from 'electron'
 import { Inject_js_handler as IJH } from "./inject_js/Inject_js_handler"
 import { Config_helper } from "./../Config_helper"
+import sleep from "sleep-promise"
 
 export class Worker
 {
-    win!: BrowserWindow;
-    wincc!: WebContents;
-    win_settings: {};
+    win!: BrowserWindow
+    wincc!: WebContents
+    win_settings: {}
+    page_load_lock = false
 
     constructor (win_settings: {})
     {
@@ -21,9 +23,18 @@ export class Worker
 
     page_init (): Worker
     {
-        this.win = new BrowserWindow(this.win_settings);
-        this.wincc = this.win.webContents;
-        return this;
+        this.win = new BrowserWindow(this.win_settings)
+        this.wincc = this.win.webContents
+        this.init_page_load_lock()
+        return this
+    }
+
+    init_page_load_lock()
+    {
+        this.wincc.on("did-finish-load", () =>
+        {
+            this.page_load_lock = false
+        })
     }
 
     set_ua (ua: string): Worker
@@ -77,6 +88,16 @@ export class Worker
             y: _y,
             clickCount: 1
         })
+    }
+
+    async wait_page_load()
+    {
+        this.page_load_lock = true
+        while(this.page_load_lock)
+        {
+            await sleep(100)
+        }
+        return this
     }
 
     async read_cookies(filter = {})
