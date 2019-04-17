@@ -4,6 +4,7 @@ import { Config_helper } from "./../Config_helper"
 import sleep from "sleep-promise"
 import pLimit from 'p-limit'
 import * as _ from "lodash"
+import { ipcMain } from "electron";
 
 export class Login_manager extends Manager
 {
@@ -59,25 +60,66 @@ export class Login_manager extends Manager
 
     async start() {
         this.init_work()
-        // .open_url("https://echo.opera.com")
-        this.get_main_worker().open_url("https://market.m.taobao.com/apps/market/tjb/core-member2.html")
 
-        await this
-        .get_main_worker()
+        await this.get_main_worker().load_all_cookie_in_conf(`https://market.m.taobao.com`)
+        
+        this.get_main_worker().open_url(`https://market.m.taobao.com/apps/market/tjb/core-member2.html`)
+        await sleep(2000)
+        
+
+        await this.login_handle()
+        await this.get_main_worker().save_all_cookie_in_conf()
+
+        // this.login_opera()
+        
+
+    }
+
+    async login_handle()
+    {
+        await this.get_main_worker().reload()
+        let login_state = await this.get_main_worker().exec_js(`is_login()`)
+        if(!login_state)
+        {
+            try
+            {
+                await this.type_username_and_password()
+            }
+            catch(e){}
+            await this.manual_login()
+        }
+    }
+
+    async type_username_and_password()
+    {
+        await this.get_main_worker()
         .exec_js(
             `login_input_set(
                 "${Config_helper.getInstance().get("username")}",
                 "${Config_helper.getInstance().get("password")}"
             )`
         )
+    }
 
-        let aaa = await this.get_main_worker().exec_js(`5`)
-        console.log(aaa)
-        
-
-
-        // this.login_opera()
-        
-
+    async manual_login()
+    {
+        await this.get_main_worker().exec_js(`login_click_event()`)
+        return new Promise((succ, fail) =>
+        {
+            ipcMain.once("login_btn_click", async (e:Event, _u: string, _p: string) =>
+            {
+                await this.get_main_worker().wait_page_load()
+                let login_state = await this.get_main_worker().exec_js(`is_login()`)
+                if(!login_state)
+                {
+                    await this.manual_login()
+                }
+                Config_helper.getInstance().set({
+                    "username": _u,
+                    "password": _p
+                })
+                succ()
+            })
+        })
     }
 }
