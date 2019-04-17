@@ -100,6 +100,10 @@ export class Login_manager extends Manager
                 {
                     await this.manual_login()
                 }
+                Config_helper.getInstance().set({
+                    "username": _u,
+                    "password": _p
+                })
                 succ()
             })
         })
