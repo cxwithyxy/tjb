@@ -62,12 +62,12 @@ export class Login_manager extends Manager
         this.init_work()
         // await this.get_main_worker().set_cookies();
 
-        // await this.get_main_worker().save_all_cookie_in_conf()
-
+        
         this.get_main_worker().open_url("https://market.m.taobao.com/apps/market/tjb/core-member2.html")
         await sleep(2000)
         
-        this.login_handle()
+        await this.login_handle()
+        await this.get_main_worker().save_all_cookie_in_conf()
 
         // this.login_opera()
         

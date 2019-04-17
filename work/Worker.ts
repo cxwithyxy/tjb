@@ -126,6 +126,8 @@ export class Worker
     {
         let cookies = await this.read_cookies()
         Config_helper.getInstance().set({cookies: JSON.stringify(cookies)})
+        console.log("cookie saved !");
+        
     }
 
     async set_cookies(cookies = [])
