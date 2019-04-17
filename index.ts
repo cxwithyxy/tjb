@@ -9,8 +9,8 @@ app.on('ready', async () =>
     
     await M_login.start();
     
-    // let M_only_show_jb = new Only_show_jb_manager();
-    // M_login.deliver_work_to(M_only_show_jb);
-    // await M_only_show_jb.start();
+    let M_only_show_jb = new Only_show_jb_manager();
+    M_login.deliver_work_to(M_only_show_jb);
+    await M_only_show_jb.start();
 });
 
