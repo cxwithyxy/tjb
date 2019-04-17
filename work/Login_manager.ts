@@ -66,23 +66,39 @@ export class Login_manager extends Manager
 
         this.get_main_worker().open_url("https://market.m.taobao.com/apps/market/tjb/core-member2.html")
         await sleep(2000)
-        let login_state = await this.get_main_worker().exec_js(`is_login()`)
-        console.log(login_state)
-        // await this
-        // .get_main_worker()
-        // .exec_js(
-        //     `login_input_set(
-        //         "${Config_helper.getInstance().get("username")}",
-        //         "${Config_helper.getInstance().get("password")}"
-        //     )`
-        // )
+        
+        this.login_handle()
 
         // this.login_opera()
         
-        await this.get_main_worker().reload()
-        await this.manual_login()
-        console.log("manual_login_pass");
 
+    }
+
+    async login_handle()
+    {
+        await this.get_main_worker().reload()
+        let login_state = await this.get_main_worker().exec_js(`is_login()`)
+        console.log(login_state)
+        if(!login_state)
+        {
+            try
+            {
+                await this.type_username_and_password()
+            }
+            catch(e){}
+            await this.manual_login()
+        }
+    }
+
+    async type_username_and_password()
+    {
+        await this.get_main_worker()
+        .exec_js(
+            `login_input_set(
+                "${Config_helper.getInstance().get("username")}",
+                "${Config_helper.getInstance().get("password")}"
+            )`
+        )
     }
 
     async manual_login()
@@ -94,8 +110,6 @@ export class Login_manager extends Manager
             {
                 await this.get_main_worker().wait_page_load()
                 let login_state = await this.get_main_worker().exec_js(`is_login()`)
-                console.log("login", login_state)
-                console.log(_u, _p)
                 if(!login_state)
                 {
                     await this.manual_login()
@@ -107,7 +121,5 @@ export class Login_manager extends Manager
                 succ()
             })
         })
-        
-        
     }
 }
