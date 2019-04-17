@@ -37,27 +37,6 @@ export class Login_manager extends Manager
         return this.get_main_worker()
     }
 
-    async login_opera()
-    {
-        let limit = pLimit(1)
-        let queque_list: any[] = []
-        let while_seed = Math.random() * 15  + 5
-        while(while_seed > 0){
-            while_seed --
-            queque_list.push(limit(async () =>
-            {
-                this.get_main_worker().mouse_move(220 + Math.random() * 10, 420 + Math.random() * 20);
-                await sleep(Math.random() * 1000 * 0.04 + 0.01);
-            }))
-        }
-        await Promise.all(queque_list)
-         
-        this.get_main_worker().mouse_down(242, 433)
-        this.get_main_worker().mouse_up(242, 435)
-        
-        await sleep(1000)
-    }
-
     async start() {
         this.init_work()
 
@@ -65,13 +44,9 @@ export class Login_manager extends Manager
         
         this.get_main_worker().open_url(`https://market.m.taobao.com/apps/market/tjb/core-member2.html`)
         await sleep(2000)
-        
 
         await this.login_handle()
         await this.get_main_worker().save_all_cookie_in_conf()
-
-        // this.login_opera()
-        
 
     }
 
