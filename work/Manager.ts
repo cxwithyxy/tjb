@@ -3,15 +3,20 @@ import * as _ from "lodash";
 
 export class Manager
 {
-    public main_worker: Worker | undefined;
-    public works: Worker[] | undefined;
+    public works!: Worker[];
 
     constructor(_w?: Worker | Worker[]){
-        if(! _.isUndefined(_w) && !_.isArray(_w)){
-            this.main_worker = _w;
+        if(! _.isUndefined(_w) && !_.isArray(_w))
+        {
+            this.works = [_w];
         }
-        if(_.isArray(_w)){
+        if(_.isArray(_w))
+        {
             this.works = _w;
+        }
+        if(_.isUndefined(_w))
+        {
+            this.works = [];
         }
     }
 
@@ -22,16 +27,26 @@ export class Manager
 
     public set_main_worker(_w: Worker): Manager
     {
-        this.main_worker = _w;
+        let main_worker = _.head(this.works)
+        if(_.isUndefined(main_worker))
+        {
+            this.works.push(_w)
+        }
+        else
+        {
+            this.works[0] = _w;
+        }
         return this;
     }
 
     public get_main_worker(): Worker
     {
-        if(_.isUndefined(this.main_worker)){
+        let main_worker = _.head(this.works)
+        if(_.isUndefined(main_worker))
+        {
             throw new Error("main_worker_have_not_set");
         }
-        return this.main_worker;
+        return main_worker;
     }
 
     public deliver_work_to(_m: Manager): Manager

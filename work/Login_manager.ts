@@ -16,9 +16,12 @@ export class Login_manager extends Manager
 
     init_work()
     {
-        if(_.isUndefined(this.main_worker)){
+        try{
+            this.get_main_worker()
+        }
+        catch(e)
+        {
             let preload_js_path = `${__dirname}/../PRELOAD/common_preload.js`
-            
             this.set_main_worker(new Worker({ 
                 width: 480,
                 height: 800,
