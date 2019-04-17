@@ -5,8 +5,10 @@ let ipcRenderer!:Ipcr
 export = {
     "login_input_set": (_u: string, _p: string) =>
     {
-        $("#username").val(_u);
-        $("#password").val(_p);
+        let un = <HTMLInputElement>(document.querySelectorAll("#username")[0])
+        let pw = <HTMLInputElement>(document.querySelectorAll("#password")[0])
+        un.value = _u
+        pw.value = _p
     },
     "is_login": () =>
     {
@@ -18,7 +20,9 @@ export = {
         
         btn.addEventListener("click", () =>
         {
-            ipcRenderer.send("login_btn_click");
+            let un = <HTMLInputElement>(document.querySelectorAll("#username")[0])
+            let pw = <HTMLInputElement>(document.querySelectorAll("#password")[0])
+            ipcRenderer.send("login_btn_click", un.value, pw.value)
         })
 
     }

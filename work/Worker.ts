@@ -90,6 +90,12 @@ export class Worker
         })
     }
 
+    async reload()
+    {
+        this.wincc.reload()
+        await this.wait_page_load()
+    }
+
     async wait_page_load()
     {
         this.page_load_lock = true

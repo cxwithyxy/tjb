@@ -65,7 +65,7 @@ export class Login_manager extends Manager
         // await this.get_main_worker().save_all_cookie_in_conf()
 
         this.get_main_worker().open_url("https://market.m.taobao.com/apps/market/tjb/core-member2.html")
-        await sleep(5000)
+        await sleep(2000)
         let login_state = await this.get_main_worker().exec_js(`is_login()`)
         console.log(login_state)
         // await this
@@ -79,23 +79,31 @@ export class Login_manager extends Manager
 
         // this.login_opera()
         
-        await this.get_main_worker().wait_page_load()
+        await this.get_main_worker().reload()
         await this.manual_login()
+        console.log("manual_login_pass");
 
     }
 
     async manual_login()
     {
         await this.get_main_worker().exec_js(`login_click_event()`)
-        ipcMain.once("login_btn_click", async () =>
+        return new Promise((succ, fail) =>
         {
-            await this.get_main_worker().wait_page_load()
-            let login_state = await this.get_main_worker().exec_js(`is_login()`)
-            console.log("login", login_state)
-            if(!login_state)
+            ipcMain.once("login_btn_click", async (e:Event, _u: string, _p: string) =>
             {
-                await this.manual_login()
-            }
+                await this.get_main_worker().wait_page_load()
+                let login_state = await this.get_main_worker().exec_js(`is_login()`)
+                console.log("login", login_state)
+                console.log(_u, _p)
+                if(!login_state)
+                {
+                    await this.manual_login()
+                }
+                succ()
+            })
         })
+        
+        
     }
 }
