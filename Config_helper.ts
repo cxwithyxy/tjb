@@ -30,7 +30,8 @@ export class Config_helper extends Singleton
 
         enum error_desc {
             username = "需要用户名进行登录",
-            password = "需要密码进行登录"
+            password = "需要密码进行登录",
+            cookies = "当前没有保存持久化cookie"
         };
         this.error_desc = error_desc;
 
