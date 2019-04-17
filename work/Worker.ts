@@ -157,7 +157,6 @@ export class Worker
                 })
             }))
         })
-        console.log(queque.length);
         await Promise.all(queque)
 
     }
