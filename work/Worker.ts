@@ -2,6 +2,8 @@ import { BrowserWindow, WebContents,Event  } from 'electron'
 import { Inject_js_handler as IJH } from "./inject_js/Inject_js_handler"
 import { Config_helper } from "./../Config_helper"
 import sleep from "sleep-promise"
+import pLimit from 'p-limit'
+import _ from "lodash"
 
 export class Worker
 {
@@ -130,23 +132,31 @@ export class Worker
         
     }
 
-    async set_cookies(cookies = [])
+    async set_cookies(url: string, cookies:Array<any> = [])
     {
-        return new Promise((succ, fail) =>
+        let limit:Function = pLimit(cookies.length)
+        let queque:Array<any> = [];
+        _.forEach(cookies, (v,k) =>
         {
-            this.wincc.session.cookies.set(
+            v.url = url
+            queque.push(limit(async () =>
+            {
+                return new Promise((succ) =>
                 {
-                    url: "https://login.m.taobao.com",
-                    domain: ".taobao.com",
-                    name: "cxcxcxcx",
-                    value: "test",
-                    expirationDate: new Date().getTime() / 1000 + 3600
-                },
-                ()=>
-                {
-                    succ()
-                }
-            )
+                    console.log(v);
+                    
+                    this.wincc.session.cookies.set(
+                        v,
+                        ()=>
+                        {
+                            succ()
+                        }
+                    )
+                })
+            }))
         })
+        console.log(queque.length);
+        await Promise.all(queque)
+
     }
 }

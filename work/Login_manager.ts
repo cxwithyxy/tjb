@@ -66,6 +66,10 @@ export class Login_manager extends Manager
         this.get_main_worker().open_url("https://market.m.taobao.com/apps/market/tjb/core-member2.html")
         await sleep(2000)
         
+        let login_cookies:Array<any> = JSON.parse(Config_helper.getInstance().get("cookies"))
+        // console.log(login_cookies);
+        await this.get_main_worker().set_cookies("https://market.m.taobao.com", login_cookies)
+
         await this.login_handle()
         await this.get_main_worker().save_all_cookie_in_conf()
 
@@ -78,7 +82,6 @@ export class Login_manager extends Manager
     {
         await this.get_main_worker().reload()
         let login_state = await this.get_main_worker().exec_js(`is_login()`)
-        console.log(login_state)
         if(!login_state)
         {
             try
