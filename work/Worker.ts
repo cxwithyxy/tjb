@@ -128,8 +128,12 @@ export class Worker
     {
         let cookies = await this.read_cookies()
         Config_helper.getInstance().set({cookies: JSON.stringify(cookies)})
-        console.log("cookie saved !");
-        
+    }
+
+    async load_all_cookie_in_conf(url: string)
+    {
+        let login_cookies:Array<any> = JSON.parse(Config_helper.getInstance().get("cookies"))
+        await this.set_cookies(url, login_cookies)
     }
 
     async set_cookies(url: string, cookies:Array<any> = [])
@@ -143,8 +147,6 @@ export class Worker
             {
                 return new Promise((succ) =>
                 {
-                    console.log(v);
-                    
                     this.wincc.session.cookies.set(
                         v,
                         ()=>

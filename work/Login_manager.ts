@@ -60,15 +60,12 @@ export class Login_manager extends Manager
 
     async start() {
         this.init_work()
-        // await this.get_main_worker().set_cookies();
 
+        await this.get_main_worker().load_all_cookie_in_conf(`https://market.m.taobao.com`)
         
-        this.get_main_worker().open_url("https://market.m.taobao.com/apps/market/tjb/core-member2.html")
+        this.get_main_worker().open_url(`https://market.m.taobao.com/apps/market/tjb/core-member2.html`)
         await sleep(2000)
         
-        let login_cookies:Array<any> = JSON.parse(Config_helper.getInstance().get("cookies"))
-        // console.log(login_cookies);
-        await this.get_main_worker().set_cookies("https://market.m.taobao.com", login_cookies)
 
         await this.login_handle()
         await this.get_main_worker().save_all_cookie_in_conf()
