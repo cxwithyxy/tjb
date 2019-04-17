@@ -54,9 +54,9 @@ export class Manager
         return _m.set_main_worker(this.get_main_worker());
     }
 
-    set_workers(_works: Worker[]): Manager
+    set_workers(_workers: Worker[]): Manager
     {
-        this.workers = _works
+        this.workers = _workers
         return this
     }
 
@@ -65,14 +65,30 @@ export class Manager
         return this.workers
     }
 
+    add_worker(_w: Worker)
+    {
+        this.workers.push(_w);
+    }
+
     deliver_workers_to(_m: Manager): Manager
     {
         return _m.set_workers(this.get_workers())
     }
 
-    proliferate_worker(num: number, setting?: {})
+    proliferate_worker(num: number, setting?: object): Manager
     {
+        let base_worker:Worker = this.get_main_worker()
+        let current_url:string = base_worker.wincc.getURL()
+        while(num--)
+        {
+            if(_.isUndefined(setting))
+            {
+                setting = base_worker.win_settings
+            }
+            this.add_worker(new Worker(setting).page_init().open_url(current_url))
+        }
         
+        return this
     }
 
 }
