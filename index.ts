@@ -9,8 +9,8 @@ app.on('ready', async () =>
     
     await M_login.start();
     
-    let M_qiang_jb = new Qiang_jb_manager();
-    M_login.deliver_workers_to(M_qiang_jb);
-    await M_qiang_jb.start();
+    // let M_qiang_jb = new Qiang_jb_manager();
+    // M_login.deliver_workers_to(M_qiang_jb);
+    // await M_qiang_jb.start();
 });
 

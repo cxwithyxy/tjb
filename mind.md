@@ -15,3 +15,14 @@ document.querySelectorAll("body > div:nth-child(14) > div > div > div:nth-child(
 
 登陆按钮
 btn-submit
+
+---
+rewu
+
+https://m.tb.cn/h.e0ui9mz
+
+renwudianpu
+
+document.querySelectorAll("a[href*=shop]")
+
+                    webSecurity: false,
