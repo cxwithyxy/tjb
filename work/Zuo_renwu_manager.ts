@@ -25,7 +25,8 @@ export class Zuo_renwu_manager extends Manager
             await _w.wait_page_load()
             links = await _w.exec_js(`get_rewu_links()`)
         })
-
+        console.log(links.length ? `签到店铺 ${links.length} 个` : `店铺都签完了`);
+        
         await forin_promise(
             links,
             async (v) =>
@@ -39,21 +40,8 @@ export class Zuo_renwu_manager extends Manager
                 })
             }
         )
-        console.log("finish")
+        console.log("店铺已签完了")
         
     }
     
-    async workers_jump_to_shop(shop_links: Array<string>)
-    {
-        this.proliferate_worker(shop_links.length - 1)
-
-        await this.workers_do(async (_w, _i) =>
-        {
-            _w.open_url(`https://m.tb.cn/h.e0ui9mz`)
-            await _w.wait_page_load()
-            _w.open_url(`https:${shop_links[(<number>_i)]}`)
-            await _w.wait_page_load()
-            await sleep(11 * 1000)
-        })
-    }
 }

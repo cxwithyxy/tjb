@@ -6,7 +6,10 @@ export = {
         let return_array: Array<string> = []
         a_elements.forEach(element =>
         {
-            return_array.push(<string>element.getAttribute("href"))
+            if(element.querySelectorAll("span")[1].innerText.indexOf("领完逛逛") == -1)
+            {
+                return_array.push(<string>element.getAttribute("href"))
+            }
         });
         return return_array
     },
