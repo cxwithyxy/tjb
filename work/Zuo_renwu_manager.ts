@@ -1,6 +1,7 @@
 import { Manager } from "./Manager"
 import { Worker } from "./Worker";
 import sleep from "sleep-promise";
+import forin_promise from "./../base/forin_promise";
 
 export class Zuo_renwu_manager extends Manager
 {
@@ -24,8 +25,20 @@ export class Zuo_renwu_manager extends Manager
             await _w.wait_page_load()
             links = await _w.exec_js(`get_rewu_links()`)
         })
-        console.log(links)
-        await this.workers_jump_to_shop(links)
+
+        await forin_promise(
+            links,
+            async (v) =>
+            {
+                await this.workers_do(async (_w) =>
+                {
+                    _w.open_url(`https:${v}`)
+                    await _w.wait_page_load()
+                    console.log(v)
+                    await sleep(11 * 1000)
+                })
+            }
+        )
         console.log("finish")
         
     }

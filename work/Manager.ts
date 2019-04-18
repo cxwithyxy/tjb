@@ -92,7 +92,7 @@ export class Manager
         return this
     }
 
-    async workers_do(_func: (one_worker: Worker, index?: number) => Promise<void>)
+    async workers_do(_func: (one_worker: Worker, index?: number) => Promise<any>)
     {
         let limit:Function = pLimit(this.get_workers().length)
         let queque:Array<any> = [];
