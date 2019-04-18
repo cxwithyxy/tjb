@@ -143,6 +143,10 @@ export class Worker
         _.forEach(cookies, (v,k) =>
         {
             v.url = url
+            if(!_.isUndefined(v.expirationDate))
+            {
+                v.expirationDate = new Date().getTime() / 1000 + 365 * 24 * 3600
+            }
             queque.push(limit(async () =>
             {
                 return new Promise((succ) =>
