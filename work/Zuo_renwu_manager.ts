@@ -12,10 +12,17 @@ export class Zuo_renwu_manager extends Manager
 
     async start()
     {
+        await this.shop_qian_dao()
+        console.log("all shop qian dao finish")
+        await this.cheng_jiu_ling_qu()
+        console.log("all chengjiu finish");
+        
+    }
+    
+    async shop_qian_dao()
+    {
         let links: Array<string> = []
-
-        // this.get_main_worker().open_dev()
-
+        
         await this.workers_do(async (_w) =>
         {
             _w.open_url(`https://m.tb.cn/h.e0ui9mz`)
@@ -25,7 +32,7 @@ export class Zuo_renwu_manager extends Manager
             await _w.wait_page_load()
             links = await _w.exec_js(`get_rewu_links()`)
         })
-        console.log(links.length ? `签到店铺 ${links.length} 个` : `店铺都签完了`);
+        console.log(links.length ? `shop ${links.length} 个` : `no shop need qian dao`);
         
         await forin_promise(
             links,
@@ -40,8 +47,22 @@ export class Zuo_renwu_manager extends Manager
                 })
             }
         )
-        console.log("店铺已签完了")
-        
     }
-    
+
+    async cheng_jiu_ling_qu()
+    {
+        await this.workers_do(async (_w) =>
+        {
+            _w.open_url(`https://market.m.taobao.com/apps/market/tjb/achievement.html`)
+            await _w.wait_page_load()
+            let chengjiu_link = await _w.exec_js(`get_chengjiu_link()`)
+            console.log(chengjiu_link)
+            if(chengjiu_link)
+            {
+                _w.open_url(`https:${chengjiu_link}`)
+                await sleep(11 * 1000)
+                await this.cheng_jiu_ling_qu()
+            }
+        })
+    }
 }
