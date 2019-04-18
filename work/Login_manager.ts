@@ -2,7 +2,6 @@ import { Worker } from "./Worker"
 import { Manager } from "./Manager"
 import { Config_helper } from "./../Config_helper"
 import sleep from "sleep-promise"
-import pLimit from 'p-limit'
 import * as _ from "lodash"
 import { ipcMain } from "electron";
 

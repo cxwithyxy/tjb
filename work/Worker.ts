@@ -19,7 +19,7 @@ export class Worker
 
     open_url (url: string): Worker
     {
-        this.wincc.loadURL(url);
+        this.wincc.loadURL(url)
         return this;
     }
 
