@@ -92,7 +92,7 @@ export class Manager
         return this
     }
 
-    async workers_do(_func: (one_worker: Worker) => Promise<void>)
+    async workers_do(_func: (one_worker: Worker, index?: number) => Promise<void>)
     {
         let limit:Function = pLimit(this.get_workers().length)
         let queque:Array<any> = [];
@@ -100,7 +100,7 @@ export class Manager
         {
             queque.push(limit(async () =>
             {
-                await _func(v)
+                await _func(v, k)
             }))
         })
         await Promise.all(queque)

@@ -13,7 +13,7 @@ export class Zuo_renwu_manager extends Manager
     {
         let links: Array<string> = []
 
-        this.get_main_worker().open_dev()
+        // this.get_main_worker().open_dev()
 
         await this.workers_do(async (_w) =>
         {
@@ -25,16 +25,22 @@ export class Zuo_renwu_manager extends Manager
             links = await _w.exec_js(`get_rewu_links()`)
         })
         console.log(links)
-        // await this.workers_jump_to_shop(links)
+        await this.workers_jump_to_shop(links)
+        console.log("finish")
         
-        // this.proliferate_worker(5)
     }
-
+    
     async workers_jump_to_shop(shop_links: Array<string>)
     {
-        await this.workers_do(async (_w) =>
+        this.proliferate_worker(shop_links.length - 1)
+
+        await this.workers_do(async (_w, _i) =>
         {
-              
+            _w.open_url(`https://m.tb.cn/h.e0ui9mz`)
+            await _w.wait_page_load()
+            _w.open_url(`https:${shop_links[(<number>_i)]}`)
+            await _w.wait_page_load()
+            await sleep(11 * 1000)
         })
     }
 }
