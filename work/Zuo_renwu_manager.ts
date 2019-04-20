@@ -32,7 +32,7 @@ export class Zuo_renwu_manager extends Manager
             await _w.wait_page_load()
             links = await _w.exec_js(`get_rewu_links()`)
         })
-        console.log(links.length ? `shop ${links.length} 个` : `no shop need qian dao`);
+        console.log(links.length ? `shop ${links.length} ` : `no shop need qian dao`);
         
         await forin_promise(
             links,
