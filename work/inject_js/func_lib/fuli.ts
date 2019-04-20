@@ -35,7 +35,7 @@ export = {
     {
         try
         {
-            let temp = <HTMLDivElement>document.querySelectorAll("body > div:nth-child(14) > div > div > div:nth-child(3) > div:nth-child(2)")[0]
+            let temp = <HTMLDivElement>document.querySelectorAll("body > div:nth-child(13) > div > div > div:nth-child(3) > div:nth-child(2)")[0]
             temp.click()
         }
         catch(e)
