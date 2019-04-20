@@ -24,11 +24,11 @@ export class Login_manager extends Manager
             this.set_main_worker(new Worker({ 
                 width: 480,
                 height: 800,
-                resizable: false,
                 webPreferences: {
                     sandbox: true,
                     preload: preload_js_path,
-                    partition: "persist:tjb"
+                    partition: "persist:tjb",
+                    webSecurity: false
                 },
             }))
             .get_main_worker()
