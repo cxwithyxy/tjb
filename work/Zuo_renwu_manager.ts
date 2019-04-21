@@ -2,6 +2,7 @@ import { Manager } from "./Manager"
 import { Worker } from "./Worker";
 import sleep from "sleep-promise";
 import forin_promise from "./../base/forin_promise";
+import { UI } from "../electron_commandline_UI/commandline";
 
 export class Zuo_renwu_manager extends Manager
 {
@@ -14,9 +15,10 @@ export class Zuo_renwu_manager extends Manager
     {
         await this.shop_qian_dao()
         console.log("all shop qian dao finish")
+        UI.log(`已经自动浏览完所有的店铺了`)
         await this.cheng_jiu_ling_qu()
         console.log("all chengjiu finish");
-        
+        UI.log(`已经领取完所有的成就了`)
     }
     
     async shop_qian_dao()
@@ -32,7 +34,7 @@ export class Zuo_renwu_manager extends Manager
             await _w.wait_page_load()
             links = await _w.exec_js(`get_rewu_links()`)
         })
-        console.log(links.length ? `shop ${links.length} ` : `no shop need qian dao`);
+        UI.log(links.length ? `店铺 ${links.length} 个` : `所有店铺都已经被领取过了`);
         
         await forin_promise(
             links,
