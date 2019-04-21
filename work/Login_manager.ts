@@ -4,6 +4,7 @@ import { Config_helper } from "./../Config_helper"
 import sleep from "sleep-promise"
 import * as _ from "lodash"
 import { ipcMain } from "electron";
+import { UI } from "../electron_commandline_UI/commandline";
 
 export class Login_manager extends Manager
 {
@@ -64,7 +65,9 @@ export class Login_manager extends Manager
             {
                 await this.type_username_and_password()
             }
-            catch(e){}
+            catch(e){
+                UI.log(String(e))
+            }
             await this.manual_login()
         }
     }
