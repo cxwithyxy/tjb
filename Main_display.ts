@@ -2,6 +2,7 @@ import { app } from 'electron'
 import { Login_manager } from "./work/Login_manager"
 import { Zuo_renwu_manager } from "./work/Zuo_renwu_manager"
 import { UI, Handler } from "./electron_commandline_UI/commandline";
+import fs from "fs";
 
 export class Main_display
 {
@@ -14,11 +15,12 @@ export class Main_display
 
     async display()
     {
-        let my_ui = this.my_ui
-        
+        let my_ui:UI = this.my_ui
+        let menu_text = await fs.readFileSync(`${__dirname}/menu.txt`, {encoding: "utf8"})
+
         await my_ui.init_win({
-            cmd_title: `t j b`
-            ,cmd_text: `1 : 自动金币任务`
+            cmd_title: `自动化淘金币`
+            ,cmd_text: menu_text
         })
 
         my_ui.on_msg((msg:any, handler?: Handler) =>
