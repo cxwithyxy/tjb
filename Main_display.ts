@@ -36,6 +36,18 @@ export class Main_display
             this.my_ui.send(`金币任务开始`)
             this.menu_zuo_renwu()
         }
+        if(msg == `2`)
+        {
+            this.my_ui.send(`收菜开始`)
+            this.menu_shoucai()
+        }
+    }
+
+    async menu_shoucai()
+    {
+        let M_login = new Login_manager()
+          
+        await M_login.start()
     }
 
     async menu_zuo_renwu()
