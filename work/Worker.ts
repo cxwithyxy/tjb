@@ -9,7 +9,7 @@ export class Worker
 {
     win!: BrowserWindow
     wincc!: WebContents
-    win_settings: {}
+    win_settings: object
     page_load_lock = false
 
     constructor (win_settings: {})
@@ -19,7 +19,7 @@ export class Worker
 
     open_url (url: string): Worker
     {
-        this.wincc.loadURL(url);
+        this.wincc.loadURL(url)
         return this;
     }
 

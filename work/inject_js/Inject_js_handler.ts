@@ -1,7 +1,8 @@
+import { Singleton } from "../../base/Singleton";
 import _ from "lodash"
 import login from "./func_lib/login"
 import fuli from "./func_lib/fuli"
-import { Singleton } from "../../base/Singleton";
+import renwu from "./func_lib/renwu";
 
 export class Inject_js_handler extends Singleton
 {
@@ -23,6 +24,7 @@ export class Inject_js_handler extends Singleton
         this.codes_lib = {}
         this.add_object(login)
         this.add_object(fuli)
+        this.add_object(renwu)
     }
 
     add_object(_obj:Object){

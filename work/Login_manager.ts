@@ -2,7 +2,6 @@ import { Worker } from "./Worker"
 import { Manager } from "./Manager"
 import { Config_helper } from "./../Config_helper"
 import sleep from "sleep-promise"
-import pLimit from 'p-limit'
 import * as _ from "lodash"
 import { ipcMain } from "electron";
 
@@ -16,22 +15,24 @@ export class Login_manager extends Manager
 
     init_work()
     {
-        if(_.isUndefined(this.main_worker)){
+        try{
+            this.get_main_worker()
+        }
+        catch(e)
+        {
             let preload_js_path = `${__dirname}/../PRELOAD/common_preload.js`
-            
             this.set_main_worker(new Worker({ 
                 width: 480,
                 height: 800,
-                resizable: false,
                 webPreferences: {
                     sandbox: true,
                     preload: preload_js_path,
-                    partition: "persist:tjb"
+                    partition: "persist:tjb",
+                    webSecurity: false
                 },
             }))
             .get_main_worker()
             .page_init()
-            .open_dev()
             .set_ua("Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1 Mobile/15E148 Safari/604.1")
         }
         return this.get_main_worker()
