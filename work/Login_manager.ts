@@ -4,7 +4,7 @@ import { Config_helper } from "./../Config_helper"
 import sleep from "sleep-promise"
 import * as _ from "lodash"
 import { ipcMain } from "electron";
-import { UI } from "../electron_commandline_UI/commandline";
+import { UI } from "electron_commandline_UI";
 
 export class Login_manager extends Manager
 {

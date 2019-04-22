@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "conf": "^4.0.0",
+    "electron_commandline_UI": "https://github.com/cxwithyxy/electron_commandline_UI.git",
     "jQuery": "^1.7.4",
     "lodash": "^4.17.11",
     "p-limit": "^2.2.0",

@@ -1,7 +1,7 @@
 import { app } from 'electron'
 import { Login_manager } from "./work/Login_manager"
 import { Zuo_renwu_manager } from "./work/Zuo_renwu_manager"
-import { UI, Handler } from "./electron_commandline_UI/commandline";
+import { UI, Handler } from "electron_commandline_UI";
 import fs from "fs";
 
 export class Main_display
