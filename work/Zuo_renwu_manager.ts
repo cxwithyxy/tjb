@@ -2,7 +2,7 @@ import { Manager } from "./Manager"
 import { Worker } from "./Worker";
 import sleep from "sleep-promise";
 import forin_promise from "./../base/forin_promise";
-import { UI } from "../electron_commandline_UI/commandline";
+import { UI } from "electron_commandline_UI";
 
 export class Zuo_renwu_manager extends Manager
 {
