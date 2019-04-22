@@ -41,29 +41,22 @@ export class Login_manager extends Manager
 
     async start() {
         this.init_work()
-        console.log(1);
         
         try
         {
             await this.get_main_worker().load_all_cookie_in_conf(`https://market.m.taobao.com`)
         }catch(e){}
-        console.log(2);
         this.get_main_worker().open_url(`https://market.m.taobao.com/apps/market/tjb/core-member2.html`)
         await sleep(2000)
-        console.log(3);
         await this.login_handle()
-        console.log(4);
         await this.get_main_worker().save_all_cookie_in_conf()
-        console.log(5);
         UI.log(`登陆成功`)
     }
 
     async login_handle()
     {
         await this.get_main_worker().reload()
-        console.log(3.1);
         let login_state = await this.get_main_worker().exec_js(`is_login()`)
-        console.log(3.2);
         if(!login_state)
         {
             try
@@ -75,7 +68,6 @@ export class Login_manager extends Manager
             }
             await this.manual_login()
         }
-        console.log(3.3);
     }
 
     async type_username_and_password()
