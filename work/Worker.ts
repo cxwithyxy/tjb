@@ -33,7 +33,7 @@ export class Worker
 
     init_page_load_lock()
     {
-        this.wincc.on("did-finish-load", () =>
+        this.wincc.on("did-stop-loading", () =>
         {
             this.page_load_lock = false
         })
