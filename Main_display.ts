@@ -1,8 +1,8 @@
-import { app } from 'electron'
 import { Login_manager } from "./work/Login_manager"
 import { Zuo_renwu_manager } from "./work/Zuo_renwu_manager"
 import { UI, Handler } from "electron_commandline_UI";
 import fs from "fs";
+import { Shou_cai_manager } from "./work/Shou_cai_manager";
 
 export class Main_display
 {
@@ -23,10 +23,12 @@ export class Main_display
             ,cmd_text: menu_text
         })
 
+        
         my_ui.on_msg((msg:any, handler?: Handler) =>
         {
             this.menu_handle(msg)
         })
+        this.menu_shoucai()
     }
 
     async menu_handle(msg: string)
@@ -48,6 +50,10 @@ export class Main_display
         let M_login = new Login_manager()
           
         await M_login.start()
+
+        let M_shou_cai = new Shou_cai_manager()
+        M_login.deliver_workers_to(M_shou_cai);
+        await M_shou_cai.start()
     }
 
     async menu_zuo_renwu()
