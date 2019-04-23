@@ -361,6 +361,6 @@ export = {
                 }
             };
         
-            
+            TouchEmulator();
     }
 }

@@ -63,7 +63,7 @@ export class Main_display
         await M_login.start()
          
         let M_zuo_renwu = new Zuo_renwu_manager()
-        // M_login.deliver_workers_to(M_zuo_renwu);
+        M_login.deliver_workers_to(M_zuo_renwu);
         await M_zuo_renwu.start()
         
         this.my_ui.send(`金币任务结束`)
