@@ -17,8 +17,10 @@ export class Shou_cai_manager extends Manager
             _w.open_url(`https://taobao.com`)
             await _w.wait_page_load()
             await _w.exec_js(`touch_emulator_init()`)
-            await _w.mouse_down(235, 312)
-            await _w.mouse_up(235, 312)
+            await _w.click(235, 312)
+            await _w.wait_page_load()
+            await _w.exec_js(`touch_emulator_init()`)
+            await _w.click(230, 380)
         })
     }
 

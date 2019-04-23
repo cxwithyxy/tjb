@@ -92,6 +92,13 @@ export class Worker
         })
     }
 
+    async click(_x: Number, _y: Number)
+    {
+        this.mouse_down(_x, _y)
+        await sleep(100)
+        this.mouse_up(_x, _y)
+    }
+
     async reload()
     {
         this.wincc.reload()

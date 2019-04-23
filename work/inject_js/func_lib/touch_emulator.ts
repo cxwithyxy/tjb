@@ -1,7 +1,12 @@
 export = {
     "touch_emulator_init": () =>
     {
-       
+            // 从别人的库中偷回来的代码
+            // https://github.com/hammerjs/touchemulator
+            // 能用就行了不是吗
+            // 还要我搞一堆any包裹起来
+            // 真的烦为啥别人不用typescript写
+
             var isMultiTouch = false;
             var multiTouchStartPos: any;
             var eventTarget: any;
