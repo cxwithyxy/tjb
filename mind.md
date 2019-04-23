@@ -23,4 +23,17 @@
 | 领取按钮会新建窗口 | window.open = console.log                                    |
 | 点击第一个领取按钮 | document.querySelectorAll("body > div > div > div > div:nth-child(2) > div > div:nth-child(2) > div > div:nth-child(1) > div:nth-child(3) > span")[0].click() |
 
+------
+
+关于庄园
+
+| 项                       | 值                                                           |
+| ------------------------ | ------------------------------------------------------------ |
+| 界面可能会被自动往下滚动 | window.scrollTo(0, 0)                                        |
+| 帮人浇水                 | window.Biz.emit("interact:water")                            |
+| 叫人来浇你水             | window.Biz.emit("interact:helpWater")                        |
+| 偷人家的菜               | window.Biz.emit("stealVege")                                 |
+| 收自己的菜               | window.Biz.emit("harvestVege")                               |
+| 继续加载好友列表         | document.querySelectorAll(".card-footer")[0].click()<br />可以死循环，知道报错就知道已经加载完了 |
+| 获得好友列表的div        | document.querySelectorAll(".card-item")                      |
 
