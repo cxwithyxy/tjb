@@ -28,7 +28,6 @@ export class Main_display
         {
             this.menu_handle(msg)
         })
-        this.menu_shoucai()
     }
 
     async menu_handle(msg: string)
