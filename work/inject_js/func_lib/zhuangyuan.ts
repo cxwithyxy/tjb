@@ -13,6 +13,10 @@ export = {
     {
         window.Biz.emit("harvestVege")
     },
+    "qian_dao": () =>
+    {
+        window.Biz.emit("sign")
+    },
     "show_all_friend": () =>
     {
         return new Promise((succ) =>
