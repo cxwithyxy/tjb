@@ -29,6 +29,7 @@
 
 | 项                       | 值                                                           |
 | ------------------------ | ------------------------------------------------------------ |
+| 每日签到                 | window.Biz.emit("sign")                                      |
 | 界面可能会被自动往下滚动 | window.scrollTo(0, 0)                                        |
 | 帮人浇水                 | window.Biz.emit("interact:water")                            |
 | 叫人来浇你水             | window.Biz.emit("interact:helpWater")                        |
