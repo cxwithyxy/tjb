@@ -36,22 +36,45 @@ export class Shou_cai_manager extends Manager
         UI.log("获取好友庄园数量")
         let friend_count: number = await this.get_friend_zhuangyuan()
         UI.log(`可操作的好友数量: ${friend_count}`)
-        this.proliferate_worker_until(friend_count)
-        console.log(`all opened`);
-        
-        await this.load_zhuangyuan()
+        for (let i = 0; i < friend_count; i++) {
+            await this.load_zhuangyuan()
+            await this.open_friend_panel()
+            let button_text: string = ""
+            await this.workers_do(async (_w) =>
+            {
+                button_text = await _w.exec_js(`get_friend_btn_content(${i})`)
+                UI.log(button_text)
+                if(button_text.length == 3)
+                {
+                    await _w.exec_js(`click_friend_btn(${i})`)
+                    await _w.wait_page_load()
+                    await _w.exec_js(`water_it()`)
+                    await sleep(1500)
+                    await _w.exec_js(`steal()`)
+                    await sleep(1500)
+                }
+            })
+        }
     }
 
-
-    async get_friend_zhuangyuan(): Promise<number>
+    async open_friend_panel()
     {
-        let friend_count: number = 0
         await this.workers_do(async (_w) =>
         {
             await _w.exec_js(`touch_emulator_init()`)
             await _w.click(430, 358)
             await sleep(1000)
             await _w.exec_js(`show_all_friend()`)
+        })
+    }
+
+
+    async get_friend_zhuangyuan(): Promise<number>
+    {
+        let friend_count: number = 0
+        await this.open_friend_panel()
+        await this.workers_do(async (_w) =>
+        {
             friend_count = await _w.exec_js(`friend_count()`)
         })
         return friend_count

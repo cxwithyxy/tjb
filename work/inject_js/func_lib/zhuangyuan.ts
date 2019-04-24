@@ -19,12 +19,19 @@ export = {
         let btns = document.querySelectorAll(".card-item .content .item-action .action .btn")
         return btns
     },
+    "click_friend_btn": (_index: number) =>
+    {
+        friend_btns()[_index].click()
+    },
+    "get_friend_btn_content": (_index: number) =>
+    {
+        return friend_btns()[_index].innerHTML
+    },
     "friend_count": () =>
     {
         let friends_div = friend_btns()
 
         return friends_div.length
-        
     },
     "qian_dao": () =>
     {
