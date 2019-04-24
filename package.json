@@ -7,9 +7,16 @@
   "author": "cx",
   "license": "MIT",
   "dependencies": {
-    "electron": "^4.1.4"
+    "conf": "^4.0.0",
+    "electron_commandline_UI": "https://github.com/cxwithyxy/electron_commandline_UI.git",
+    "jQuery": "^1.7.4",
+    "lodash": "^4.17.11",
+    "p-limit": "^2.2.0",
+    "sleep-promise": "^8.0.1"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.123",
+    "electron": "^4.1.4",
     "typescript": "^3.4.2"
   },
   "scripts": {
