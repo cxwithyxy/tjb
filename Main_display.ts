@@ -3,6 +3,7 @@ import { Zuo_renwu_manager } from "./work/Zuo_renwu_manager"
 import { UI, Handler } from "electron_commandline_UI";
 import fs from "fs";
 import { Shou_cai_manager } from "./work/Shou_cai_manager";
+import { BrowserWindow, app } from "electron";
 
 export class Main_display
 {
@@ -27,6 +28,11 @@ export class Main_display
         my_ui.on_msg((msg:any, handler?: Handler) =>
         {
             this.menu_handle(msg)
+        })
+
+        ;(<BrowserWindow>my_ui.UI_win).on("close", () =>
+        {
+            app.quit()
         })
     }
 
