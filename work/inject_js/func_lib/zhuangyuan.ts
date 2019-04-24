@@ -1,4 +1,5 @@
 let window: any
+let friend_btns: Function
 export = {
     "water_it": () =>
     {
@@ -12,6 +13,18 @@ export = {
     "harvest": () =>
     {
         window.Biz.emit("harvestVege")
+    },
+    "friend_btns": () => 
+    {
+        let btns = document.querySelectorAll(".card-item .content .item-action .action .btn")
+        return btns
+    },
+    "friend_count": () =>
+    {
+        let friends_div = friend_btns()
+
+        return friends_div.length
+        
     },
     "qian_dao": () =>
     {

@@ -37,4 +37,5 @@
 | 收自己的菜               | window.Biz.emit("harvestVege")                               |
 | 继续加载好友列表         | document.querySelectorAll(".card-footer")[0].click()<br />可以死循环，知道报错就知道已经加载完了 |
 | 获得好友列表的div        | document.querySelectorAll(".card-item")                      |
+| 所有好友操作的按钮       | document.querySelectorAll(".card-item .content .item-action .action .btn") |
 
