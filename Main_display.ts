@@ -1,8 +1,9 @@
-import { app } from 'electron'
 import { Login_manager } from "./work/Login_manager"
 import { Zuo_renwu_manager } from "./work/Zuo_renwu_manager"
 import { UI, Handler } from "electron_commandline_UI";
 import fs from "fs";
+import { Shou_cai_manager } from "./work/Shou_cai_manager";
+import { BrowserWindow, app } from "electron";
 
 export class Main_display
 {
@@ -23,9 +24,15 @@ export class Main_display
             ,cmd_text: menu_text
         })
 
+        
         my_ui.on_msg((msg:any, handler?: Handler) =>
         {
             this.menu_handle(msg)
+        })
+
+        ;(<BrowserWindow>my_ui.UI_win).on("close", () =>
+        {
+            app.quit()
         })
     }
 
@@ -36,6 +43,22 @@ export class Main_display
             this.my_ui.send(`金币任务开始`)
             this.menu_zuo_renwu()
         }
+        if(msg == `2`)
+        {
+            this.my_ui.send(`收菜开始`)
+            this.menu_shoucai()
+        }
+    }
+
+    async menu_shoucai()
+    {
+        let M_login = new Login_manager()
+          
+        await M_login.start()
+
+        let M_shou_cai = new Shou_cai_manager()
+        M_login.deliver_workers_to(M_shou_cai);
+        await M_shou_cai.start()
     }
 
     async menu_zuo_renwu()

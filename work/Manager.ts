@@ -92,6 +92,13 @@ export class Manager
         return this
     }
 
+    proliferate_worker_until(num: number, setting?: object): Manager
+    {
+        let now_workers = this.get_workers()
+
+        return this.proliferate_worker(num - now_workers.length, setting)
+    }
+
     async workers_do(_func: (one_worker: Worker, index?: number) => Promise<any>)
     {
         let limit:Function = pLimit(this.get_workers().length)

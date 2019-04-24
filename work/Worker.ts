@@ -15,6 +15,11 @@ export class Worker
     constructor (win_settings: {})
     {
         this.win_settings = win_settings;
+        this.win_settings = _.merge(this.win_settings, {
+            webPreferences: {
+                offscreen: true
+            }
+        })
     }
 
     open_url (url: string): Worker
@@ -23,17 +28,30 @@ export class Worker
         return this;
     }
 
+    show()
+    {
+        this.win.show()
+    }
+
+    hide()
+    {
+        this.win.hide()
+    }
+
     page_init (): Worker
     {
         this.win = new BrowserWindow(this.win_settings)
         this.wincc = this.win.webContents
         this.init_page_load_lock()
+        this.win.hide()
+        // this.win.setSkipTaskbar(true)
+        // this.win.minimize()
         return this
     }
 
     init_page_load_lock()
     {
-        this.wincc.on("did-finish-load", () =>
+        this.wincc.on("did-stop-loading", () =>
         {
             this.page_load_lock = false
         })
@@ -90,6 +108,13 @@ export class Worker
             y: _y,
             clickCount: 1
         })
+    }
+
+    async click(_x: Number, _y: Number)
+    {
+        this.mouse_down(_x, _y)
+        await sleep(100)
+        this.mouse_up(_x, _y)
     }
 
     async reload()
