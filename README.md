@@ -15,3 +15,19 @@
 > offscreen Boolean (optional) - 是否绘制和渲染可视区域外的窗口. 默认值为 false. 更多详情, 请参见 [offscreen rendering tutorial](<https://electronjs.org/docs/tutorial/offscreen-rendering>) 
 
 在实例化 **BrowserWindow** 的时候，传入 **offscreen: true**，之后就可以随意调用实例的 **hide** 函数，此时这个窗口隐藏后也能够保证里面的网页正常运行而不会暂停了。
+
+
+
+## 机器人检测
+
+有些网站并不是采用图形验证码来防止机器人，而是通过类似国外网站常用的 **用户只需勾选“我不是机器人（I'm not a robt）”**。对于爬虫来说，比图形验证码要好处理得多了。
+
+在 **Electron** 中，默认窗口网页是有 **nodejs** 上下文的，导致无法通过机器人检测。启动 **sandbox** 模式，就可以对其网页禁用包括 **nodejs** 在内的 **Electron** 特性。
+
+> - `sandbox` Boolean (可选)-如果设置该参数, 沙箱的渲染器将与窗口关联, 使它与Chromium OS-level 的沙箱兼容, 并禁用 Node. js 引擎。 它与 `nodeIntegration` 的选项不同，且预加载脚本的 API 也有限制. [更多详情](https://electronjs.org/docs/api/sandbox-option). **注意:**改选项目前是为实验性质，可能会在 Electron 未来的版本中移除。
+
+
+
+
+
+## 模拟触摸事件
