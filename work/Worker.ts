@@ -15,6 +15,11 @@ export class Worker
     constructor (win_settings: {})
     {
         this.win_settings = win_settings;
+        this.win_settings = _.merge(this.win_settings, {
+            webPreferences: {
+                offscreen: true
+            }
+        })
     }
 
     open_url (url: string): Worker
@@ -23,11 +28,22 @@ export class Worker
         return this;
     }
 
+    show()
+    {
+        this.win.show()
+    }
+
+    hide()
+    {
+        this.win.hide()
+    }
+
     page_init (): Worker
     {
         this.win = new BrowserWindow(this.win_settings)
         this.wincc = this.win.webContents
         this.init_page_load_lock()
+        this.win.hide()
         // this.win.setSkipTaskbar(true)
         // this.win.minimize()
         return this

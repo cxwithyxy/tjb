@@ -59,6 +59,7 @@ export class Login_manager extends Manager
         let login_state = await this.get_main_worker().exec_js(`is_login()`)
         if(!login_state)
         {
+            this.get_main_worker().show()
             try
             {
                 await this.type_username_and_password()
@@ -68,6 +69,7 @@ export class Login_manager extends Manager
             }
             await this.manual_login()
         }
+        this.get_main_worker().hide()
     }
 
     async type_username_and_password()
