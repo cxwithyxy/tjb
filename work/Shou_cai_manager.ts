@@ -33,28 +33,34 @@ export class Shou_cai_manager extends Manager
 
     async do_friend_zhuangyuan()
     {
-        UI.log("获取好友庄园数量")
-        let friend_count: number = await this.get_friend_zhuangyuan()
-        UI.log(`可操作的好友数量: ${friend_count}`)
-        for (let i = 0; i < friend_count; i++) {
+        UI.log("开始搞好友庄园")
+        while(true)
+        {
             await this.load_zhuangyuan()
             await this.open_friend_panel()
-            let button_text: string = ""
+
+            let has_job_to_do: boolean | number = false
             await this.workers_do(async (_w) =>
             {
-                button_text = await _w.exec_js(`get_friend_btn_content(${i})`)
-                UI.log(button_text)
-                if(button_text.length == 3)
-                {
-                    await _w.exec_js(`click_friend_btn(${i})`)
-                    await _w.wait_page_load()
-                    await _w.exec_js(`water_it()`)
-                    await sleep(1500)
-                    await _w.exec_js(`steal()`)
-                    await sleep(1500)
-                }
+                has_job_to_do = await _w.exec_js(`has_friend_btn()`)
+            })
+            if(has_job_to_do === false)
+            {
+                break
+            }
+
+            await this.workers_do(async (_w) =>
+            {
+                await _w.exec_js(`click_friend_btn(${has_job_to_do})`)
+                await _w.wait_page_load()
+                await sleep(1500)
+                await _w.exec_js(`water_it()`)
+                await sleep(1500)
+                await _w.exec_js(`steal()`)
+                await sleep(1500)
             })
         }
+        UI.log("搞完好友庄园了")
     }
 
     async open_friend_panel()

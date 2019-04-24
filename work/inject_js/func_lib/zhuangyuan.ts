@@ -19,6 +19,19 @@ export = {
         let btns = document.querySelectorAll(".card-item .content .item-action .action .btn")
         return btns
     },
+    "has_friend_btn": () =>
+    {
+        let btns: Array<HTMLDivElement> = friend_btns()
+        for (let i = 0; i < btns.length; i++) {
+            let item = btns[i];
+            if(item.innerHTML.length == 3)
+            {
+                return i
+            }
+            
+        }
+        return false
+    },
     "click_friend_btn": (_index: number) =>
     {
         friend_btns()[_index].click()
