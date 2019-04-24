@@ -28,6 +28,16 @@
 
 
 
+## 主线程和渲染进程的通讯
+
+渲染进程，通常就是指的是被爬的网页在 **Electron** 中打开的窗口上下文
+
+一般都是通过 **ipcMain** 和 **ipcRenderer** 进行通讯。不过在 **sandbox** 模式下，需要通过 **preload** 加载一个 **js** 文件，在这个 **js** 文件中，才能调用 **require** 加载 **ipcRenderer** 。
+
+对于爬虫来说，上述方法显得有点累赘。通过 **WebContents** 的 **executeJavaScript** 让渲染进程执行原生 **js** 代码，就显得方便多了，要注意的是 **executeJavaScript** 可以返回 **字符串**、 **数字**、 **Promise** ，但别的复杂对象就无法返回了。
+
+而目前我测试出来了的是，如果你是 **await** **executeJavaScript** ，其执行的 **js** 代码，一旦报错了，就一直卡在 **await** 中了，为了避免这个坑，要尽可能通过 **try catch** 包裹要执行的 **js** 代码
+
 
 
 ## 模拟触摸事件
