@@ -17,7 +17,7 @@ export class Worker
         this.win_settings = win_settings;
         this.win_settings = _.merge(this.win_settings, {
             webPreferences: {
-                offscreen: true
+                backgroundThrottling: false
             }
         })
     }
