@@ -63,7 +63,7 @@ export class Worker
         this.win = new BrowserWindow(this.win_settings)
         this.wincc = this.win.webContents
         this.init_page_load_lock()
-        this.win.hide()
+        // this.win.hide()
         // this.win.setSkipTaskbar(true)
         // this.win.minimize()
         return this
