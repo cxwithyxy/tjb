@@ -69,7 +69,7 @@ export class Login_manager extends Manager
             }
             await this.manual_login()
         }
-        // this.get_main_worker().hide()
+        this.get_main_worker().hide()
     }
 
     async type_username_and_password()

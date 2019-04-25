@@ -63,7 +63,7 @@ export class Worker
         this.win = new BrowserWindow(this.win_settings)
         this.wincc = this.win.webContents
         this.init_page_load_lock()
-        // this.win.hide()
+        this.win.hide()
         // this.win.setSkipTaskbar(true)
         // this.win.minimize()
         return this
@@ -96,45 +96,67 @@ export class Worker
         );
     }
 
-    mouse_move(_x: Number, _y: Number)
+    async shine_focus(_when_shine_do: () => Promise<any>)
     {
-        this.wincc.focus();
-        this.wincc.sendInputEvent(<any>{
-            type: "mouseMove",
-            x: _x,
-            y: _y
-        })
+        if(!this.win.isVisible())
+        {
+            this.win.show()
+            this.wincc.focus()
+            await sleep(300)
+            await _when_shine_do()
+            await sleep(300)
+            this.win.hide()
+            return
+        }
+        this.wincc.focus()
+        await _when_shine_do()
     }
 
-    mouse_down(_x: Number, _y: Number)
+    async mouse_move(_x: Number, _y: Number)
     {
-        this.wincc.focus();
-        this.wincc.sendInputEvent(<any>{
-            type: "mouseDown",
-            button: "left",
-            x: _x,
-            y: _y,
-            clickCount: 1
-        })
+        this.shine_focus(async () =>
+        {
+            this.wincc.sendInputEvent(<any>{
+                type: "mouseMove",
+                x: _x,
+                y: _y
+            })
+        });
     }
 
-    mouse_up(_x: Number, _y: Number)
+    async mouse_down(_x: Number, _y: Number)
     {
-        this.wincc.focus();
-        this.wincc.sendInputEvent(<any>{
-            type: "mouseUp",
-            button: "left",
-            x: _x,
-            y: _y,
-            clickCount: 1
-        })
+        this.shine_focus(async () =>
+        {
+            this.wincc.sendInputEvent(<any>{
+                type: "mouseDown",
+                button: "left",
+                x: _x,
+                y: _y,
+                clickCount: 1
+            })
+        });
+    }
+
+    async mouse_up(_x: Number, _y: Number)
+    {
+        this.shine_focus(async () =>
+        {
+            this.wincc.sendInputEvent(<any>{
+                type: "mouseUp",
+                button: "left",
+                x: _x,
+                y: _y,
+                clickCount: 1
+            })
+        });
     }
 
     async click(_x: Number, _y: Number)
     {
-        this.mouse_down(_x, _y)
+        await this.mouse_down(_x, _y)
         await sleep(100)
-        this.mouse_up(_x, _y)
+        await this.mouse_up(_x, _y)
     }
 
     async reload()
