@@ -1,9 +1,10 @@
-import { BrowserWindow, WebContents,Event  } from 'electron'
+import { BrowserWindow, WebContents } from 'electron'
 import { Inject_js_handler as IJH } from "./inject_js/Inject_js_handler"
 import { Config_helper } from "./../Config_helper"
 import sleep from "sleep-promise"
 import pLimit from 'p-limit'
 import _ from "lodash"
+import forin_promise from '../base/forin_promise';
 
 export class Worker
 {
@@ -12,14 +13,33 @@ export class Worker
     win_settings: object
     page_load_lock = false
 
+    static worker_box: Array<Worker> = []
+    
+    static add_worker(_w: Worker)
+    {
+        Worker.worker_box.push(_w)
+    }
+
+    static async all_worker_do(_func: (_w: Worker) => Promise<any>)
+    {
+        await forin_promise(
+            Worker.worker_box,
+            async (_v, _k) =>
+            {
+                _func(_v)
+            }
+        )
+    }
+
     constructor (win_settings: {})
     {
         this.win_settings = win_settings;
         this.win_settings = _.merge(this.win_settings, {
             webPreferences: {
-                offscreen: true
+                backgroundThrottling: false
             }
         })
+        Worker.add_worker(this)
     }
 
     open_url (url: string): Worker
@@ -43,7 +63,7 @@ export class Worker
         this.win = new BrowserWindow(this.win_settings)
         this.wincc = this.win.webContents
         this.init_page_load_lock()
-        this.win.hide()
+        // this.win.hide()
         // this.win.setSkipTaskbar(true)
         // this.win.minimize()
         return this
