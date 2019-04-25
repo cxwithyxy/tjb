@@ -6,6 +6,7 @@ import { Shou_cai_manager } from "./work/Shou_cai_manager";
 import { BrowserWindow, app } from "electron";
 import _ from "lodash";
 import { Main_job_manager } from "./Main_job_manager";
+import { Worker } from "./work/Worker";
 
 interface job_config
 {
@@ -36,11 +37,21 @@ export class Main_display
             "2": {
                 schedule: `0 */5 * * * *`,
                 callback_func: this.menu_shoucai
+            },
+            "show": {
+                schedule:'',
+                callback_func: this.command_show_worker
             }
         }
-        
+    }
 
-
+    async command_show_worker()
+    {
+        await Worker.all_worker_do(async (_w: Worker) =>
+        {
+            _w.win.show()
+        })
+        this.my_ui.send(`显示所有窗口`)
     }
 
     async display()
@@ -67,7 +78,7 @@ export class Main_display
 
     async menu_handle(msg: string)
     {
-        if(!_.isUndefined(this.C_job[msg]))
+        if(!_.isUndefined(this.C_job[msg]) && this.C_job[msg].schedule.length > 0)
         {
             try
             {
@@ -85,6 +96,11 @@ export class Main_display
             {
                 this.my_ui.send(`已创建了任务了`)
             }
+            return
+        }
+        if(!_.isUndefined(this.C_job[msg]) && this.C_job[msg].schedule.length == 0)
+        {
+            this.C_job[msg].callback_func.call(this)
             return
         }
         this.my_ui.send(`没有找到该命令`)
