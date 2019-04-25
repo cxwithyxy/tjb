@@ -4,14 +4,23 @@ import { UI, Handler } from "electron_commandline_UI";
 import fs from "fs";
 import { Shou_cai_manager } from "./work/Shou_cai_manager";
 import { BrowserWindow, app } from "electron";
+import { scheduleJob, Job } from "node-schedule";
+import _ from "lodash";
+
+interface running_job
+{
+    zuo_renwu?: Job
+    shoucai?: Job
+}
 
 export class Main_display
 {
     my_ui:UI
-
+    jobs: running_job
     constructor()
     {
         this.my_ui = new UI()
+        this.jobs = {} as running_job
     }
 
     async display()
@@ -40,18 +49,40 @@ export class Main_display
     {
         if(msg == `1`)
         {
-            this.my_ui.send(`金币任务开始`)
-            this.menu_zuo_renwu()
+            if(_.isUndefined(this.jobs.zuo_renwu))
+            {
+                this.jobs.zuo_renwu = scheduleJob(`0 0 */1 * * *`, () =>
+                {
+                    this.menu_zuo_renwu()
+                })
+            }
+            else
+            {
+                this.my_ui.send(`已经有金币任务在队列中了`)
+            }
         }
         if(msg == `2`)
         {
-            this.my_ui.send(`收菜开始`)
-            this.menu_shoucai()
+            
+            if(_.isUndefined(this.jobs.shoucai))
+            {
+                this.menu_shoucai()
+                this.jobs.shoucai = scheduleJob(`0 */5 * * * *`, () =>
+                {
+                    this.my_ui.send(`收菜任务启动`)
+                    this.menu_shoucai()
+                })
+            }
+            else
+            {
+                this.my_ui.send(`已经有收菜任务在队列中了`)
+            }
         }
     }
 
     async menu_shoucai()
     {
+        this.my_ui.send(`收菜开始`)
         let M_login = new Login_manager()
           
         await M_login.start()
@@ -59,10 +90,13 @@ export class Main_display
         let M_shou_cai = new Shou_cai_manager()
         M_login.deliver_workers_to(M_shou_cai);
         await M_shou_cai.start()
+        this.my_ui.send(`收菜结束`)
     }
 
     async menu_zuo_renwu()
     {
+        this.my_ui.send(`金币任务开始`)
+
         let M_login = new Login_manager()
          
         await M_login.start()
