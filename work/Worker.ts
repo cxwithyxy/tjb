@@ -102,9 +102,9 @@ export class Worker
         {
             this.win.show()
             this.wincc.focus()
-            await sleep(300)
+            await sleep(1000)
             await _when_shine_do()
-            await sleep(300)
+            await sleep(1000)
             this.win.hide()
             return
         }
