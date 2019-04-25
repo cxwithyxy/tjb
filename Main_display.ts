@@ -4,23 +4,43 @@ import { UI, Handler } from "electron_commandline_UI";
 import fs from "fs";
 import { Shou_cai_manager } from "./work/Shou_cai_manager";
 import { BrowserWindow, app } from "electron";
-import { scheduleJob, Job } from "node-schedule";
 import _ from "lodash";
+import { Main_job_manager } from "./Main_job_manager";
 
-interface running_job
+interface job_config
 {
-    zuo_renwu?: Job
-    shoucai?: Job
+    schedule: string
+    callback_func: Function
+}
+
+interface job_config_box
+{
+    [x: string]: job_config
 }
 
 export class Main_display
 {
-    my_ui:UI
-    jobs: running_job
+    my_ui: UI
+    M_job: Main_job_manager
+    C_job: job_config_box
+
     constructor()
     {
         this.my_ui = new UI()
-        this.jobs = {} as running_job
+        this.M_job = new Main_job_manager()
+        this.C_job = {
+            "1": {
+                schedule: `0 0 */1 * * *`,
+                callback_func: this.menu_zuo_renwu
+            },
+            "2": {
+                schedule: `0 */5 * * * *`,
+                callback_func: this.menu_shoucai
+            }
+        }
+        
+
+
     }
 
     async display()
@@ -47,35 +67,23 @@ export class Main_display
 
     async menu_handle(msg: string)
     {
-        if(msg == `1`)
+        if(!_.isUndefined(this.C_job[msg]))
         {
-            if(_.isUndefined(this.jobs.zuo_renwu))
+            try
             {
-                this.jobs.zuo_renwu = scheduleJob(`0 0 */1 * * *`, () =>
-                {
-                    this.menu_zuo_renwu()
-                })
+                this.M_job.create_job(
+                    msg,
+                    this.C_job[msg].schedule,
+                    () =>
+                    {
+                        this.C_job[msg].callback_func.call(this)
+                    }
+                )
+                this.C_job[msg].callback_func.call(this)
             }
-            else
+            catch(e)
             {
-                this.my_ui.send(`已经有金币任务在队列中了`)
-            }
-        }
-        if(msg == `2`)
-        {
-            
-            if(_.isUndefined(this.jobs.shoucai))
-            {
-                this.menu_shoucai()
-                this.jobs.shoucai = scheduleJob(`0 */5 * * * *`, () =>
-                {
-                    this.my_ui.send(`收菜任务启动`)
-                    this.menu_shoucai()
-                })
-            }
-            else
-            {
-                this.my_ui.send(`已经有收菜任务在队列中了`)
+                this.my_ui.send(`已创建了任务了`)
             }
         }
     }
