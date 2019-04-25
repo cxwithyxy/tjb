@@ -94,6 +94,7 @@
 
 在网上找到类似开启 **devtool** 进行模拟触摸的效果，但是尝试过都无法实现。
 
-最后找到一个浏览器端的库 [touch_emulator](*https://github.com/hammerjs/touchemulator*) ，将其导入到渲染进程后，就可以通过鼠标点击，模拟出触摸事件了。但是不是100%完美的，在对 **canvas** 中的触摸似乎无效。
+最后找到一个浏览器端的库 [touch_emulator](https://github.com/hammerjs/touchemulator) ，将其导入到渲染进程后，就可以通过鼠标点击，模拟出触摸事件了。但是不是100%完美的，在对 **canvas** 中的触摸似乎无效。
 
 因此目前尚未找到完美的模拟触摸办法
+
