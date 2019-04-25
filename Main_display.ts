@@ -85,7 +85,9 @@ export class Main_display
             {
                 this.my_ui.send(`已创建了任务了`)
             }
+            return
         }
+        this.my_ui.send(`没有找到该命令`)
     }
 
     async menu_shoucai()
