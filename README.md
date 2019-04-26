@@ -32,6 +32,14 @@
 
 所以，只要在实例化时，把 **backgroundThrottling** 设置成 **false** 之后，再 **hide()** ，这就可以完美解决后台渲染界面这个需求了。
 
+#### 移到屏幕边界外
+
+基于上述 **限制动画和计时器** 描述所做后，窗口被 **hide** 的时候，模拟鼠标事件便会失效。因为 **hide** 的时候 **focus** 是无效。
+
+> Sends an input `event` to the page. **Note:** The [`BrowserWindow`](https://electronjs.org/docs/api/browser-window) containing the contents needs to be focused for `sendInputEvent()` to work.
+
+所以呢，通过 **BrowserWindow** 实例的 **setPosition** 方法把窗口移到界面外就行了：**setPosition(-1920, 0)**
+
 
 
 ## 机器人检测

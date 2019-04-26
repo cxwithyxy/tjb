@@ -50,17 +50,17 @@ export class Worker
 
     show()
     {
-        this.win.show()
+        this.win.center()
     }
 
     is_show()
     {
-        return this.win.isVisible()
+        return false
     }
 
     hide()
     {
-        this.win.hide()
+        this.win.setPosition(-1920, 0)
     }
 
     page_init (): Worker
@@ -100,18 +100,9 @@ export class Worker
         );
     }
 
+    // 该函数等待废弃
     async shine_focus(_when_shine_do: () => Promise<any>)
     {
-        if(!this.is_show())
-        {
-            this.show()
-            this.wincc.focus()
-            await sleep(100)
-            await _when_shine_do()
-            await sleep(100)
-            this.hide()
-            return
-        }
         this.wincc.focus()
         await _when_shine_do()
     }
@@ -167,7 +158,7 @@ export class Worker
                 y: _y,
                 clickCount: 1
             })
-            await sleep(100)
+            await sleep(100 + Math.random() * 100)
             this.wincc.sendInputEvent(<any>{
                 type: "mouseUp",
                 button: "left",
