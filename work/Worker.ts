@@ -14,10 +14,16 @@ export class Worker
     page_load_lock = false
 
     static worker_box: Array<Worker> = []
+    static worker_garbage_collection_timeout: number
     
     static add_worker(_w: Worker)
     {
         Worker.worker_box.push(_w)
+    }
+
+    static get_workers()
+    {
+        return Worker.worker_box
     }
 
     static async all_worker_do(_func: (_w: Worker) => Promise<any>)
