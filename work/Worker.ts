@@ -50,22 +50,26 @@ export class Worker
 
     show()
     {
-        this.win.show()
+        this.win.center()
+    }
+
+    is_show()
+    {
+        return false
     }
 
     hide()
     {
-        this.win.hide()
+        this.win.setPosition(-1920, 0)
     }
 
     page_init (): Worker
     {
         this.win = new BrowserWindow(this.win_settings)
+        this.win.setSkipTaskbar(true)
         this.wincc = this.win.webContents
         this.init_page_load_lock()
-        this.win.hide()
-        // this.win.setSkipTaskbar(true)
-        // this.win.minimize()
+        this.hide()
         return this
     }
 
@@ -96,18 +100,9 @@ export class Worker
         );
     }
 
+    // 该函数等待废弃
     async shine_focus(_when_shine_do: () => Promise<any>)
     {
-        if(!this.win.isVisible())
-        {
-            this.win.show()
-            this.wincc.focus()
-            await sleep(1000)
-            await _when_shine_do()
-            await sleep(1000)
-            this.win.hide()
-            return
-        }
         this.wincc.focus()
         await _when_shine_do()
     }
@@ -154,9 +149,25 @@ export class Worker
 
     async click(_x: Number, _y: Number)
     {
-        await this.mouse_down(_x, _y)
-        await sleep(100)
-        await this.mouse_up(_x, _y)
+        this.shine_focus(async () =>
+        {
+            this.wincc.sendInputEvent(<any>{
+                type: "mouseDown",
+                button: "left",
+                x: _x,
+                y: _y,
+                clickCount: 1
+            })
+            await sleep(100 + Math.random() * 100)
+            this.wincc.sendInputEvent(<any>{
+                type: "mouseUp",
+                button: "left",
+                x: _x,
+                y: _y,
+                clickCount: 1
+            })
+
+        });
     }
 
     async reload()
