@@ -1,4 +1,4 @@
-import Conf from 'Conf'
+import Conf from 'conf'
 import { Singleton } from "./base/Singleton"
 import { app } from 'electron'
 
