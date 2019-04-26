@@ -32,7 +32,6 @@ export class Worker
     {
         if(_.isUndefined(Worker.worker_garbage_collection_timeout))
         {
-            console.log("garbage_collection_start");
             Worker.worker_garbage_collection_timeout = setInterval(() =>
             {
                 _.remove(Worker.worker_box, (_w: Worker) =>
@@ -46,7 +45,6 @@ export class Worker
             }, 5000)
             return
         }
-        console.log(`garbage_collection_already_started`);
         
     }
 
