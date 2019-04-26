@@ -12,12 +12,42 @@ export class Worker
     wincc!: WebContents
     win_settings: object
     page_load_lock = false
+    garbage_collection_marker = false
 
     static worker_box: Array<Worker> = []
+    static worker_garbage_collection_timeout: NodeJS.Timeout
     
     static add_worker(_w: Worker)
     {
         Worker.worker_box.push(_w)
+        Worker.start_garbage_collection()
+    }
+
+    static get_workers()
+    {
+        return Worker.worker_box
+    }
+
+    static start_garbage_collection()
+    {
+        if(_.isUndefined(Worker.worker_garbage_collection_timeout))
+        {
+            console.log("garbage_collection_start");
+            Worker.worker_garbage_collection_timeout = setInterval(() =>
+            {
+                _.remove(Worker.worker_box, (_w: Worker) =>
+                {
+                    if(_w.garbage_collection_marker)
+                    {
+                        _w.win.close()
+                    }
+                    return _w.garbage_collection_marker
+                })
+            }, 5000)
+            return
+        }
+        console.log(`garbage_collection_already_started`);
+        
     }
 
     static async all_worker_do(_func: (_w: Worker) => Promise<any>)
@@ -40,6 +70,11 @@ export class Worker
             }
         })
         Worker.add_worker(this)
+    }
+
+    close()
+    {
+        this.garbage_collection_marker = true
     }
 
     open_url (url: string): Worker
