@@ -1,6 +1,8 @@
 import Conf from 'conf'
 import { Singleton } from "./base/Singleton"
 import { app } from 'electron'
+import _ from "lodash";
+import { dirname } from "path"
 
 export class Config_helper extends Singleton
 {
@@ -35,7 +37,7 @@ export class Config_helper extends Singleton
         };
         this.error_desc = error_desc;
 
-        this.conf_storage_path = app.getAppPath();
+        this.conf_storage_path = app.isPackaged ? dirname(app.getPath('exe')) : app.getAppPath();
         
         this.conf_driver = new Conf({
             configName: this.config_name,
@@ -50,8 +52,8 @@ export class Config_helper extends Singleton
         let return_v = this.conf_driver.get(_key);
         let error_desc = this.error_desc[_key as any];
         
-        if( (typeof return_v == "undefined") && error_desc ){
-            console.error(this.get_path_warn_desc() + "\n" + error_desc);
+        if( _.isUndefined(return_v) && !_.isUndefined(error_desc) ){
+            console.log(this.get_path_warn_desc() + "\n" + error_desc);
             throw new Error(this.get_path_warn_desc() + "\n" + error_desc);
         }
         return return_v;
@@ -65,6 +67,6 @@ export class Config_helper extends Singleton
 
     get_path_warn_desc()
     {
-        return "确认目录 " + this.conf_storage_path + " 下存在 " + this.config_name + ".json 文件. 而且这个 json 文件不要有多余的逗号"
+        return `${this.conf_storage_path} 中的 ${this.config_name}.json 文件很重要，记录着你淘宝账号密码。`
     }
 }
