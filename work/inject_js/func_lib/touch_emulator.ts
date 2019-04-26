@@ -121,9 +121,7 @@ export = {
              * @returns {boolean}
              */
             function hasTouchSupport() {
-                return ("ontouchstart" in window) || // touch events
-                       ((<any>window).Modernizr && (<any>window).Modernizr.touch) || // modernizr
-                       (navigator.msMaxTouchPoints || navigator.maxTouchPoints) > 2; // pointer events
+                return false
             }
         
             /**
