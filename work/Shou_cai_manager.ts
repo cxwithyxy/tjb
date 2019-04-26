@@ -16,7 +16,6 @@ export class Shou_cai_manager extends Manager
         await this.load_zhuangyuan()
         await this.do_my_zhuangyuan()
         await this.do_friend_zhuangyuan()
-        await this.close_workers()
     }
 
     async do_my_zhuangyuan()
