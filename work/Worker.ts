@@ -53,6 +53,11 @@ export class Worker
         this.win.show()
     }
 
+    is_show()
+    {
+        return this.win.isVisible()
+    }
+
     hide()
     {
         this.win.hide()
@@ -61,11 +66,10 @@ export class Worker
     page_init (): Worker
     {
         this.win = new BrowserWindow(this.win_settings)
+        this.win.setSkipTaskbar(true)
         this.wincc = this.win.webContents
         this.init_page_load_lock()
-        this.win.hide()
-        // this.win.setSkipTaskbar(true)
-        // this.win.minimize()
+        this.hide()
         return this
     }
 
@@ -98,14 +102,14 @@ export class Worker
 
     async shine_focus(_when_shine_do: () => Promise<any>)
     {
-        if(!this.win.isVisible())
+        if(!this.is_show())
         {
-            this.win.show()
+            this.show()
             this.wincc.focus()
-            await sleep(1000)
+            await sleep(100)
             await _when_shine_do()
-            await sleep(1000)
-            this.win.hide()
+            await sleep(100)
+            this.hide()
             return
         }
         this.wincc.focus()
@@ -154,9 +158,25 @@ export class Worker
 
     async click(_x: Number, _y: Number)
     {
-        await this.mouse_down(_x, _y)
-        await sleep(100)
-        await this.mouse_up(_x, _y)
+        this.shine_focus(async () =>
+        {
+            this.wincc.sendInputEvent(<any>{
+                type: "mouseDown",
+                button: "left",
+                x: _x,
+                y: _y,
+                clickCount: 1
+            })
+            await sleep(100)
+            this.wincc.sendInputEvent(<any>{
+                type: "mouseUp",
+                button: "left",
+                x: _x,
+                y: _y,
+                clickCount: 1
+            })
+
+        });
     }
 
     async reload()

@@ -49,7 +49,7 @@ export class Main_display
     {
         await Worker.all_worker_do(async (_w: Worker) =>
         {
-            _w.win.show()
+            _w.show()
         })
         this.my_ui.send(`显示所有窗口`)
     }
