@@ -113,4 +113,12 @@ export class Manager
         await Promise.all(queque)
     }
 
+    async close_workers()
+    {
+        await this.workers_do(async (_w: Worker) =>
+        {
+            _w.close()
+        })
+    }
+
 }
