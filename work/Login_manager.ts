@@ -5,6 +5,7 @@ import sleep from "sleep-promise"
 import * as _ from "lodash"
 import { ipcMain } from "electron";
 import { UI } from "electron_commandline_UI";
+import pLimit from "p-limit";
 
 export class Login_manager extends Manager
 {
@@ -39,6 +40,26 @@ export class Login_manager extends Manager
         return this.get_main_worker()
     }
 
+    async login_opera()
+    {
+        let limit = pLimit(1)
+        let queque_list: any[] = []
+        let while_seed = Math.random() * 15  + 5
+        while(while_seed > 0){
+            while_seed --
+            queque_list.push(limit(async () =>
+            {
+                this.get_main_worker().mouse_move(220 + Math.random() * 10, 420 + Math.random() * 20);
+                await sleep(Math.random() * 1000 * 0.04 + 0.01);
+            }))
+        }
+        await Promise.all(queque_list)
+         
+        this.get_main_worker().click(242, 435)
+        
+        await sleep(1000)
+    }
+
     async start() {
         this.init_work()
         
@@ -67,7 +88,12 @@ export class Login_manager extends Manager
             catch(e){
                 UI.log(String(e))
             }
-            await this.manual_login()
+            await this.login_opera()
+            login_state = await this.get_main_worker().exec_js(`is_login()`)
+            if(!login_state)
+            {
+                await this.manual_login()
+            }
         }
         this.get_main_worker().hide()
     }
