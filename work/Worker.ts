@@ -83,7 +83,7 @@ export class Worker
 
     show()
     {
-        this.win.center()
+        // this.win.center()
     }
 
     is_show()
@@ -93,7 +93,7 @@ export class Worker
 
     hide()
     {
-        this.win.setPosition(-1920, 0)
+        // this.win.setPosition(-1920, 0)
     }
 
     page_init (): Worker
@@ -137,6 +137,7 @@ export class Worker
     async shine_focus(_when_shine_do: () => Promise<any>)
     {
         this.wincc.focus()
+        await sleep(300)
         await _when_shine_do()
     }
 
