@@ -12,12 +12,40 @@ export class Worker
     wincc!: WebContents
     win_settings: object
     page_load_lock = false
+    garbage_collection_marker = false
 
     static worker_box: Array<Worker> = []
+    static worker_garbage_collection_timeout: NodeJS.Timeout
     
     static add_worker(_w: Worker)
     {
         Worker.worker_box.push(_w)
+        Worker.start_garbage_collection()
+    }
+
+    static get_workers()
+    {
+        return Worker.worker_box
+    }
+
+    static start_garbage_collection()
+    {
+        if(_.isUndefined(Worker.worker_garbage_collection_timeout))
+        {
+            Worker.worker_garbage_collection_timeout = setInterval(() =>
+            {
+                _.remove(Worker.worker_box, (_w: Worker) =>
+                {
+                    if(_w.garbage_collection_marker)
+                    {
+                        _w.win.close()
+                    }
+                    return _w.garbage_collection_marker
+                })
+            }, 5000)
+            return
+        }
+        
     }
 
     static async all_worker_do(_func: (_w: Worker) => Promise<any>)
@@ -42,6 +70,11 @@ export class Worker
         Worker.add_worker(this)
     }
 
+    close()
+    {
+        this.garbage_collection_marker = true
+    }
+
     open_url (url: string): Worker
     {
         this.wincc.loadURL(url)
@@ -50,22 +83,26 @@ export class Worker
 
     show()
     {
-        this.win.show()
+        // this.win.center()
+    }
+
+    is_show()
+    {
+        return false
     }
 
     hide()
     {
-        this.win.hide()
+        // this.win.setPosition(-1920, 0)
     }
 
     page_init (): Worker
     {
         this.win = new BrowserWindow(this.win_settings)
+        this.win.setSkipTaskbar(true)
         this.wincc = this.win.webContents
         this.init_page_load_lock()
-        this.win.hide()
-        // this.win.setSkipTaskbar(true)
-        // this.win.minimize()
+        this.hide()
         return this
     }
 
@@ -96,19 +133,11 @@ export class Worker
         );
     }
 
+    // 该函数等待废弃
     async shine_focus(_when_shine_do: () => Promise<any>)
     {
-        if(!this.win.isVisible())
-        {
-            this.win.show()
-            this.wincc.focus()
-            await sleep(300)
-            await _when_shine_do()
-            await sleep(300)
-            this.win.hide()
-            return
-        }
         this.wincc.focus()
+        await sleep(300)
         await _when_shine_do()
     }
 
@@ -154,9 +183,25 @@ export class Worker
 
     async click(_x: Number, _y: Number)
     {
-        await this.mouse_down(_x, _y)
-        await sleep(100)
-        await this.mouse_up(_x, _y)
+        this.shine_focus(async () =>
+        {
+            this.wincc.sendInputEvent(<any>{
+                type: "mouseDown",
+                button: "left",
+                x: _x,
+                y: _y,
+                clickCount: 1
+            })
+            await sleep(100 + Math.random() * 100)
+            this.wincc.sendInputEvent(<any>{
+                type: "mouseUp",
+                button: "left",
+                x: _x,
+                y: _y,
+                clickCount: 1
+            })
+
+        });
     }
 
     async reload()

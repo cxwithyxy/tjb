@@ -49,7 +49,7 @@ export class Main_display
     {
         await Worker.all_worker_do(async (_w: Worker) =>
         {
-            _w.win.show()
+            _w.show()
         })
         this.my_ui.send(`显示所有窗口`)
     }
@@ -117,6 +117,7 @@ export class Main_display
         M_login.deliver_workers_to(M_shou_cai);
         await M_shou_cai.start()
         this.my_ui.send(`收菜结束`)
+        await M_shou_cai.close_workers()
     }
 
     async menu_zuo_renwu()
@@ -132,5 +133,6 @@ export class Main_display
         await M_zuo_renwu.start()
         
         this.my_ui.send(`金币任务结束`)
+        await M_zuo_renwu.close_workers()
     }
 }
