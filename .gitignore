@@ -3,3 +3,4 @@ node_modules/
 !PRELOAD/**/*.js
 yarn-error.log
 app.conf.json
+dist
