@@ -37,7 +37,7 @@ export class Config_helper extends Singleton
         };
         this.error_desc = error_desc;
 
-        this.conf_storage_path = app.isPackaged ? dirname(app.getPath('exe')) : app.getAppPath();
+        this.conf_storage_path = app.isPackaged ? <string>process.env.PORTABLE_EXECUTABLE_DIR : app.getAppPath();
         
         this.conf_driver = new Conf({
             configName: this.config_name,
