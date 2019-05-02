@@ -1,6 +1,10 @@
 let window: any
 let friend_btns: Function
 export = {
+    "view_goods": () =>
+    {
+        window.Biz.emit("switchLand", "GOODS")
+    },
     "water_it": () =>
     {
         window.Biz.emit("interact:water")
