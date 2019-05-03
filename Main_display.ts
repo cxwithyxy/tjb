@@ -40,7 +40,7 @@ export class Main_display
                 callback_func: this.menu_shoucai
             },
             "3": {
-                schedule: ``,
+                schedule: `0 */46 * * * *`,
                 callback_func: this.menu_shifei
             },
             "show": {
@@ -61,6 +61,7 @@ export class Main_display
         M_login.deliver_workers_to(M_main);
         await M_main.start()
         this.my_ui.send(`施肥结束`)
+        await M_main.close_workers()
     }
 
     async command_show_worker()
