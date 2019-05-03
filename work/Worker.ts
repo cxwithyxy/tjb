@@ -99,7 +99,7 @@ export class Worker
     page_init (): Worker
     {
         this.win = new BrowserWindow(this.win_settings)
-        this.win.setSkipTaskbar(true)
+        // this.win.setSkipTaskbar(true)
         this.wincc = this.win.webContents
         this.init_page_load_lock()
         this.hide()

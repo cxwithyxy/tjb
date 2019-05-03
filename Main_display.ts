@@ -7,6 +7,7 @@ import { BrowserWindow, app } from "electron";
 import _ from "lodash";
 import { Main_job_manager } from "./Main_job_manager";
 import { Worker } from "./work/Worker";
+import { Shifei_manager } from "./work/Shifei_manager";
 
 interface job_config
 {
@@ -38,11 +39,29 @@ export class Main_display
                 schedule: `0 */5 * * * *`,
                 callback_func: this.menu_shoucai
             },
+            "3": {
+                schedule: `0 */46 * * * *`,
+                callback_func: this.menu_shifei
+            },
             "show": {
                 schedule:'',
                 callback_func: this.command_show_worker
             }
         }
+    }
+
+    async menu_shifei()
+    {
+        this.my_ui.send(`施肥开始`)
+        let M_login = new Login_manager()
+           
+        await M_login.start()
+        
+        let M_main = new Shifei_manager()
+        M_login.deliver_workers_to(M_main);
+        await M_main.start()
+        this.my_ui.send(`施肥结束`)
+        await M_main.close_workers()
     }
 
     async command_show_worker()
