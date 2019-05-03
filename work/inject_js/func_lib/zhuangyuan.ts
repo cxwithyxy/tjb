@@ -5,6 +5,10 @@ export = {
     {
         window.Biz.emit("switchLand", "GOODS")
     },
+    "fertilize_it": () =>
+    {
+        window.Biz.emit("interact:fertilize")
+    },
     "water_it": () =>
     {
         window.Biz.emit("interact:water")

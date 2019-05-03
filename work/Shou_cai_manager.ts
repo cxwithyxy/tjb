@@ -57,6 +57,8 @@ export class Shou_cai_manager extends Manager
                 await _w.wait_page_load()
                 await sleep(1500)
                 await _w.exec_js(`water_it()`)
+                await sleep(300)
+                await _w.exec_js(`fertilize_it()`)
                 await sleep(1500)
                 await _w.exec_js(`steal()`)
                 await sleep(1500)
