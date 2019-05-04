@@ -33,7 +33,7 @@ export class Qiang_jb_manager extends Manager
             {
                 await this.stop()
                 succ()
-            },1000 * 10)
+            },1000 * 60 * 1)
         })
         
     }
