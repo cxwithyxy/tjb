@@ -8,6 +8,7 @@ import _ from "lodash";
 import { Main_job_manager } from "./Main_job_manager";
 import { Worker } from "./work/Worker";
 import { Shifei_manager } from "./work/Shifei_manager";
+import { Qiang_jb_manager } from "./work/Qiang_jb_manager";
 
 interface job_config
 {
@@ -43,11 +44,37 @@ export class Main_display
                 schedule: `0 */46 * * * *`,
                 callback_func: this.menu_shifei
             },
+            "4": {
+                schedule: ``,
+                callback_func: this.menu_qiang_jb
+            },
             "show": {
                 schedule:'',
                 callback_func: this.command_show_worker
             }
         }
+    }
+
+    async menu_qiang_jb()
+    {
+        this.my_ui.send(`抢红包开始`)
+        let M_login = new Login_manager()
+    
+        await M_login.start();
+        
+        let M_main = new Qiang_jb_manager();
+        M_login.deliver_workers_to(M_main);
+        M_main.start()
+        await new Promise((succ) =>
+        {
+            setTimeout(async () =>
+            {
+                await M_main.stop()
+                await M_main.close_workers()
+                succ()
+            },1000 * 10)
+        })
+        this.my_ui.send(`抢红包结束`)
     }
 
     async menu_shifei()

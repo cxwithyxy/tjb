@@ -4,24 +4,27 @@ import sleep from "sleep-promise";
 
 export class Qiang_jb_manager extends Manager
 {
-    constructor(_w?: Worker | Worker[])
-    {
-        super(_w);
-    }
+
+    is_stop = false
 
     async start()
     {
         let count = 0
-        this.proliferate_worker(30)
-        while(true)
+        this.proliferate_worker(2)
+        this.is_stop = false
+        while(!this.is_stop)
         {
             await this.qiang_hongbao()
             count ++
             console.log(`${count}`)
-            // break
         }
-        
     }
+
+    async stop()
+    {
+        this.is_stop = true
+    }
+
     async qiang_hongbao()
     {
         await this.workers_do(async (_w) =>
@@ -36,12 +39,11 @@ export class Qiang_jb_manager extends Manager
             await sleep(300)
             await _w.exec_js(`click_zhifu_btn()`)
             await sleep(300)
-            if(has_hongbao_btn)
-            {
-                await sleep(3600 * 1000)
-                return
-            }
-            
+            // if(has_hongbao_btn)
+            // {
+            //     await sleep(3600 * 1000)
+            //     return
+            // }
         })
     }
 }
