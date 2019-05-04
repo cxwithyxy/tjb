@@ -136,7 +136,8 @@ export class Main_display
                         this.C_job[msg].callback_func.call(this)
                     }
                 )
-                this.C_job[msg].callback_func.call(this)
+                // this.C_job[msg].callback_func.call(this)
+                this.my_ui.send(`创建了任务`)
             }
             catch(e)
             {
