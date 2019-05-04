@@ -1,6 +1,6 @@
 {
   "name": "tjb",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "tjb",
   "main": "index.js",
   "repository": "https://github.com/cxwithyxy/tjb.git",
@@ -8,6 +8,8 @@
   "license": "MIT",
   "dependencies": {
     "conf": "^4.0.0",
+    "electron_commandline_UI": "https://github.com/cxwithyxy/electron_commandline_UI.git",
+    "jquery": "^3.4.0",
     "lodash": "^4.17.11",
     "node-schedule": "^1.3.2",
     "p-limit": "^2.2.0",
@@ -17,9 +19,42 @@
     "@types/lodash": "^4.14.123",
     "@types/node-schedule": "^1.2.3",
     "electron": "^4.1.4",
+    "electron-builder": "^20.39.0",
     "typescript": "^3.4.2"
   },
   "scripts": {
-    "start": "tsc && electron ."
+    "start": "tsc && electron .",
+    "exe": "tsc && electron-builder",
+    "build": "tsc && electron-builder --dir"
+  },
+  "build": {
+    "appId": "tjb",
+    "win": {
+      "target": "portable"
+    },
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!app.conf.json",
+      "!**/*.ts",
+      "!dist",
+      "!yarn-error.log",
+      "!*.md",
+      "!tsconfig.json",
+      "!.vscode/",
+      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+      "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+      "!**/node_modules/*.d.ts",
+      "!**/node_modules/.bin",
+      "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
+      "!.editorconfig",
+      "!**/._*",
+      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
+      "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
+      "!**/{appveyor.yml,.travis.yml,circle.yml}",
+      "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
+    ]
   }
 }
