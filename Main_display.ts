@@ -45,7 +45,15 @@ export class Main_display
                 callback_func: this.menu_shifei
             },
             "4": {
-                schedule: ``,
+                schedule: `50 59 9 * * *`,
+                callback_func: this.menu_qiang_jb
+            },
+            "5": {
+                schedule: `50 59 15 * * *`,
+                callback_func: this.menu_qiang_jb
+            },
+            "6": {
+                schedule: `50 59 1 * * *`,
                 callback_func: this.menu_qiang_jb
             },
             "show": {
@@ -64,17 +72,9 @@ export class Main_display
         
         let M_main = new Qiang_jb_manager();
         M_login.deliver_workers_to(M_main);
-        M_main.start()
-        await new Promise((succ) =>
-        {
-            setTimeout(async () =>
-            {
-                await M_main.stop()
-                await M_main.close_workers()
-                succ()
-            },1000 * 10)
-        })
+        await M_main.start()
         this.my_ui.send(`抢红包结束`)
+        await M_main.close_workers()
     }
 
     async menu_shifei()

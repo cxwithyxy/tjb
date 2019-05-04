@@ -1,6 +1,7 @@
 import { Manager } from "./Manager"
 import { Worker } from "./Worker";
 import sleep from "sleep-promise";
+import { UI } from "electron_commandline_UI";
 
 export class Qiang_jb_manager extends Manager
 {
@@ -12,12 +13,29 @@ export class Qiang_jb_manager extends Manager
         let count = 0
         this.proliferate_worker(2)
         this.is_stop = false
-        while(!this.is_stop)
+
+        // 子线程: 一直循环抢
+        new Promise(async (succ) => 
         {
-            await this.qiang_hongbao()
-            count ++
-            console.log(`${count}`)
-        }
+            while(!this.is_stop)
+            {
+                await this.qiang_hongbao()
+                count ++
+                UI.log(`尝试抢第 ${count} 次`)
+            }
+            succ()
+        })
+
+        // 主线程: 等一定时间后关闭子线程循环
+        await new Promise((succ) =>
+        {
+            setTimeout(async () =>
+            {
+                await this.stop()
+                succ()
+            },1000 * 10)
+        })
+        
     }
 
     async stop()
