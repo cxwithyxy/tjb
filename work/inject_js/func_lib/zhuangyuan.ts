@@ -13,6 +13,17 @@ export = {
             }
             return old_emit_func.apply(this, arguments)
         }
+        return new Promise((succ) =>
+        {
+            let timeout = setInterval(() =>
+            {
+                if(typeof window.Biz_injected != "undefined")
+                {
+                    clearInterval(timeout);
+                    succ();
+                }
+            }, 1000)
+        })
     },
     "view_goods": () =>
     {
