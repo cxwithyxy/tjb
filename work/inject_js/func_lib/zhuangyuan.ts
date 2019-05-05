@@ -1,26 +1,39 @@
 let window: any
 let friend_btns: Function
+let Tiny: any
 export = {
+    "inject_EventEmitter": () =>
+    {
+        let old_emit_func = Tiny.EventEmitter.prototype.emit;
+        Tiny.EventEmitter.prototype.emit = function ()
+        {
+            if(this._eventsCount == 27)
+            {
+                window.Biz_injected = this
+            }
+            return old_emit_func.apply(this, arguments)
+        }
+    },
     "view_goods": () =>
     {
-        window.Biz.emit("switchLand", "GOODS")
+        window.Biz.task.list.switchGoodsLand[0]()
     },
     "fertilize_it": () =>
     {
-        window.Biz.emit("interact:fertilize")
+        window.Biz_injected.emit("interact:fertilize")
     },
     "water_it": () =>
     {
-        window.Biz.emit("interact:water")
-        // window.Biz.emit("interact:helpWater")
+        window.Biz_injected.emit("interact:water")
+        // window.Biz_injected.emit("interact:helpWater")
     },
     "steal": () =>
     {
-        window.Biz.emit("stealVege")
+        window.Biz_injected.emit("stealVege")
     },
     "harvest": () =>
     {
-        window.Biz.emit("harvestVege")
+        window.Biz_injected.emit("harvestVege")
     },
     "friend_btns": () => 
     {
@@ -56,7 +69,7 @@ export = {
     },
     "qian_dao": () =>
     {
-        window.Biz.emit("sign")
+        window.Biz_injected.emit("sign")
     },
     "show_all_friend": () =>
     {
