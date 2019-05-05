@@ -7,7 +7,7 @@ export = {
         let old_emit_func = Tiny.EventEmitter.prototype.emit;
         Tiny.EventEmitter.prototype.emit = function ()
         {
-            if(this._eventsCount == 27)
+            if(this._eventsCount >= 10)
             {
                 window.Biz_injected = this
             }
