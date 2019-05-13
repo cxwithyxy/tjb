@@ -99,7 +99,7 @@ export class Worker
     page_init (): Worker
     {
         this.win = new BrowserWindow(this.win_settings)
-        this.win.setSkipTaskbar(true)
+        // this.win.setSkipTaskbar(true)
         this.wincc = this.win.webContents
         this.init_page_load_lock()
         this.hide()
@@ -255,6 +255,10 @@ export class Worker
         _.forEach(cookies, (v,k) =>
         {
             v.url = url
+            if(!_.isUndefined(v.expirationDate))
+            {
+                v.expirationDate = new Date().getTime() / 1000 + 365 * 24 * 3600
+            }
             queque.push(limit(async () =>
             {
                 return new Promise((succ) =>

@@ -7,6 +7,8 @@ import { BrowserWindow, app } from "electron";
 import _ from "lodash";
 import { Main_job_manager } from "./Main_job_manager";
 import { Worker } from "./work/Worker";
+import { Shifei_manager } from "./work/Shifei_manager";
+import { Qiang_jb_manager } from "./work/Qiang_jb_manager";
 
 interface job_config
 {
@@ -38,11 +40,55 @@ export class Main_display
                 schedule: `0 */5 * * * *`,
                 callback_func: this.menu_shoucai
             },
+            "3": {
+                schedule: `0 */46 * * * *`,
+                callback_func: this.menu_shifei
+            },
+            "4": {
+                schedule: `50 59 9 * * *`,
+                callback_func: this.menu_qiang_jb
+            },
+            "5": {
+                schedule: `50 59 15 * * *`,
+                callback_func: this.menu_qiang_jb
+            },
+            "6": {
+                schedule: `50 59 1 * * *`,
+                callback_func: this.menu_qiang_jb
+            },
             "show": {
                 schedule:'',
                 callback_func: this.command_show_worker
             }
         }
+    }
+
+    async menu_qiang_jb()
+    {
+        this.my_ui.send(`抢红包开始`)
+        let M_login = new Login_manager()
+    
+        await M_login.start();
+        
+        let M_main = new Qiang_jb_manager();
+        M_login.deliver_workers_to(M_main);
+        await M_main.start()
+        this.my_ui.send(`抢红包结束`)
+        await M_main.close_workers()
+    }
+
+    async menu_shifei()
+    {
+        this.my_ui.send(`施肥开始`)
+        let M_login = new Login_manager()
+           
+        await M_login.start()
+        
+        let M_main = new Shifei_manager()
+        M_login.deliver_workers_to(M_main);
+        await M_main.start()
+        this.my_ui.send(`施肥结束`)
+        await M_main.close_workers()
     }
 
     async command_show_worker()
@@ -90,7 +136,8 @@ export class Main_display
                         this.C_job[msg].callback_func.call(this)
                     }
                 )
-                this.C_job[msg].callback_func.call(this)
+                // this.C_job[msg].callback_func.call(this)
+                this.my_ui.send(`创建了任务`)
             }
             catch(e)
             {
