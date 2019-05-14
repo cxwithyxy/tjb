@@ -53,7 +53,7 @@ export class Main_display
                 callback_func: this.menu_qiang_jb
             },
             "6": {
-                schedule: `50 59 1 * * *`,
+                schedule: `50 59 0 * * *`,
                 callback_func: this.menu_qiang_jb
             },
             "show": {
