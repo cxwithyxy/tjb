@@ -1,6 +1,7 @@
 node_modules/
 *.js
 !PRELOAD/**/*.js
+!mind/**/*.js
 yarn-error.log
 app.conf.json
 dist

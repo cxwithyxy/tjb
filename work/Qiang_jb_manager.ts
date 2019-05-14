@@ -11,8 +11,12 @@ export class Qiang_jb_manager extends Manager
     async start()
     {
         let count = 0
-        this.proliferate_worker(2)
+        // this.proliferate_worker(1)
         this.is_stop = false
+
+        await this.qiang_hongbao()
+        return
+
 
         // 子线程: 一直循环抢
         new Promise(async (succ) => 

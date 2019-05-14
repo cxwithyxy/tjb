@@ -120,6 +120,8 @@ export class Main_display
         {
             app.quit()
         })
+
+        this.menu_qiang_jb()
     }
 
     async menu_handle(msg: string)
