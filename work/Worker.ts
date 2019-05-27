@@ -35,6 +35,15 @@ export class Worker
     max_survival_time = 60 * 10
 
     /**
+     * worker存活时间控制句柄
+     *
+     * @static
+     * @type {NodeJS.Timeout}
+     * @memberof Worker
+     */
+    static worker_survival_timeout: NodeJS.Timeout
+
+    /**
      * 全局的worker储存器, 便于垃圾回收等相关机制获取worker对象
      *
      * @static
@@ -56,6 +65,7 @@ export class Worker
     {
         Worker.worker_box.push(_w)
         Worker.start_garbage_collection()
+        Worker.start_survival_process()
     }
 
     static get_workers()
@@ -90,6 +100,31 @@ export class Worker
     }
 
     /**
+     * 启动存活核算进程
+     *
+     * @static
+     * @memberof Worker
+     */
+    static start_survival_process()
+    {
+        if(!_.isUndefined(Worker.worker_survival_timeout))
+        {
+            return
+        }
+        Worker.worker_survival_timeout = setInterval(async () =>
+        {
+            await Worker.all_worker_do(async (_w) =>
+            {
+                _w.survival_time += 5;
+                if(_w.survival_time >= _w.max_survival_time)
+                {
+                    _w.close()
+                }
+            })
+        }, 5000)
+    }
+
+    /**
      * 批量操作所有的worker
      *
      * @static
@@ -118,6 +153,11 @@ export class Worker
         Worker.add_worker(this)
     }
 
+    /**
+     * 把Worker置于等待垃圾回收队列中
+     *
+     * @memberof Worker
+     */
     close()
     {
         this.garbage_collection_marker = true
