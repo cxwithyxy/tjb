@@ -12,9 +12,30 @@ export class Worker
     wincc!: WebContents
     win_settings: object
     page_load_lock = false
+    
+    /**
+     * 控制worker是否会被垃圾回收
+     *
+     * @memberof Worker
+     */
     garbage_collection_marker = false
 
+    /**
+     * 全局的worker储存器, 便于垃圾回收等相关机制获取worker对象
+     *
+     * @static
+     * @type {Array<Worker>}
+     * @memberof Worker
+     */
     static worker_box: Array<Worker> = []
+    
+    /**
+     * 垃圾回收定时器句柄
+     *
+     * @static
+     * @type {NodeJS.Timeout}
+     * @memberof Worker
+     */
     static worker_garbage_collection_timeout: NodeJS.Timeout
     
     static add_worker(_w: Worker)
@@ -28,6 +49,12 @@ export class Worker
         return Worker.worker_box
     }
 
+    /**
+     * 启动垃圾回收机制, 每5秒执行一次
+     *
+     * @static
+     * @memberof Worker
+     */
     static start_garbage_collection()
     {
         if(_.isUndefined(Worker.worker_garbage_collection_timeout))
@@ -48,6 +75,13 @@ export class Worker
         
     }
 
+    /**
+     * 批量操作所有的worker
+     *
+     * @static
+     * @param {(_w: Worker) => Promise<any>} _func
+     * @memberof Worker
+     */
     static async all_worker_do(_func: (_w: Worker) => Promise<any>)
     {
         await forin_promise(
