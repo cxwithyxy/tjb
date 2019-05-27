@@ -21,6 +21,20 @@ export class Worker
     garbage_collection_marker = false
 
     /**
+     * 当前已存活时间, 超过最大存活时间应该会被垃圾回收
+     *
+     * @memberof Worker
+     */
+    survival_time = 0
+    
+    /**
+     * 最大存活时间
+     *
+     * @memberof Worker
+     */
+    max_survival_time = 60 * 10
+
+    /**
      * 全局的worker储存器, 便于垃圾回收等相关机制获取worker对象
      *
      * @static
