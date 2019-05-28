@@ -61,6 +61,13 @@ export class Worker
      */
     static worker_garbage_collection_timeout: NodeJS.Timeout
     
+    /**
+     * 添加worker实例到全局worker实例数组中
+     *
+     * @static
+     * @param {Worker} _w 要被添加的worker实例
+     * @memberof Worker
+     */
     static add_worker(_w: Worker)
     {
         Worker.worker_box.push(_w)
@@ -184,6 +191,12 @@ export class Worker
         // this.win.setPosition(-1920, 0)
     }
 
+    /**
+     * 初始化worker界面显示
+     *
+     * @returns {Worker}
+     * @memberof Worker
+     */
     page_init (): Worker
     {
         this.win = new BrowserWindow(this.win_settings)
@@ -194,6 +207,11 @@ export class Worker
         return this
     }
 
+    /**
+     * 初始化页面加载控制锁
+     *
+     * @memberof Worker
+     */
     init_page_load_lock()
     {
         this.wincc.on("did-stop-loading", () =>
@@ -202,18 +220,38 @@ export class Worker
         })
     }
 
+    /**
+     * 设置用户UA
+     *
+     * @param {string} ua
+     * @returns {Worker}
+     * @memberof Worker
+     */
     set_ua (ua: string): Worker
     {
         this.wincc.setUserAgent(ua);
         return this;
     }
 
+    /**
+     * 打开控制台
+     *
+     * @returns {Worker}
+     * @memberof Worker
+     */
     open_dev(): Worker
     {
         this.wincc.openDevTools({mode: "undocked"});
         return this;
     }
 
+    /**
+     * 在窗口上下文中运行js代码
+     *
+     * @param {string} js_code
+     * @returns
+     * @memberof Worker
+     */
     async exec_js(js_code: string)
     {
         return await this.wincc.executeJavaScript(
@@ -229,6 +267,13 @@ export class Worker
         await _when_shine_do()
     }
 
+    /**
+     * 模拟鼠标移动事件
+     *
+     * @param {Number} _x
+     * @param {Number} _y
+     * @memberof Worker
+     */
     async mouse_move(_x: Number, _y: Number)
     {
         this.shine_focus(async () =>
@@ -241,6 +286,13 @@ export class Worker
         });
     }
 
+    /**
+     * 模拟鼠标左键按下事件
+     *
+     * @param {Number} _x
+     * @param {Number} _y
+     * @memberof Worker
+     */
     async mouse_down(_x: Number, _y: Number)
     {
         this.shine_focus(async () =>
@@ -255,6 +307,13 @@ export class Worker
         });
     }
 
+    /**
+     * 模拟鼠标左键松开事件
+     *
+     * @param {Number} _x
+     * @param {Number} _y
+     * @memberof Worker
+     */
     async mouse_up(_x: Number, _y: Number)
     {
         this.shine_focus(async () =>
@@ -269,6 +328,13 @@ export class Worker
         });
     }
 
+    /**
+     * 模拟点击事件
+     *
+     * @param {Number} _x x轴
+     * @param {Number} _y y轴
+     * @memberof Worker
+     */
     async click(_x: Number, _y: Number)
     {
         this.shine_focus(async () =>
@@ -292,12 +358,23 @@ export class Worker
         });
     }
 
+    /**
+     * 重新加载窗口页面(刷新)
+     *
+     * @memberof Worker
+     */
     async reload()
     {
         this.wincc.reload()
         await this.wait_page_load()
     }
 
+    /**
+     * 等待页面加载完成
+     *
+     * @returns
+     * @memberof Worker
+     */
     async wait_page_load()
     {
         this.page_load_lock = true
@@ -308,6 +385,13 @@ export class Worker
         return this
     }
 
+    /**
+     * 读取cookies
+     *
+     * @param {*} [filter={}] 过滤器, 见electron中session的cookies的get方法
+     * @returns
+     * @memberof Worker
+     */
     async read_cookies(filter = {})
     {
         return new Promise((succ, fail) =>
@@ -324,12 +408,23 @@ export class Worker
         
     }
 
+    /**
+     * 持久化存储所有cookie, 存储到conf文件中
+     *
+     * @memberof Worker
+     */
     async save_all_cookie_in_conf()
     {
         let cookies = await this.read_cookies()
         Config_helper.getInstance().set({cookies: JSON.stringify(cookies)})
     }
 
+    /**
+     * 从conf文件中载入所有cookie
+     *
+     * @param {string} url 见electron中session.cookies.set方法参数
+     * @memberof Worker
+     */
     async load_all_cookie_in_conf(url: string)
     {
         let login_cookies:Array<any> = JSON.parse(Config_helper.getInstance().get("cookies"))
