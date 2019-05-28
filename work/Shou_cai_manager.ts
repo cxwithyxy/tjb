@@ -94,6 +94,11 @@ export class Shou_cai_manager extends Manager
         return friend_count
     }
 
+    /**
+     * 加载入金币庄园页面
+     *
+     * @memberof Shou_cai_manager
+     */
     async load_zhuangyuan()
     {
         await this.workers_do(async (_w) =>

@@ -100,6 +100,11 @@ export class Main_display
         this.my_ui.send(`显示所有窗口`)
     }
 
+    /**
+     * 初始化显示
+     *
+     * @memberof Main_display
+     */
     async display()
     {
         let my_ui:UI = this.my_ui
@@ -120,8 +125,15 @@ export class Main_display
         {
             app.quit()
         })
+
     }
 
+    /**
+     * 命令行处理
+     *
+     * @param {string} msg 命令内容
+     * @memberof Main_display
+     */
     async menu_handle(msg: string)
     {
         if(!_.isUndefined(this.C_job[msg]) && this.C_job[msg].schedule.length > 0)
