@@ -120,6 +120,8 @@ export class Main_display
         {
             app.quit()
         })
+
+        this.menu_zuo_renwu()
     }
 
     async menu_handle(msg: string)
