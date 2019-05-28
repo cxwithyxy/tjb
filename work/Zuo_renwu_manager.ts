@@ -50,9 +50,6 @@ export class Zuo_renwu_manager extends Shou_cai_manager
 
         await this.workers_do(async (_w) =>
         {
-            let iframe_src = await _w.exec_js(`get_rewu_inner_inframe_src()`)
-            await _w.open_url(iframe_src)
-            await _w.wait_page_load()
             links = await _w.exec_js(`get_rewu_links()`)
         })
         UI.log(links.length ? `店铺 ${links.length} 个` : `所有店铺都已经被领取过了`);
