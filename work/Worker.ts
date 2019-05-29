@@ -385,6 +385,34 @@ export class Worker
         await this.reload()
     }
 
+    async touch_it(_type: "touchStart" | "touchEnd" | "touchMove" | "touchCancel", _x: number, _y: number)
+    {
+        let tp = [{x: _x, y: _y}]
+        if(_type == "touchEnd" || _type =="touchCancel")
+        {
+            tp = []
+        }
+        this.wincc.debugger.sendCommand('Input.dispatchTouchEvent', {
+            type: _type,
+            touchPoints: tp
+        });
+        await sleep(100)
+    }
+
+    async touch_drag_drop(begin_x: number, begin_y: number, end_x: number, end_y: number)
+    {
+        await this.touch_it("touchStart", begin_x, begin_y)
+        await sleep(300)
+        await this.touch_it("touchEnd", end_x, end_y)
+    }
+
+    async tap(x: number, y:number)
+    {
+        await this.touch_it("touchStart", x, y)
+        await sleep(300)
+        await this.touch_it("touchEnd", x, y)
+    }
+
     /**
      * 模拟点击事件
      *

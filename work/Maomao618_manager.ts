@@ -33,6 +33,8 @@ export class Maomao618_manager extends Shou_cai_manager
         await this.load_maomao()
         await this.close_maomao_xiuxichanbi()
         await this.drag_maomao()
+        console.log("maomao_finish");
+        
     }
     
     /**
@@ -79,14 +81,19 @@ export class Maomao618_manager extends Shou_cai_manager
         await this.workers_do(async (_w) =>
         {
             await _w.touch_emulation()
+            await sleep(3000)
+            console.log("loadeddddddd");
+            // await _w.tap(234, 678)
+            // 234*678
             // await _w.exec_js(`touch_emulator_init()`)
+            // return
             for (let i = 0; i < this.mao_positions.length; i++)
             {
                 let m_p = this.mao_positions[i];
                 for (let j = i + 1; j < this.mao_positions.length; j++)
                 {
                     let m_p_2 = this.mao_positions[j];
-                    await _w.mouse_drag_drop(m_p.x, m_p.y, m_p_2.x, m_p_2.y)
+                    await _w.touch_drag_drop(m_p.x, m_p.y, m_p_2.x, m_p_2.y)
                 }
             }
         })
