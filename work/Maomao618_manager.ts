@@ -31,25 +31,55 @@ export class Maomao618_manager extends Shou_cai_manager
     async start()
     {
         let count = 1
-        while(true)
+        let stop_holder_func: Function
+        let start_holder = new Promise<void>((succ) =>
         {
-            UI.log(`猫猫: 载入猫猫页面开始`)
-            await this.load_maomao()
-            await this.close_maomao_xiuxichanbi()
-            UI.log(`猫猫: 载入猫猫页面结束`)
-            UI.log(`猫猫: 合并猫猫开始`)
-            await this.drag_maomao()
-            UI.log(`猫猫: 合并猫猫结束`)
-            UI.log(`猫猫: 获取猫币开始`)
-            await this.get_mao_bi()
-            UI.log(`猫猫: 获取猫币结束`)
-            UI.log(`猫猫: 第 ${count} 次结束`)
-            count ++
-            await this.workers_do(async (_w) =>
+            stop_holder_func = succ
+        })
+
+        let stop_main_thread_func = this.main_thread_start(count)
+
+        let time_watcher_thread = new Promise(async () =>
+        {
+            setTimeout(() =>
             {
-                _w.give_me_a_life(60 * 5)
-            })
-        }
+                stop_main_thread_func()
+                console.log("stop_main_thread_func");
+                
+            }, 10000)
+        })
+        
+
+        return start_holder
+    }
+
+    main_thread_start(count: number)
+    {
+        let stop_func = () => {};
+        new Promise(async(succ) =>
+        {
+            stop_func = succ
+            while(true)
+            {
+                UI.log(`猫猫: 载入猫猫页面开始`)
+                await this.load_maomao()
+                await this.close_maomao_xiuxichanbi()
+                UI.log(`猫猫: 载入猫猫页面结束`)
+                UI.log(`猫猫: 合并猫猫开始`)
+                await this.drag_maomao()
+                UI.log(`猫猫: 合并猫猫结束`)
+                UI.log(`猫猫: 获取猫币开始`)
+                await this.get_mao_bi()
+                UI.log(`猫猫: 获取猫币结束`)
+                UI.log(`猫猫: 第 ${count} 次结束`)
+                count ++
+                await this.workers_do(async (_w) =>
+                {
+                    _w.give_me_a_life(60 * 5)
+                })
+            }
+        })
+        return stop_func
     }
     
     /**
@@ -101,7 +131,8 @@ export class Maomao618_manager extends Shou_cai_manager
                 for (let j = i + 1; j < this.mao_positions.length; j++)
                 {
                     let m_p_2 = this.mao_positions[j];
-                    await _w.touch_drag_drop(300, m_p.x, m_p.y, m_p_2.x, m_p_2.y)
+                    await _w.touch_drag_drop(100, m_p.x, m_p.y, m_p_2.x, m_p_2.y)
+                    await sleep(300)
                 }
             }
         })
