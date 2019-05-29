@@ -392,6 +392,14 @@ export class Worker
         });
     }
 
+    /**
+     * 基础的模拟触摸
+     *
+     * @param {("touchStart" | "touchEnd" | "touchMove" | "touchCancel")} _type
+     * @param {number} _x
+     * @param {number} _y
+     * @memberof Worker
+     */
     async touch_it(_type: "touchStart" | "touchEnd" | "touchMove" | "touchCancel", _x: number, _y: number)
     {
         let tp = [{x: _x, y: _y}]
@@ -405,15 +413,33 @@ export class Worker
         });
     }
 
+    /**
+     * 触摸拖拽
+     *
+     * @param {number} begin_x
+     * @param {number} begin_y
+     * @param {number} end_x
+     * @param {number} end_y
+     * @memberof Worker
+     */
     async touch_drag_drop(begin_x: number, begin_y: number, end_x: number, end_y: number)
     {
-        console.log(`move {${begin_x} ${begin_y}} to {${end_x} ${end_y}}`);
-        
         await this.touch_it("touchStart", begin_x, begin_y)
         await this.touch_move(50, 1000, begin_x, begin_y, end_x, end_y)
         await this.touch_it("touchEnd", end_x, end_y)
     }
 
+    /**
+     * 模拟touchmove
+     *
+     * @param {number} step 总步数
+     * @param {number} spend_time 总耗时
+     * @param {number} begin_x 起始x
+     * @param {number} begin_y 起始y
+     * @param {number} end_x 结束x
+     * @param {number} end_y 结束y
+     * @memberof Worker
+     */
     async touch_move(step: number, spend_time: number, begin_x: number, begin_y: number, end_x: number, end_y: number)
     {
         let distance_x = end_x - begin_x;
@@ -434,6 +460,13 @@ export class Worker
         }
     }
 
+    /**
+     * 模拟tap
+     *
+     * @param {number} x
+     * @param {number} y
+     * @memberof Worker
+     */
     async tap(x: number, y:number)
     {
         await this.touch_it("touchStart", x, y)
