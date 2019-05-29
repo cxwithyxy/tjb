@@ -56,9 +56,9 @@ export class Maomao618_manager extends Shou_cai_manager
     main_thread_start(count: number)
     {
         let stop_func = () => {};
-        new Promise(async(succ) =>
+        new Promise(async(succ, fail) =>
         {
-            stop_func = succ
+            stop_func = fail
             while(true)
             {
                 UI.log(`猫猫: 载入猫猫页面开始`)
