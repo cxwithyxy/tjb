@@ -78,7 +78,8 @@ export class Maomao618_manager extends Shou_cai_manager
     {
         await this.workers_do(async (_w) =>
         {
-            await _w.exec_js(`touch_emulator_init()`)
+            await _w.touch_emulation()
+            // await _w.exec_js(`touch_emulator_init()`)
             for (let i = 0; i < this.mao_positions.length; i++)
             {
                 let m_p = this.mao_positions[i];

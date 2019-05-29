@@ -204,6 +204,8 @@ export class Worker
         this.wincc = this.win.webContents
         this.init_page_load_lock()
         this.hide()
+        this.debugger_bridger_init()
+        // this.touch_emulation()
         return this
     }
 
@@ -341,6 +343,46 @@ export class Worker
     {
         await this.mouse_down(begin_x, begin_y)
         await this.mouse_up(end_x, end_y)
+    }
+
+    /**
+     * 初始化debugger调试, 便于实现后续功能
+     *
+     * @memberof Worker
+     */
+    debugger_bridger_init()
+    {
+        try
+        {
+            this.wincc.debugger.attach('1.2')
+        }
+        catch (err)
+        {
+            console.log('Debugger attach failed : ', err)
+        }
+
+        this.wincc.debugger.on('detach', (event, reason) => 
+        {
+            console.log('Debugger detached due to : ', reason)
+        })
+    }
+    
+    /**
+     * 界面触摸模拟, 会自动触发刷新页面
+     *
+     * @memberof Worker
+     */
+    async touch_emulation()
+    {
+        this.wincc.debugger.sendCommand('Emulation.setTouchEmulationEnabled', {
+            enabled: true
+        });
+    
+        this.wincc.debugger.sendCommand('Emulation.setEmitTouchEventsForMouse', {
+            enabled: true,
+            configuration: "mobile"
+        });
+        await this.reload()
     }
 
     /**
