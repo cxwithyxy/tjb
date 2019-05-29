@@ -80,13 +80,12 @@ export class Maomao618_manager extends Shou_cai_manager
     {
         await this.workers_do(async (_w) =>
         {
-            await _w.touch_emulation()
-            await sleep(3000)
             console.log("loadeddddddd");
-            // await _w.tap(234, 678)
+            await _w.tap(234, 678)
+            await _w.screen_touch_emulation()
             // 234*678
             // await _w.exec_js(`touch_emulator_init()`)
-            // return
+            return
             for (let i = 0; i < this.mao_positions.length; i++)
             {
                 let m_p = this.mao_positions[i];

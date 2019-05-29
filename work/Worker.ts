@@ -205,7 +205,7 @@ export class Worker
         this.init_page_load_lock()
         this.hide()
         this.debugger_bridger_init()
-        // this.touch_emulation()
+        this.touch_emulation()
         return this
     }
 
@@ -354,7 +354,7 @@ export class Worker
     {
         try
         {
-            this.wincc.debugger.attach('1.2')
+            this.wincc.debugger.attach(`1.3`)
         }
         catch (err)
         {
@@ -366,23 +366,30 @@ export class Worker
             console.log('Debugger detached due to : ', reason)
         })
     }
-    
+
     /**
-     * 界面触摸模拟, 会自动触发刷新页面
+     * 允许触摸模拟
      *
      * @memberof Worker
      */
-    async touch_emulation()
+    touch_emulation()
     {
         this.wincc.debugger.sendCommand('Emulation.setTouchEmulationEnabled', {
             enabled: true
         });
+    }
     
-        this.wincc.debugger.sendCommand('Emulation.setEmitTouchEventsForMouse', {
+    /**
+     * 激活界面触摸模拟
+     *
+     * @memberof Worker
+     */
+    async screen_touch_emulation()
+    {
+        await this.wincc.debugger.sendCommand('Emulation.setEmitTouchEventsForMouse', {
             enabled: true,
             configuration: "mobile"
         });
-        await this.reload()
     }
 
     async touch_it(_type: "touchStart" | "touchEnd" | "touchMove" | "touchCancel", _x: number, _y: number)
@@ -392,11 +399,12 @@ export class Worker
         {
             tp = []
         }
-        this.wincc.debugger.sendCommand('Input.dispatchTouchEvent', {
+        
+        await this.wincc.debugger.sendCommand('Input.dispatchTouchEvent', {
             type: _type,
             touchPoints: tp
         });
-        await sleep(100)
+        // await sleep(100)
     }
 
     async touch_drag_drop(begin_x: number, begin_y: number, end_x: number, end_y: number)
