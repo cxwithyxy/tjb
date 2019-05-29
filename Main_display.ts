@@ -9,6 +9,7 @@ import { Main_job_manager } from "./Main_job_manager";
 import { Worker } from "./work/Worker";
 import { Shifei_manager } from "./work/Shifei_manager";
 import { Qiang_jb_manager } from "./work/Qiang_jb_manager";
+import { Maomao618_manager } from "./work/Maomao618_manager";
 
 interface job_config
 {
@@ -56,6 +57,10 @@ export class Main_display
             //     schedule: `50 59 1 * * *`,
             //     callback_func: this.menu_qiang_jb
             // },
+            "7": {
+                schedule:'',
+                callback_func: this.menu_maomao618
+            },
             "show": {
                 schedule:'',
                 callback_func: this.command_show_worker
@@ -193,5 +198,19 @@ export class Main_display
         
         this.my_ui.send(`金币任务结束`)
         await M_zuo_renwu.close_workers()
+    }
+
+    async menu_maomao618()
+    {
+        // this.my_ui.send(`抢红包开始`)
+        let M_login = new Login_manager()
+    
+        await M_login.start();
+        
+        let M_main = new Maomao618_manager();
+        M_login.deliver_workers_to(M_main);
+        await M_main.start()
+        // this.my_ui.send(`抢红包结束`)
+        // await M_main.close_workers()
     }
 }
