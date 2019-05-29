@@ -399,19 +399,39 @@ export class Worker
         {
             tp = []
         }
-        
         await this.wincc.debugger.sendCommand('Input.dispatchTouchEvent', {
             type: _type,
             touchPoints: tp
         });
-        // await sleep(100)
     }
 
     async touch_drag_drop(begin_x: number, begin_y: number, end_x: number, end_y: number)
     {
+        console.log(`move {${begin_x} ${begin_y}} to {${end_x} ${end_y}}`);
+        
         await this.touch_it("touchStart", begin_x, begin_y)
-        await sleep(300)
+        await this.touch_move(50, 1000, begin_x, begin_y, end_x, end_y)
         await this.touch_it("touchEnd", end_x, end_y)
+    }
+
+    async touch_move(step: number, spend_time: number, begin_x: number, begin_y: number, end_x: number, end_y: number)
+    {
+        let distance_x = end_x - begin_x;
+        let distance_y = end_y - begin_y;
+        let step_x = distance_x / step;
+        let step_y = distance_y / step;
+        let sleep_time = spend_time / step;
+        let now_step = 1;
+        while(true)
+        {
+            await this.touch_it("touchMove", begin_x + step_x * now_step, begin_y + step_y * now_step)
+            await sleep(sleep_time)
+            now_step ++;
+            if(now_step >= step)
+            {
+                break
+            }
+        }
     }
 
     async tap(x: number, y:number)
