@@ -30,11 +30,26 @@ export class Maomao618_manager extends Shou_cai_manager
 
     async start()
     {
-        await this.load_maomao()
-        await this.close_maomao_xiuxichanbi()
-        await this.drag_maomao()
-        console.log("maomao_finish");
-        
+        let count = 1
+        while(true)
+        {
+            UI.log(`猫猫: 载入猫猫页面开始`)
+            await this.load_maomao()
+            await this.close_maomao_xiuxichanbi()
+            UI.log(`猫猫: 载入猫猫页面结束`)
+            UI.log(`猫猫: 合并猫猫开始`)
+            await this.drag_maomao()
+            UI.log(`猫猫: 合并猫猫结束`)
+            UI.log(`猫猫: 获取猫币开始`)
+            await this.get_mao_bi()
+            UI.log(`猫猫: 获取猫币结束`)
+            UI.log(`猫猫: 第 ${count} 次结束`)
+            count ++
+            await this.workers_do(async (_w) =>
+            {
+                _w.give_me_a_life(60 * 5)
+            })
+        }
     }
     
     /**
@@ -86,9 +101,23 @@ export class Maomao618_manager extends Shou_cai_manager
                 for (let j = i + 1; j < this.mao_positions.length; j++)
                 {
                     let m_p_2 = this.mao_positions[j];
-                    await _w.touch_drag_drop(m_p.x, m_p.y, m_p_2.x, m_p_2.y)
+                    await _w.touch_drag_drop(300, m_p.x, m_p.y, m_p_2.x, m_p_2.y)
                 }
             }
+        })
+    }
+
+    async get_mao_bi()
+    {
+        await this.workers_do(async (_w) =>
+        {
+            await _w.tap(234, 683)
+            await sleep(300)
+            await _w.tap(232, 257)
+            await sleep(11 * 1000)
+            await _w.tap(413, 424)
+            await sleep(300)
+            await _w.tap(232, 522)
         })
     }
 }

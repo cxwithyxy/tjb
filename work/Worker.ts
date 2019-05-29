@@ -132,6 +132,17 @@ export class Worker
     }
 
     /**
+     * 续命
+     *
+     * @param {number} adding_time 要续命多少秒呢
+     * @memberof Worker
+     */
+    give_me_a_life(adding_time: number)
+    {
+        this.max_survival_time = this.survival_time + adding_time
+    }
+
+    /**
      * 批量操作所有的worker
      *
      * @static
@@ -416,16 +427,17 @@ export class Worker
     /**
      * 触摸拖拽
      *
+     * @param {number} spend_time
      * @param {number} begin_x
      * @param {number} begin_y
      * @param {number} end_x
      * @param {number} end_y
      * @memberof Worker
      */
-    async touch_drag_drop(begin_x: number, begin_y: number, end_x: number, end_y: number)
+    async touch_drag_drop(spend_time: number, begin_x: number, begin_y: number, end_x: number, end_y: number)
     {
         await this.touch_it("touchStart", begin_x, begin_y)
-        await this.touch_move(50, 1000, begin_x, begin_y, end_x, end_y)
+        await this.touch_move(100, spend_time, begin_x, begin_y, end_x, end_y)
         await this.touch_it("touchEnd", end_x, end_y)
     }
 
