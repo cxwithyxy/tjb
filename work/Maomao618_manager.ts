@@ -1,10 +1,20 @@
 import sleep from "sleep-promise"
 import { UI } from "electron_commandline_UI"
 import { Shou_cai_manager } from "./Shou_cai_manager";
+import { setInterval } from "timers";
 
 export class Maomao618_manager extends Shou_cai_manager
 {
     mao_positions: Array<mao_position>
+    main_loop_count = 0
+    main_thread_timeout = 0
+    
+    /**
+     * 主线程超时时间, 超时代表了卡死, 则重新启动新主线程
+     *
+     * @memberof Maomao618_manager
+     */
+    max_main_thread_timeout = 60 * 5
 
     constructor()
     {
@@ -37,49 +47,66 @@ export class Maomao618_manager extends Shou_cai_manager
             stop_holder_func = succ
         })
 
-        let stop_main_thread_func = this.main_thread_start(count)
-
-        let time_watcher_thread = new Promise(async () =>
-        {
-            setTimeout(() =>
-            {
-                stop_main_thread_func()
-                console.log("stop_main_thread_func");
-                
-            }, 10000)
-        })
-        
-
+        this.main_thread_start()
+        this.main_thread_watcher()
         return start_holder
     }
 
-    main_thread_start(count: number)
+    /**
+     * 启动主线程
+     *
+     * @memberof Maomao618_manager
+     */
+    main_thread_start()
     {
-        let stop_func = () => {};
         new Promise(async(succ, fail) =>
         {
-            stop_func = fail
+            this.main_thread_timeout = 0;
             while(true)
             {
                 UI.log(`猫猫: 载入猫猫页面开始`)
                 await this.load_maomao()
+                this.main_thread_timeout = 0;
                 await this.close_maomao_xiuxichanbi()
+                this.main_thread_timeout = 0;
                 UI.log(`猫猫: 载入猫猫页面结束`)
                 UI.log(`猫猫: 合并猫猫开始`)
                 await this.drag_maomao()
+                this.main_thread_timeout = 0;
                 UI.log(`猫猫: 合并猫猫结束`)
                 UI.log(`猫猫: 获取猫币开始`)
                 await this.get_mao_bi()
+                this.main_thread_timeout = 0;
                 UI.log(`猫猫: 获取猫币结束`)
-                UI.log(`猫猫: 第 ${count} 次结束`)
-                count ++
+                UI.log(`猫猫: 第 ${this.main_loop_count} 次结束`)
+                this.main_loop_count ++
                 await this.workers_do(async (_w) =>
                 {
                     _w.give_me_a_life(60 * 5)
                 })
+                this.main_thread_timeout = 0;
             }
         })
-        return stop_func
+    }
+
+    /**
+     * 主线程超时监控
+     *
+     * @memberof Maomao618_manager
+     */
+    main_thread_watcher()
+    {
+        new Promise(async (succ) =>
+        {
+            setInterval(() =>
+            {
+                this.main_thread_timeout += 5
+                if(this.main_thread_timeout >= this.max_main_thread_timeout)
+                {
+                    this.main_thread_start()
+                }
+            }, 5000)
+        })
     }
     
     /**
