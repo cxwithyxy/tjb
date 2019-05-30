@@ -14,7 +14,7 @@ export class Maomao618_manager extends Shou_cai_manager
      *
      * @memberof Maomao618_manager
      */
-    max_main_thread_timeout = 60 * 5
+    max_main_thread_timeout = 60 * 2
 
     constructor()
     {
@@ -158,6 +158,7 @@ export class Maomao618_manager extends Shou_cai_manager
                 for (let j = i + 1; j < this.mao_positions.length; j++)
                 {
                     let m_p_2 = this.mao_positions[j];
+                    UI.log(`合并第 ${i + 1} 个和第 ${j + 1} 个猫猫`)
                     await _w.touch_drag_drop(100, m_p.x, m_p.y, m_p_2.x, m_p_2.y)
                     await sleep(300)
                 }
@@ -176,6 +177,7 @@ export class Maomao618_manager extends Shou_cai_manager
             await _w.tap(413, 424)
             await sleep(300)
             await _w.tap(232, 522)
+            await sleep(1000 * 3)
         })
     }
 }
