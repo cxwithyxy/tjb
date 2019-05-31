@@ -98,11 +98,41 @@
 
 ## 模拟触摸事件
 
+#### 基于浏览器的触摸模拟
+
 虽然 **Electron** 是可以通过 **webContents** 的 **sendInputEvent** 实现模拟鼠标、键盘等事件，但是无法模拟触摸事件。因此在爬移动端网页的时候，会可能无法点击某些按钮。
 
 在网上找到类似开启 **devtool** 进行模拟触摸的效果，但是尝试过都无法实现。
 
 最后找到一个浏览器端的库 [touch_emulator](https://github.com/hammerjs/touchemulator) ，将其导入到渲染进程后，就可以通过鼠标点击，模拟出触摸事件了。但是不是100%完美的，在对 **canvas** 中的触摸似乎无效。
 
-因此目前尚未找到完美的模拟触摸办法
+#### chrome 远程调试功能
+
+通过 **remote debugging protocol** ，能够实现触摸等功能，类似 **chrome** 自带的 **devtool（审查元素）** 。主要操作步骤如下：
+
+1. 初始化 **BrowserWindow** 实例
+2. 调用该实例的 **webContents** 的 **debugger** 对象的 **attach** 函数，启动远程调试
+3.  **BrowserWindow** 实例载入目标网页
+4. 通过 **debugger** 对象发送激活触摸模拟命令
+5. 通过 **debugger** 对象发送模拟触摸事件命令
+
+关键代码
+
+```
+// 启动远程调试
+this.wincc.debugger.attach(`1.3`)
+
+// 发送激活触摸模拟命令
+this.wincc.debugger.sendCommand('Emulation.setTouchEmulationEnabled', {
+	enabled: true
+});
+
+// 开始模拟触摸, 发送触摸事件命令
+this.wincc.debugger.sendCommand('Input.dispatchTouchEvent', {
+	type: "touchStart",
+	touchPoints: [{x: 255, y: 310}]
+});
+```
+
+更多命令可以在 <https://chromedevtools.github.io/devtools-protocol/tot> 中查看
 
