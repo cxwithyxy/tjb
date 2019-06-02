@@ -131,6 +131,7 @@ export class Main_display
             app.quit()
         })
 
+        this.menu_maomao618()
     }
 
     /**

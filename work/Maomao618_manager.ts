@@ -38,7 +38,7 @@ export class Maomao618_manager extends Shou_cai_manager
         ]
     }
 
-    async start()
+    async start2()
     {
         let count = 1
         let stop_holder_func: Function
@@ -50,6 +50,36 @@ export class Maomao618_manager extends Shou_cai_manager
         this.main_thread_start()
         this.main_thread_watcher()
         return start_holder
+    }
+
+    async start()
+    {
+        while(true)
+        {
+            await this.load_maomao()
+            await this.close_maomao_xiuxichanbi()
+            // await this.workers_do(async (_w) =>
+            // {
+            //     await _w.screen_touch_emulation()
+            // })
+            await this.mission_get_mao_bi()
+        }
+    }
+
+    async mission_get_mao_bi()
+    {
+        await this.workers_do(async (_w) =>
+        {
+            await _w.tap(383, 690)
+            await sleep(300)
+            await _w.tap(393, 420)
+            await sleep(60 * 3600 * 1000)
+            await sleep(11 * 1000)
+            await _w.tap(413, 424)
+            await sleep(300)
+            await _w.tap(232, 522)
+            await sleep(1000 * 3)
+        })
     }
 
     /**
