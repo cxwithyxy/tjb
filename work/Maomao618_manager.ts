@@ -54,20 +54,21 @@ export class Maomao618_manager extends Shou_cai_manager
 
     async start()
     {
+        await this.load_maomao()
+        await this.close_maomao_xiuxichanbi()
+        await this.workers_do(async (_w) =>
+        {
+            await _w.screen_touch_emulation()
+        })
+        this.proliferate_worker_until(5)
         while(true)
         {
-            await this.load_maomao()
-            await this.close_maomao_xiuxichanbi()
-            await this.workers_do(async (_w) =>
-            {
-                await _w.screen_touch_emulation()
-            })
             await this.link_get_mao_bi()
             await this.mission_get_mao_bi()
-            // await this.workers_do(async (_w) =>
-            // {
-            //     _w.give_me_a_life(60 * 5)
-            // })
+            await this.workers_do(async (_w) =>
+            {
+                _w.give_me_a_life(60 * 5)
+            })
         }
     }
 
