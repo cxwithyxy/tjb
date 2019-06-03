@@ -54,26 +54,31 @@ export class Maomao618_manager extends Shou_cai_manager
 
     async start()
     {
-        while(true)
-        {
+        // while(true)
+        // {
             await this.load_maomao()
             await this.close_maomao_xiuxichanbi()
+            await this.workers_do(async (_w) =>
+            {
+                await _w.screen_touch_emulation()
+            })
+            await this.mission_get_mao_bi()
             // await this.workers_do(async (_w) =>
             // {
-            //     await _w.screen_touch_emulation()
+            //     _w.give_me_a_life(60 * 5)
             // })
-            await this.mission_get_mao_bi()
-        }
+        // }
     }
 
     async mission_get_mao_bi()
     {
         await this.workers_do(async (_w) =>
         {
+            // _w.set_ua("Mozilla/5.0 (Linux; U; Android 8.0.0; zh-CN; Mi Note 2 Build/OPR1.170623.032) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/69.0.3497.100 UWS/3.17.0.17 Mobile Safari/537.36 AliApp(TB/8.6.0) UCBS/2.11.1.1 TTID/600000@taobao_android_8.6.0 WindVane/8.5.0 1080X1820")
+            // await sleep(60 * 3600 * 1000)
             await _w.tap(383, 690)
-            await sleep(300)
+            await sleep(5 * 1000)
             await _w.tap(393, 420)
-            await sleep(60 * 3600 * 1000)
             await sleep(11 * 1000)
             await _w.tap(413, 424)
             await sleep(300)
