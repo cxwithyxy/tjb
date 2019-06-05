@@ -58,7 +58,7 @@ export class Main_display
             //     callback_func: this.menu_qiang_jb
             // },
             "7": {
-                schedule:`0 */20 * * * *`,
+                schedule:``,
                 callback_func: this.menu_maomao618
             },
             "show": {
@@ -131,7 +131,6 @@ export class Main_display
             app.quit()
         })
 
-        this.menu_maomao618()
     }
 
     /**
@@ -212,6 +211,6 @@ export class Main_display
         M_login.deliver_workers_to(M_main);
         await M_main.start()
         this.my_ui.send(`店铺猫币结束`)
-        // await M_main.close_workers()
+        await M_main.close_workers()
     }
 }
