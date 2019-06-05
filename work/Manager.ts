@@ -101,7 +101,10 @@ export class Manager
             {
                 setting = base_worker.win_settings
             }
-            this.add_worker(new Worker(setting).page_init().open_url(current_url))
+            let temp_worker = new Worker(setting).page_init()
+            temp_worker.set_ua(base_worker.ua)
+            temp_worker.open_url(current_url)
+            this.add_worker(temp_worker)
         }
         
         return this

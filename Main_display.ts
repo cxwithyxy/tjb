@@ -58,7 +58,7 @@ export class Main_display
             //     callback_func: this.menu_qiang_jb
             // },
             "7": {
-                schedule:'',
+                schedule:``,
                 callback_func: this.menu_maomao618
             },
             "show": {
@@ -202,7 +202,7 @@ export class Main_display
 
     async menu_maomao618()
     {
-        // this.my_ui.send(`抢红包开始`)
+        this.my_ui.send(`店铺猫币开始`)
         let M_login = new Login_manager()
     
         await M_login.start();
@@ -210,7 +210,7 @@ export class Main_display
         let M_main = new Maomao618_manager();
         M_login.deliver_workers_to(M_main);
         await M_main.start()
-        // this.my_ui.send(`抢红包结束`)
-        // await M_main.close_workers()
+        this.my_ui.send(`店铺猫币结束`)
+        await M_main.close_workers()
     }
 }

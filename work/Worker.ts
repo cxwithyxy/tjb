@@ -12,6 +12,7 @@ export class Worker
     wincc!: WebContents
     win_settings: object
     page_load_lock = false
+    ua!: string
     
     /**
      * 控制worker是否会被垃圾回收
@@ -212,7 +213,8 @@ export class Worker
     {
         this.win = new BrowserWindow(this.win_settings)
         // this.win.setSkipTaskbar(true)
-        this.wincc = this.win.webContents
+        this.wincc = this.win.webContents;
+        this.ua = this.wincc.getUserAgent();
         this.init_page_load_lock()
         this.hide()
         this.debugger_bridger_init()
@@ -243,6 +245,7 @@ export class Worker
     set_ua (ua: string): Worker
     {
         this.wincc.setUserAgent(ua);
+        this.ua = ua;
         return this;
     }
 

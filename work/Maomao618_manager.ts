@@ -40,75 +40,49 @@ export class Maomao618_manager extends Shou_cai_manager
 
     async start()
     {
-        let count = 1
-        let stop_holder_func: Function
-        let start_holder = new Promise<void>((succ) =>
+        await this.load_maomao()
+        await this.close_maomao_xiuxichanbi()
+        await this.workers_do(async (_w) =>
         {
-            stop_holder_func = succ
+            await _w.screen_touch_emulation()
         })
-
-        this.main_thread_start()
-        this.main_thread_watcher()
-        return start_holder
-    }
-
-    /**
-     * 启动主线程
-     *
-     * @memberof Maomao618_manager
-     */
-    main_thread_start()
-    {
-        new Promise(async(succ, fail) =>
+        let start_worker_num = 4
+        let count = Math.ceil(50 / start_worker_num)
+        let nowcount = count
+        this.proliferate_worker_until(start_worker_num)
+        while(nowcount--)
         {
-            this.main_thread_timeout = 0;
-            while(true)
+            UI.log(`领猫币第 ${count-nowcount} 次, 每次领 ${start_worker_num} 个 300 猫币`)
+            await this.link_get_mao_bi()
+            await this.mission_get_mao_bi()
+            await this.workers_do(async (_w) =>
             {
-                UI.log(`猫猫: 载入猫猫页面开始`)
-                await this.load_maomao()
-                this.main_thread_timeout = 0;
-                await this.close_maomao_xiuxichanbi()
-                this.main_thread_timeout = 0;
-                UI.log(`猫猫: 载入猫猫页面结束`)
-                UI.log(`猫猫: 合并猫猫开始`)
-                await this.drag_maomao()
-                this.main_thread_timeout = 0;
-                UI.log(`猫猫: 合并猫猫结束`)
-                UI.log(`猫猫: 获取猫币开始`)
-                await this.get_mao_bi()
-                this.main_thread_timeout = 0;
-                UI.log(`猫猫: 获取猫币结束`)
-                UI.log(`猫猫: 第 ${this.main_loop_count} 次结束`)
-                this.main_loop_count ++
-                await this.workers_do(async (_w) =>
-                {
-                    _w.give_me_a_life(60 * 5)
-                })
-                this.main_thread_timeout = 0;
-            }
+                _w.give_me_a_life(60 * 5)
+            })
+        }
+    }
+
+    async link_get_mao_bi()
+    {
+        await this.workers_do(async (_w) =>
+        {
+            await _w.open_url(`https://pages.tmall.com/wow/a/act/tmall/tmc/22351/wupr?spm=a211rx.12872410.1284722755.2&wh_pid=industry-161308&disableNav=YES&sellerId=379424089`)
+            await _w.wait_page_load()
         })
     }
 
-    /**
-     * 主线程超时监控
-     *
-     * @memberof Maomao618_manager
-     */
-    main_thread_watcher()
+    async mission_get_mao_bi()
     {
-        new Promise(async (succ) =>
+        await this.workers_do(async (_w) =>
         {
-            setInterval(() =>
-            {
-                this.main_thread_timeout += 5
-                if(this.main_thread_timeout >= this.max_main_thread_timeout)
-                {
-                    this.main_thread_start()
-                }
-            }, 5000)
+            await sleep(11 * 1000)
+            await _w.tap(413, 424)
+            await sleep(300)
+            await _w.tap(232, 522)
+            await sleep(1000 * 3)
         })
     }
-    
+
     /**
      * 进入猫猫界面
      *
@@ -166,20 +140,6 @@ export class Maomao618_manager extends Shou_cai_manager
         })
     }
 
-    async get_mao_bi()
-    {
-        await this.workers_do(async (_w) =>
-        {
-            await _w.tap(234, 683)
-            await sleep(300)
-            await _w.tap(232, 257)
-            await sleep(11 * 1000)
-            await _w.tap(413, 424)
-            await sleep(300)
-            await _w.tap(232, 522)
-            await sleep(1000 * 3)
-        })
-    }
 }
 
 /**
