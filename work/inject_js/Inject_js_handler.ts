@@ -3,6 +3,7 @@ import _ from "lodash"
 import login from "./func_lib/login"
 import fuli from "./func_lib/fuli"
 import renwu from "./func_lib/renwu";
+import maomao618 from "./func_lib/maomao618";
 import touch_emulator from "./func_lib/touch_emulator";
 import zhuangyuan from "./func_lib/zhuangyuan";
 
@@ -29,6 +30,7 @@ export class Inject_js_handler extends Singleton
         this.add_object(renwu)
         this.add_object(touch_emulator)
         this.add_object(zhuangyuan)
+        this.add_object(maomao618)
     }
 
     add_object(_obj:Object){

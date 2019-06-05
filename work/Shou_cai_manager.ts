@@ -108,7 +108,7 @@ export class Shou_cai_manager extends Manager
             await _w.exec_js(`touch_emulator_init()`)
             await _w.click(235, 312)
             await _w.wait_page_load()
-            await sleep(1000)
+            await sleep(3000)
             
             await _w.exec_js(`window.scrollTo(0, 0)`)
             await sleep(1000)
