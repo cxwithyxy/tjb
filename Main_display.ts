@@ -10,6 +10,7 @@ import { Worker } from "./work/Worker";
 import { Shifei_manager } from "./work/Shifei_manager";
 import { Qiang_jb_manager } from "./work/Qiang_jb_manager";
 import { Maomao618_manager } from "./work/Maomao618_manager";
+import { Config_helper } from "./Config_helper";
 
 interface job_config
 {
@@ -65,6 +66,14 @@ export class Main_display
                 schedule:'',
                 callback_func: this.command_show_worker
             }
+        }
+    }
+
+    check_config_file()
+    {
+        if(!Config_helper.getInstance().has_config_file())
+        {
+            this.my_ui.send(`没有预设账号密码！请输入功能数字 0 进行登录\n`)
         }
     }
 
@@ -131,6 +140,7 @@ export class Main_display
             app.quit()
         })
 
+        this.check_config_file()
     }
 
     /**
