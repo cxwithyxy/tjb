@@ -46,7 +46,7 @@ export class Maomao618_manager extends Shou_cai_manager
         {
             await _w.screen_touch_emulation()
         })
-        let start_worker_num = 4
+        let start_worker_num = 8
         let count = Math.ceil(50 / start_worker_num)
         let nowcount = count
         this.proliferate_worker_until(start_worker_num)
@@ -75,9 +75,9 @@ export class Maomao618_manager extends Shou_cai_manager
     {
         await this.workers_do(async (_w) =>
         {
-            await sleep(11 * 1000)
+            await sleep((11 + Math.random() * 9) * 1000)
             await _w.tap(413, 424)
-            await sleep(300)
+            await sleep(2000)
             await _w.tap(232, 522)
             await sleep(1000 * 3)
         })
