@@ -47,13 +47,24 @@ export class Config_helper extends Singleton
         this.set()
     }
 
+    has_config_file(): boolean
+    {
+        try
+        {
+            return this.get("username") && this.get("password")
+        }
+        catch(error)
+        {
+            return false
+        }
+    }
+
     get(_key:String)
     {
         let return_v = this.conf_driver.get(_key);
         let error_desc = this.error_desc[_key as any];
         
         if( _.isUndefined(return_v) && !_.isUndefined(error_desc) ){
-            console.log(this.get_path_warn_desc() + "\n" + error_desc);
             throw new Error(this.get_path_warn_desc() + "\n" + error_desc);
         }
         return return_v;
