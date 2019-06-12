@@ -97,7 +97,11 @@ export class Worker
                 {
                     if(_w.garbage_collection_marker)
                     {
-                        _w.win.close()
+                        try
+                        {
+                            _w.win.close()
+                        }
+                        catch (error){}
                     }
                     return _w.garbage_collection_marker
                 })
