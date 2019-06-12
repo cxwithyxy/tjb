@@ -34,6 +34,10 @@ export class Main_display
         this.my_ui = new UI()
         this.M_job = new Main_job_manager()
         this.C_job = {
+            "0": {
+                schedule: ``,
+                callback_func: this.pre_login
+            },
             "1": {
                 schedule: `0 0 */1 * * *`,
                 callback_func: this.menu_zuo_renwu
@@ -75,6 +79,14 @@ export class Main_display
         {
             this.my_ui.send(`没有预设账号密码！请输入功能数字 0 进行登录\n`)
         }
+    }
+
+    async pre_login()
+    {
+        let M_login = new Login_manager()
+        await M_login.start()
+        await M_login.close_workers()
+        this.my_ui.send(`已经记录完账号密码了！`)
     }
 
     async menu_qiang_jb()
