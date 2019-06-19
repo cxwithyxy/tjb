@@ -7,8 +7,10 @@
   "author": "cx",
   "license": "MIT",
   "dependencies": {
+    "ElectronPageTentacle": "https://github.com/cxwithyxy/ElectronPageTentacle.git",
     "conf": "^4.0.0",
     "electron_commandline_UI": "https://github.com/cxwithyxy/electron_commandline_UI.git",
+    "forin_promise": "https://github.com/cxwithyxy/forin_promise.git",
     "jquery": "^3.4.0",
     "lodash": "^4.17.11",
     "node-schedule": "^1.3.2",

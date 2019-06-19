@@ -6,7 +6,7 @@ import { Shou_cai_manager } from "./work/Shou_cai_manager";
 import { BrowserWindow, app } from "electron";
 import _ from "lodash";
 import { Main_job_manager } from "./Main_job_manager";
-import { Worker } from "./work/Worker";
+import { Worker } from "ElectronPageTentacle";
 import { Shifei_manager } from "./work/Shifei_manager";
 import { Qiang_jb_manager } from "./work/Qiang_jb_manager";
 import { Maomao618_manager } from "./work/Maomao618_manager";
