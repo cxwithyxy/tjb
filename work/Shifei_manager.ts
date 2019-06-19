@@ -1,7 +1,5 @@
-import { Manager } from "./../ElectronPageTentacle/Manager"
-import { Worker } from "./../ElectronPageTentacle/Worker";
+import { Worker } from "ElectronPageTentacle";
 import sleep from "sleep-promise";
-import { UI } from "electron_commandline_UI";
 import { Shou_cai_manager } from "./Shou_cai_manager";
 
 export class Shifei_manager extends Shou_cai_manager

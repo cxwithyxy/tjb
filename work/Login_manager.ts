@@ -1,12 +1,11 @@
-import { Worker } from "./../ElectronPageTentacle/Worker"
-import { Manager } from "./../ElectronPageTentacle/Manager"
+import { Inject_js_handler, Worker, Manager } from "ElectronPageTentacle";
 import { Config_helper } from "./../Config_helper"
 import sleep from "sleep-promise"
 import * as _ from "lodash"
 import { ipcMain } from "electron";
 import { UI } from "electron_commandline_UI";
 import pLimit from "p-limit";
-import { Inject_js_handler } from "../ElectronPageTentacle/Inject_js_handler";
+import { dirname } from "path";
 
 export class Login_manager extends Manager
 {
@@ -36,12 +35,12 @@ export class Login_manager extends Manager
             }))
             .get_main_worker()
             .set_inject_js(new Inject_js_handler([
-                "../inject_js_lib/login",
-                "../inject_js_lib/fuli",
-                "../inject_js_lib/renwu",
-                "../inject_js_lib/maomao618",
-                "../inject_js_lib/touch_emulator",
-                "../inject_js_lib/zhuangyuan"
+                `${__dirname}/../inject_js_lib/login`,
+                `${__dirname}/../inject_js_lib/fuli`,
+                `${__dirname}/../inject_js_lib/renwu`,
+                `${__dirname}/../inject_js_lib/maomao618`,
+                `${__dirname}/../inject_js_lib/touch_emulator`,
+                `${__dirname}/../inject_js_lib/zhuangyuan`
             ]))
             .page_init()
             .set_ua("Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1 Mobile/15E148 Safari/604.1")

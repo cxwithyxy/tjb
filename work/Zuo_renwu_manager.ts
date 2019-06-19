@@ -1,4 +1,4 @@
-import { Worker } from "./../ElectronPageTentacle/Worker";
+import { Worker } from "ElectronPageTentacle";
 import sleep from "sleep-promise";
 import forin_promise from "forin_promise";
 import { UI } from "electron_commandline_UI";
