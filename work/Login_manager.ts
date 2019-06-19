@@ -1,5 +1,5 @@
-import { Worker } from "./Worker"
-import { Manager } from "./Manager"
+import { Worker } from "./../ElectronPageTentacle/Worker"
+import { Manager } from "./../ElectronPageTentacle/Manager"
 import { Config_helper } from "./../Config_helper"
 import sleep from "sleep-promise"
 import * as _ from "lodash"

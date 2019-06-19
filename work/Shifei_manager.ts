@@ -1,5 +1,5 @@
-import { Manager } from "./Manager"
-import { Worker } from "./Worker";
+import { Manager } from "./../ElectronPageTentacle/Manager"
+import { Worker } from "./../ElectronPageTentacle/Worker";
 import sleep from "sleep-promise";
 import { UI } from "electron_commandline_UI";
 import { Shou_cai_manager } from "./Shou_cai_manager";
