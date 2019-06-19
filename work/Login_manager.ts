@@ -6,7 +6,7 @@ import * as _ from "lodash"
 import { ipcMain } from "electron";
 import { UI } from "electron_commandline_UI";
 import pLimit from "p-limit";
-import { Inject_js_handler } from "../ElectronPageTentacle/inject_js/Inject_js_handler";
+import { Inject_js_handler } from "../ElectronPageTentacle/Inject_js_handler";
 
 export class Login_manager extends Manager
 {
@@ -36,12 +36,12 @@ export class Login_manager extends Manager
             }))
             .get_main_worker()
             .set_inject_js(new Inject_js_handler([
-                "../../inject_js_lib/login",
-                "../../inject_js_lib/fuli",
-                "../../inject_js_lib/renwu",
-                "../../inject_js_lib/maomao618",
-                "../../inject_js_lib/touch_emulator",
-                "../../inject_js_lib/zhuangyuan"
+                "../inject_js_lib/login",
+                "../inject_js_lib/fuli",
+                "../inject_js_lib/renwu",
+                "../inject_js_lib/maomao618",
+                "../inject_js_lib/touch_emulator",
+                "../inject_js_lib/zhuangyuan"
             ]))
             .page_init()
             .set_ua("Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1 Mobile/15E148 Safari/604.1")
