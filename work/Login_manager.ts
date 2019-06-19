@@ -74,12 +74,15 @@ export class Login_manager extends Manager
         
         try
         {
-            await this.get_main_worker().load_all_cookie_in_conf(`https://market.m.taobao.com`)
-        }catch(e){}
+            await this.get_main_worker().load_all_cookie(`https://market.m.taobao.com`, JSON.parse(Config_helper.getInstance().get("cookies")))
+        }catch(e){
+            console.log(e);
+        }
         this.get_main_worker().open_url(`https://market.m.taobao.com/apps/market/tjb/core-member2.html`)
         await sleep(2000)
         await this.login_handle()
-        await this.get_main_worker().save_all_cookie_in_conf()
+        let all_cookies = await this.get_main_worker().get_all_cookie()
+        Config_helper.getInstance().set({cookies: JSON.stringify(all_cookies)})
         UI.log(`登陆成功`)
     }
 
