@@ -1,6 +1,6 @@
 import { Worker } from "./../ElectronPageTentacle/Worker";
 import sleep from "sleep-promise";
-import forin_promise from "./../base/forin_promise";
+import forin_promise from "forin_promise";
 import { UI } from "electron_commandline_UI";
 import { Shou_cai_manager } from "./Shou_cai_manager";
 
