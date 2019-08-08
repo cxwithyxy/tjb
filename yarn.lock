@@ -662,8 +662,8 @@ electron@^4.1.4:
     extract-zip "^1.0.3"
 
 "electron_commandline_UI@https://github.com/cxwithyxy/electron_commandline_UI.git":
-  version "1.0.5"
-  resolved "https://github.com/cxwithyxy/electron_commandline_UI.git#d9ba14aa7b7e31955ab8ba39e766156a8d03f231"
+  version "1.1.0"
+  resolved "https://github.com/cxwithyxy/electron_commandline_UI.git#47ab2f794a01d20c28a22951903b13ce5efc8788"
   dependencies:
     jquery "^3.4.0"
     lodash "^4.17.11"
