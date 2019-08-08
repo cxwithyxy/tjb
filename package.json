@@ -26,7 +26,7 @@
   },
   "scripts": {
     "start": "tsc && electron .",
-    "exe": "tsc && electron-builder",
+    "exe": "tsc && electron-builder --win zip",
     "build": "tsc && electron-builder --dir"
   },
   "build": {
