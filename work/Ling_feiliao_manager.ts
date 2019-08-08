@@ -7,8 +7,6 @@ export class Ling_feiliao_manager extends Shou_cai_manager
 {
     async start()
     {
-        // await this.load_good_zhuangyuan()
-        // await this.open_ling_feiliao_panel()
         await this.loop_ling_feiliao()
     }
 
