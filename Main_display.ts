@@ -11,6 +11,9 @@ import { Shifei_manager } from "./work/Shifei_manager";
 import { Qiang_jb_manager } from "./work/Qiang_jb_manager";
 import { Maomao618_manager } from "./work/Maomao618_manager";
 import { Config_helper } from "./Config_helper";
+import sleep from "sleep-promise"
+import path from "path"
+import { Path_helper } from "./Path_helper";
 
 interface job_config
 {
@@ -28,6 +31,7 @@ export class Main_display
     my_ui: UI
     M_job: Main_job_manager
     C_job: job_config_box
+    cls_time = 3600e3
 
     constructor()
     {
@@ -69,8 +73,30 @@ export class Main_display
             "show": {
                 schedule:'',
                 callback_func: this.command_show_worker
+            },
+            "cls": {
+                schedule:'',
+                callback_func: this.cls
             }
         }
+        this.auto_cls()
+    }
+
+    auto_cls()
+    {
+        new Promise(async() =>
+        {
+            while(true)
+            {
+                await sleep(this.cls_time)
+                this.cls()
+            }
+        })
+    }
+
+    cls()
+    {
+        this.my_ui.cls()
     }
 
     check_config_file()
@@ -153,6 +179,8 @@ export class Main_display
         })
 
         this.check_config_file()
+        my_ui.enable_save_log_file(path.join(Path_helper.get_app_path(), "ui_log.txt"))
+        
     }
 
     /**

@@ -1,8 +1,7 @@
 import Conf from 'conf'
 import { Singleton } from "./base/Singleton"
-import { app } from 'electron'
 import _ from "lodash";
-import { dirname } from "path"
+import {Path_helper} from "./Path_helper"
 
 export class Config_helper extends Singleton
 {
@@ -37,7 +36,10 @@ export class Config_helper extends Singleton
         };
         this.error_desc = error_desc;
 
-        this.conf_storage_path = app.isPackaged ? <string>process.env.PORTABLE_EXECUTABLE_DIR : app.getAppPath();
+        this.conf_storage_path = Path_helper.get_app_path()
+        console.log(this.conf_storage_path);
+        
+
         
         this.conf_driver = new Conf({
             configName: this.config_name,

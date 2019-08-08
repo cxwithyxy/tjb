@@ -40,6 +40,7 @@
     "files": [
       "**/*",
       "!app.conf.json",
+      "!ui_log.txt",
       "!**/*.ts",
       "!dist",
       "!yarn-error.log",
