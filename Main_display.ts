@@ -55,6 +55,10 @@ export class Main_display
                 schedule: `0 */46 * * * *`,
                 callback_func: this.menu_shifei
             },
+            "4": {
+                schedule: `0 32 */3 * * *`,
+                callback_func: this.menu_ling_feiliao
+            },
             // "4": {
             //     schedule: `50 59 9 * * *`,
             //     callback_func: this.menu_qiang_jb
@@ -119,7 +123,7 @@ export class Main_display
         M_login.deliver_workers_to(M_main);
         await M_main.start()
         this.my_ui.send(`领肥料结束`)
-        // await M_main.close_workers()
+        await M_main.close_workers()
     }
 
     async pre_login()
@@ -195,7 +199,6 @@ export class Main_display
 
         this.check_config_file()
         my_ui.enable_save_log_file(path.join(Path_helper.get_app_path(), "ui_log.txt"))
-        this.menu_ling_feiliao()
     }
 
     /**
