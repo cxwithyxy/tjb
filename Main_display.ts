@@ -12,6 +12,8 @@ import { Qiang_jb_manager } from "./work/Qiang_jb_manager";
 import { Maomao618_manager } from "./work/Maomao618_manager";
 import { Config_helper } from "./Config_helper";
 import sleep from "sleep-promise"
+import path from "path"
+import { Path_helper } from "./Path_helper";
 
 interface job_config
 {
@@ -177,6 +179,8 @@ export class Main_display
         })
 
         this.check_config_file()
+        my_ui.enable_save_log_file(path.join(Path_helper.get_app_path(), "ui_log.txt"))
+        
     }
 
     /**
