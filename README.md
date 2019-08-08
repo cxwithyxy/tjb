@@ -1,6 +1,8 @@
 # tjb
 
-通过对手机网页版淘宝的爬虫实践，让我慢慢完善了[ElectronPageTentacle](https://github.com/cxwithyxy/ElectronPageTentacle) 。这是一个自用的爬虫框架吧，之后再试试爬亚马逊吧。
+通过对手机网页版淘宝的爬虫实践，让我慢慢完善了[ElectronPageTentacle](https://github.com/cxwithyxy/ElectronPageTentacle) 。
+
+同样也实践了一下亚马逊，详见 [https://github.com/cxwithyxy/Amazon_Crawler_Demo](https://github.com/cxwithyxy/Amazon_Crawler_Demo)
 
 
 
@@ -10,7 +12,8 @@
 2. 金币庄园的自动收菜
 3. 金币庄园的自动施肥
 4. 金币庄园的日常店铺签到任务
-5. 618猫猫的店铺的50次签到
+5. ~~618猫猫的店铺的50次签到~~
+6. 做领肥料任务
 
 
 
