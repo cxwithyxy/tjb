@@ -10,6 +10,7 @@ import { Worker } from "ElectronPageTentacle";
 import { Shifei_manager } from "./work/Shifei_manager";
 import { Qiang_jb_manager } from "./work/Qiang_jb_manager";
 import { Maomao618_manager } from "./work/Maomao618_manager";
+import { Ling_feiliao_manager } from "./work/Ling_feiliao_manager";
 import { Config_helper } from "./Config_helper";
 import sleep from "sleep-promise"
 import path from "path"
@@ -53,6 +54,10 @@ export class Main_display
             "3": {
                 schedule: `0 */46 * * * *`,
                 callback_func: this.menu_shifei
+            },
+            "4": {
+                schedule: `0 32 */3 * * *`,
+                callback_func: this.menu_ling_feiliao
             },
             // "4": {
             //     schedule: `50 59 9 * * *`,
@@ -105,6 +110,20 @@ export class Main_display
         {
             this.my_ui.send(`没有预设账号密码！请输入功能数字 0 进行登录\n`)
         }
+    }
+
+    async menu_ling_feiliao()
+    {
+        this.my_ui.send(`领肥料开始`)
+        let M_login = new Login_manager()
+        
+        await M_login.start();
+         
+        let M_main = new Ling_feiliao_manager();
+        M_login.deliver_workers_to(M_main);
+        await M_main.start()
+        this.my_ui.send(`领肥料结束`)
+        await M_main.close_workers()
     }
 
     async pre_login()
@@ -180,7 +199,6 @@ export class Main_display
 
         this.check_config_file()
         my_ui.enable_save_log_file(path.join(Path_helper.get_app_path(), "ui_log.txt"))
-        
     }
 
     /**
