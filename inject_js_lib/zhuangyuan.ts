@@ -101,5 +101,43 @@ export = {
                 }
             }, 1000);
         })
+    },
+    "can_ling_feiliao": () =>
+    {
+        let all_btn = document.querySelectorAll(".task-item-wrap .btn-text");
+        let len = all_btn.length;
+        let has_any_btn = !!len
+        if(!has_any_btn)
+        {
+            return has_any_btn
+        }
+        let finish_btn_count = 0
+        for(var i = 0; i < len; i++)
+        {
+            if(all_btn[i].innerHTML.indexOf("已完成") != -1)
+            {
+                finish_btn_count ++;
+            }
+        }
+        return !(finish_btn_count == len)
+
+    },
+    "ling_feiliao": () =>
+    {
+        try
+        {
+            let all_btn = document.querySelectorAll(".task-item-wrap .btn-text");
+            for(var i = 0; i < all_btn.length; i++)
+            {
+                if(all_btn[i].innerHTML.indexOf("已完成") == -1)
+                {
+                    (<HTMLSpanElement>all_btn[i]).click();
+                }
+            }
+        } 
+        catch (e)
+        {
+            console.log(e);
+        }
     }
 }

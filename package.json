@@ -1,6 +1,6 @@
 {
   "name": "tjb",
-  "version": "4.0.0",
+  "version": "4.201908081726.0",
   "description": "tjb",
   "main": "index.js",
   "repository": "https://github.com/cxwithyxy/tjb.git",
@@ -12,7 +12,7 @@
     "electron_commandline_UI": "https://github.com/cxwithyxy/electron_commandline_UI.git",
     "forin_promise": "https://github.com/cxwithyxy/forin_promise.git",
     "jquery": "^3.4.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "node-schedule": "^1.3.2",
     "p-limit": "^2.2.0",
     "sleep-promise": "^8.0.1"
@@ -26,7 +26,7 @@
   },
   "scripts": {
     "start": "tsc && electron .",
-    "exe": "tsc && electron-builder",
+    "exe": "tsc && electron-builder --win zip",
     "build": "tsc && electron-builder --dir"
   },
   "build": {
@@ -40,6 +40,7 @@
     "files": [
       "**/*",
       "!app.conf.json",
+      "!ui_log.txt",
       "!**/*.ts",
       "!dist",
       "!yarn-error.log",

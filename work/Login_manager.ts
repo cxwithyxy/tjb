@@ -92,6 +92,7 @@ export class Login_manager extends Manager
         if(!login_state)
         {
             this.get_main_worker().show()
+            this.get_main_worker().screen_touch_emulation()
             try
             {
                 await this.type_username_and_password()
