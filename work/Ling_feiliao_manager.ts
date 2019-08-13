@@ -47,10 +47,11 @@ export class Ling_feiliao_manager extends Shou_cai_manager
             }
             await this.workers_do(async(_w: Worker) =>
             {
-                await _w.exec_js("ling_feiliao()")
                 await _w.give_me_a_life(60e3)
+                await _w.exec_js("ling_feiliao()")
+                await _w.wait_page_load(30e3)
+                await sleep(50e3)
             })
-            await sleep(50e3)
             UI.log("做了一次任务领了一次肥料")
         }
     }
