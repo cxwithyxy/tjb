@@ -61,8 +61,8 @@ export class Zuo_renwu_manager extends Shou_cai_manager
                 await this.workers_do(async (_w) =>
                 {
                     _w.open_url(`https:${v}`)
-                    await _w.wait_page_load()
-                    console.log(v)
+                    await _w.wait_page_load(3 * 60e3)
+                    _w.give_me_a_life(3 * 60)
                     await sleep(11 * 1000)
                 })
             }
@@ -79,7 +79,8 @@ export class Zuo_renwu_manager extends Shou_cai_manager
         await this.workers_do(async (_w) =>
         {
             _w.open_url(`https://market.m.taobao.com/apps/market/tjb/achievement.html`)
-            await _w.wait_page_load()
+            await _w.wait_page_load(3 * 60e3)
+            _w.give_me_a_life(3 * 60)
             let chengjiu_link = await _w.exec_js(`get_chengjiu_link()`)
             console.log(chengjiu_link)
             if(chengjiu_link)
