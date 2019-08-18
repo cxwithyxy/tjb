@@ -30,8 +30,8 @@
   integrity sha512-on4MmIDgHXiuJDELPk1NFaKVUxxCFr37tm8E9yN6rAiF5Pzp/9bBfBHkoexqRiY+hk/Z04EJU9kKEb59YqJ82A==
 
 "ElectronPageTentacle@https://github.com/cxwithyxy/ElectronPageTentacle.git":
-  version "1.0.0"
-  resolved "https://github.com/cxwithyxy/ElectronPageTentacle.git#0741e91fe2207d140057b4399d35e0b29cb7fbb5"
+  version "1.201908131352.0"
+  resolved "https://github.com/cxwithyxy/ElectronPageTentacle.git#e77fb2df63822f8c07e6ab2b07dbaed397b1a8c5"
   dependencies:
     forin_promise "https://github.com/cxwithyxy/forin_promise.git"
     lodash "4.17.5"
@@ -1213,7 +1213,7 @@ locate-path@^3.0.0:
 
 lodash@4.17.5:
   version "4.17.5"
-  resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
+  resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.5.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Flodash%2Fdownload%2Flodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
   integrity sha1-maktZcAnLevoyWtgV7yPv6O+1RE=
 
 lodash@^4.17.11, lodash@^4.17.13:

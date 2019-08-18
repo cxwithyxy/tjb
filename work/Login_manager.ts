@@ -128,7 +128,7 @@ export class Login_manager extends Manager
         {
             ipcMain.once("login_btn_click", async (e:Event, _u: string, _p: string) =>
             {
-                await this.get_main_worker().wait_page_load()
+                await this.get_main_worker().wait_page_load(3 * 60e3)
                 let login_state = await this.get_main_worker().exec_js(`is_login()`)
                 if(!login_state)
                 {
