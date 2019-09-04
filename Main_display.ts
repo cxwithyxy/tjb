@@ -11,6 +11,7 @@ import { Shifei_manager } from "./work/Shifei_manager";
 import { Qiang_jb_manager } from "./work/Qiang_jb_manager";
 import { Maomao618_manager } from "./work/Maomao618_manager";
 import { Ling_feiliao_manager } from "./work/Ling_feiliao_manager";
+import { Shou_zhangyu } from "./work/Shou_zhangyu";
 import { Config_helper } from "./Config_helper";
 import sleep from "sleep-promise"
 import path from "path"
@@ -112,6 +113,20 @@ export class Main_display
         }
     }
 
+    async menu_shou_zhangyu()
+    {
+        this.my_ui.send(`收章鱼星星`)
+        let M_login = new Login_manager()
+         
+        await M_login.start();
+          
+        let M_main = new Shou_zhangyu();
+        M_login.deliver_workers_to(M_main);
+        await M_main.start()
+        this.my_ui.send(`收章鱼星星结束`)
+        // await M_main.close_workers()
+    }
+
     async menu_ling_feiliao()
     {
         this.my_ui.send(`领肥料开始`)
@@ -199,6 +214,7 @@ export class Main_display
 
         this.check_config_file()
         my_ui.enable_save_log_file(path.join(Path_helper.get_app_path(), "ui_log.txt"))
+        this.menu_shou_zhangyu()
     }
 
     /**
