@@ -124,7 +124,7 @@ export class Main_display
         M_login.deliver_workers_to(M_main);
         await M_main.start()
         this.my_ui.send(`收章鱼星星结束`)
-        // await M_main.close_workers()
+        await M_main.close_workers()
     }
 
     async menu_ling_feiliao()
