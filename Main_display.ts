@@ -60,6 +60,10 @@ export class Main_display
                 schedule: `0 32 */3 * * *`,
                 callback_func: this.menu_ling_feiliao
             },
+            "5": {
+                schedule: `0 6 */1 * * *`,
+                callback_func: this.menu_shou_zhangyu
+            },
             // "4": {
             //     schedule: `50 59 9 * * *`,
             //     callback_func: this.menu_qiang_jb
@@ -214,7 +218,6 @@ export class Main_display
 
         this.check_config_file()
         my_ui.enable_save_log_file(path.join(Path_helper.get_app_path(), "ui_log.txt"))
-        this.menu_shou_zhangyu()
     }
 
     /**
