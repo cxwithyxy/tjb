@@ -11,6 +11,7 @@ import { Shifei_manager } from "./work/Shifei_manager";
 import { Qiang_jb_manager } from "./work/Qiang_jb_manager";
 import { Maomao618_manager } from "./work/Maomao618_manager";
 import { Ling_feiliao_manager } from "./work/Ling_feiliao_manager";
+import { Shou_zhangyu } from "./work/Shou_zhangyu";
 import { Config_helper } from "./Config_helper";
 import sleep from "sleep-promise"
 import path from "path"
@@ -58,6 +59,10 @@ export class Main_display
             "4": {
                 schedule: `0 32 */3 * * *`,
                 callback_func: this.menu_ling_feiliao
+            },
+            "5": {
+                schedule: `0 6 */1 * * *`,
+                callback_func: this.menu_shou_zhangyu
             },
             // "4": {
             //     schedule: `50 59 9 * * *`,
@@ -110,6 +115,20 @@ export class Main_display
         {
             this.my_ui.send(`没有预设账号密码！请输入功能数字 0 进行登录\n`)
         }
+    }
+
+    async menu_shou_zhangyu()
+    {
+        this.my_ui.send(`收章鱼星星`)
+        let M_login = new Login_manager()
+         
+        await M_login.start();
+          
+        let M_main = new Shou_zhangyu();
+        M_login.deliver_workers_to(M_main);
+        await M_main.start()
+        this.my_ui.send(`收章鱼星星结束`)
+        await M_main.close_workers()
     }
 
     async menu_ling_feiliao()
