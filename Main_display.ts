@@ -218,6 +218,16 @@ export class Main_display
 
         this.check_config_file()
         my_ui.enable_save_log_file(path.join(Path_helper.get_app_path(), "ui_log.txt"))
+
+        if(process.argv.length > 1)
+        {
+            let argu_list = _.drop(process.argv, 1)
+            this.my_ui.send("检测到命令行参数，开始激活参数")
+            argu_list.forEach( async (ele:string) =>
+            {
+                await this.menu_handle(ele)
+            })
+        }
     }
 
     /**
@@ -241,7 +251,7 @@ export class Main_display
                     }
                 )
                 // this.C_job[msg].callback_func.call(this)
-                this.my_ui.send(`创建了任务`)
+                this.my_ui.send(`创建了任务 ${msg}`)
             }
             catch(e)
             {
@@ -254,7 +264,7 @@ export class Main_display
             this.C_job[msg].callback_func.call(this)
             return
         }
-        this.my_ui.send(`没有找到该命令`)
+        this.my_ui.send(`没有找到该命令: "${msg}"`)
     }
 
     async menu_shoucai()
