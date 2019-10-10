@@ -60,10 +60,10 @@ export class Main_display
                 schedule: `0 32 */3 * * *`,
                 callback_func: this.menu_ling_feiliao
             },
-            "5": {
-                schedule: `0 6 */1 * * *`,
-                callback_func: this.menu_shou_zhangyu
-            },
+            // "5": {
+            //     schedule: `0 6 */1 * * *`,
+            //     callback_func: this.menu_shou_zhangyu
+            // },
             // "4": {
             //     schedule: `50 59 9 * * *`,
             //     callback_func: this.menu_qiang_jb
