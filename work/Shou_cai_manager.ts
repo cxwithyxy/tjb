@@ -27,9 +27,6 @@ export class Shou_cai_manager extends Manager
             await _w.exec_js(`harvest()`)
             UI.log("完成收获")
             await sleep(1000)
-            await _w.exec_js(`qian_dao()`)
-            UI.log("完成签到")
-            await sleep(1000)
             UI.log("已经处理完了自己的庄园")
         })
     }
