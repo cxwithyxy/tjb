@@ -13,12 +13,26 @@ export class Zuo_renwu_manager extends Shou_cai_manager
 
     async start()
     {
+        await this.zhuangyuan_qian_dao()
         await this.shop_qian_dao()
         console.log("all shop qian dao finish")
         UI.log(`已经自动浏览完所有的店铺了`)
         await this.cheng_jiu_ling_qu()
         console.log("all chengjiu finish");
         UI.log(`已经领取完所有的成就了`)
+    }
+    
+    async zhuangyuan_qian_dao()
+    {
+        await this.load_zhuangyuan()
+        await sleep(2e3)
+        await this.workers_do(async (_w) =>
+        {
+            await _w.tap(378, 39)
+            await sleep(2e3)
+            await _w.tap(236, 528)
+            await sleep(2e3)
+        })
     }
     
     /**
