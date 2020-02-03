@@ -28,9 +28,9 @@ export class Zuo_renwu_manager extends Shou_cai_manager
         await sleep(2e3)
         await this.workers_do(async (_w) =>
         {
-            await _w.tap(378, 39)
+            await _w.tap(341, 40)
             await sleep(2e3)
-            await _w.tap(236, 528)
+            await _w.tap(236, 580)
             await sleep(2e3)
         })
     }
