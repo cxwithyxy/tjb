@@ -12,7 +12,7 @@ export = {
     },
     "is_login": () =>
     {
-        return !document.querySelectorAll("#btn-submit").length
+        return !document.querySelectorAll('#login-form > div.fm-btn > button').length
     },
     "login_click_event": () =>
     {
