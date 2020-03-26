@@ -58,29 +58,28 @@ export class Zuo_renwu_manager extends Shou_cai_manager
     async shop_qian_dao()
     {
         let links: Array<string> = []
-        
-        await this.load_zhuangyuan()
-        await this.load_mission_page()
-
-        await this.workers_do(async (_w) =>
+        while(true)
         {
-            links = await _w.exec_js(`get_rewu_links()`)
-        })
-        UI.log(links.length ? `店铺 ${links.length} 个` : `所有店铺都已经被领取过了`);
-        
-        await forin_promise(
-            links,
-            async (v) =>
+            await this.load_zhuangyuan()
+            await this.load_mission_page()
+            await this.workers_do(async (_w) =>
             {
-                await this.workers_do(async (_w) =>
-                {
-                    _w.open_url(`https:${v}`)
-                    await _w.wait_page_load(3 * 60e3)
-                    _w.give_me_a_life(3 * 60)
-                    await sleep(11 * 1000)
-                })
+                _w.screen_touch_emulation()
+                links = await _w.exec_js(`get_rewu_button_array()`)
+            })
+            UI.log(links.length ? `店铺 ${links.length} 个` : `所有店铺都已经被领取过了`);
+            if(!links.length)
+            {
+                break
             }
-        )
+            await this.workers_do(async (_w) =>
+            {
+                await _w.exec_js("reset_windows_open_in_this()")
+                await _w.exec_js(`click_rewu_button(${links.pop()})`)
+                await sleep(10e3)
+            })
+            
+        }
     }
 
     /**

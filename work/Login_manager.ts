@@ -62,8 +62,9 @@ export class Login_manager extends Manager
             }))
         }
         await Promise.all(queque_list)
-         
-        this.get_main_worker().click(242, 435)
+        
+        this.get_main_worker().screen_touch_emulation()
+        this.get_main_worker().tap(237,372)
         
         await sleep(1000)
     }

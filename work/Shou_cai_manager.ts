@@ -101,6 +101,7 @@ export class Shou_cai_manager extends Manager
         {
             _w.open_url(`https://h5.m.taobao.com`)
             await _w.wait_page_load()
+            await sleep(2e3)
             await _w.exec_js(`touch_emulator_init()`)
             await _w.tap(190, 300)
             await _w.wait_page_load()
