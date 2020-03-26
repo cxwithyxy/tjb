@@ -16,12 +16,12 @@ export = {
     },
     "login_click_event": () =>
     {
-        let btn = <HTMLElement>(document.querySelectorAll("#btn-submit")[0])
+        let btn = <HTMLElement>document.querySelector('#login-form > div.fm-btn > button')
         
         btn.addEventListener("click", () =>
         {
-            let un = <HTMLInputElement>(document.querySelectorAll("#username")[0])
-            let pw = <HTMLInputElement>(document.querySelectorAll("#password")[0])
+            let un = <HTMLInputElement>document.querySelector('#fm-login-id')
+            let pw = <HTMLInputElement>document.querySelector('#fm-login-password')
             ipcRenderer.send("login_btn_click", un.value, pw.value)
         })
 
