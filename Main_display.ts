@@ -16,6 +16,7 @@ import { Config_helper } from "./Config_helper";
 import sleep from "sleep-promise"
 import path from "path"
 import { Path_helper } from "./Path_helper";
+import read_pkg_up from 'read-pkg-up'
 
 interface job_config
 {
@@ -200,9 +201,12 @@ export class Main_display
         let my_ui:UI = this.my_ui
         let menu_text = await fs.readFileSync(`${__dirname}/menu.txt`, {encoding: "utf8"})
 
+        let tjb_version = (await read_pkg_up())?.packageJson.version
+        
+
         await my_ui.init_win({
             cmd_title: `自动化淘金币`
-            ,cmd_text: menu_text
+            ,cmd_text: `===== 自动淘金币 v${tjb_version?.substring(0,tjb_version.length - 2)} =====\n${menu_text}`
         })
 
         
