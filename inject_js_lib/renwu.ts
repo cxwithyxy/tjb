@@ -1,4 +1,31 @@
 export = {
+    "reset_windows_open_in_this": () =>
+    {
+        let old_open_fn = window.open
+        window.open = (url: any, name: any, features: any, replace: any) : any =>
+        {
+            name = "_self"
+            return old_open_fn(url, name, features, replace)
+        }
+    },
+    "get_rewu_button_array": () =>
+    {
+        let all_btn = <NodeListOf<HTMLLinkElement>>document.querySelectorAll('body > div > div > div > div:nth-child(3) > div:nth-child(2) > div > div:nth-child(1) > div:nth-child(3) > span')
+        let return_array: Array<number> = []
+        all_btn.forEach((element, index) =>
+        {
+            if(element.innerText.indexOf("领完逛逛") == -1)
+            {
+                return_array.push(index)
+            }
+        });
+        return return_array
+    },
+    "click_rewu_button": (index: number) =>
+    {
+        let all_btn = <NodeListOf<HTMLLinkElement>>document.querySelectorAll('body > div > div > div > div:nth-child(3) > div:nth-child(2) > div > div:nth-child(1) > div:nth-child(3) > span')
+        all_btn[index].click()
+    },
     "get_rewu_links": () =>
     {
         let a_elements = <NodeListOf<HTMLLinkElement>>document.querySelectorAll("a[href*=shop]")
