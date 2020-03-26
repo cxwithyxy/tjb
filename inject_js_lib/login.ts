@@ -5,8 +5,8 @@ let ipcRenderer!:Ipcr
 export = {
     "login_input_set": (_u: string, _p: string) =>
     {
-        let un = <HTMLInputElement>(document.querySelectorAll("#username")[0])
-        let pw = <HTMLInputElement>(document.querySelectorAll("#password")[0])
+        let un = <HTMLInputElement>document.querySelector('#fm-login-id')
+        let pw = <HTMLInputElement>document.querySelector('#fm-login-password')
         un.value = _u
         pw.value = _p
     },
