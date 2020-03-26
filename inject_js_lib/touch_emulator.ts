@@ -13,7 +13,7 @@ export = {
             var touchElements = {};
         
             // polyfills
-            if(!document.createTouch) {
+            if(!(<any>document).createTouch) {
                 (<any>document).createTouch = function(view: any, target: any, identifier: any, pageX: any, pageY: any, screenX: any, screenY: any, clientX: any, clientY: any) {
                     // auto set
                     if(clientX == undefined || clientY == undefined) {
@@ -32,8 +32,8 @@ export = {
                 };
             }
         
-            if(!document.createTouchList) {
-                document.createTouchList = function() {
+            if(!(<any>document).createTouchList) {
+                (<any>document).createTouchList = function() {
                     var touchList = new (<any>TouchList)();
                     for (var i = 0; i < arguments.length; i++) {
                         touchList[i] = arguments[i];
