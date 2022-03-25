@@ -21,7 +21,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.123",
     "@types/node-schedule": "^1.2.3",
-    "electron": "5.0.4",
+    "electron": "13.6.6",
     "electron-builder": "^20.39.0",
     "typescript": "^3.8.3"
   },
